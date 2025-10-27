@@ -332,28 +332,11 @@
         </div>
     </div>
 <script src="/client/js/particles.js"></script>
+<script src="/client/js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+<script src="/client/js/tinymce-config.js"></script>
 <script>
-// Initialize TinyMCE for all description textareas
-tinymce.init({
-  selector: 'textarea[id="traits"], textarea[id="actions"], textarea[id="bonus-actions"], textarea[id="reactions"], textarea[id="characteristics"], textarea[id="mythic-actions"], textarea[id="legendary-actions"], textarea[id="lair"], textarea[id="lair-actions"]',
-  menubar: false,
-  plugins: 'lists link image table code',
-  toolbar: 'undo redo | bold italic underline | bullist ',
-  height: 200,
-  resize: 'vertical',
-  content_style: `
-    body { 
-      font-family: 'Roboto', sans-serif; 
-      color: #ffffff; 
-      background: transparent; 
-      font-size: 14px; 
-      line-height: 1.5; 
-    }
-  `,
-  skin: 'oxide-dark',
-  content_css: 'dark'
-});
+// TinyMCE initialization is now handled by tinymce-config.js
 
 // Add functionality to show/hide conditional textareas based on checkboxes
 document.addEventListener('DOMContentLoaded', function() {
