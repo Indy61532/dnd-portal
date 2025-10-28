@@ -56,83 +56,20 @@
 
                 <div class="monster-size text-input">
                     <div>Size</div>
-                    <input list="list-monsters-sizes" placeholder="-"">
-                    <datalist id="list-monsters-sizes">
-                        <option value="Garguantuan"></option>
-                        <option value="Huge"></option>
-                        <option value="Large"></option>
-                        <option value="Medium"></option>
-                        <option value="Medium/Small"></option>
-                        <option value="Small"></option>
-                        <option value="Tiny"></option>
-                    </datalist>
+                    <input list="list-sizes" placeholder="-"">
+                    <!-- Datalist is loaded from central datalists.html -->
                 </div>
 
                 <div class="monster-aligment text-input">
                     <div>Aligment</div>
-                    <input list="list-monsters-aligment" placeholder="-">
-                    <datalist id="list-monsters-aligment">
-                        <option value="Any Alignment"></option>
-                        <option value="Any Chaotic Alignment"></option>
-                        <option value="Any Evil Alignment"></option>
-                        <option value="Any Good Alignment"></option>
-                        <option value="Any Lawful Alignment"></option>
-                        <option value="Any Neutral Alignment"></option>
-                        <option value="Any Non-Chaotic Alignment"></option>
-                        <option value="Any Non-Good Alignment"></option>
-                        <option value="Any Non-Lawful Alignment"></option>
-                        <option value="Chaotic Evil"></option>
-                        <option value="Chaotic Good"></option>
-                        <option value="Chaotic Neutral"></option>
-                        <option value="Lawful Evil"></option>
-                        <option value="Lawful Good"></option>
-                        <option value="Lawful Neutral"></option>
-                        <option value="Neutral"></option>
-                        <option value="Neutral Evil"></option>
-                        <option value="Neutral Good"></option>
-                        <option value="Typically Chaotic Evil"></option>
-                    </datalist>
+                    <input list="list-aligment" placeholder="-">
+                    <!-- Datalist is loaded from central datalists.html -->
                 </div>
 
                 <div class="monster-chalange-rating text-input">
                     <div>Rating</div>
                     <input list="list-monsters-rating" placeholder="-">
-                    <datalist id="list-monsters-rating">
-                        <option value="0"></option>
-                        <option value="1/8"></option>
-                        <option value="1/4"></option>
-                        <option value="1/2"></option>
-                        <option value="1"></option>
-                        <option value="2"></option>
-                        <option value="3"></option>
-                        <option value="4"></option>
-                        <option value="5"></option>
-                        <option value="6"></option>
-                        <option value="7"></option>
-                        <option value="8"></option>
-                        <option value="9"></option>
-                        <option value="10"></option>
-                        <option value="11"></option>
-                        <option value="12"></option>
-                        <option value="13"></option>
-                        <option value="14"></option>
-                        <option value="15"></option>
-                        <option value="16"></option>
-                        <option value="17"></option>
-                        <option value="18"></option>
-                        <option value="19"></option>
-                        <option value="20"></option>
-                        <option value="21"></option>
-                        <option value="22"></option>
-                        <option value="23"></option>
-                        <option value="24"></option>
-                        <option value="25"></option>
-                        <option value="26"></option>
-                        <option value="27"></option>
-                        <option value="28"></option>
-                        <option value="29"></option>
-                        <option value="30"></option>
-                    </datalist>
+                    <!-- Datalist is loaded from central datalists.html -->
                 </div>
             </div>
 
@@ -204,14 +141,7 @@
                 <div class="monster-die-type text-input">
                     <div>Die type</div>
                     <input list="list-die">
-                    <datalist id="list-die">
-                        <option value="d4"></option>
-                        <option value="d6"></option>
-                        <option value="d8"></option>
-                        <option value="d10"></option>
-                        <option value="d12"></option>
-                        <option value="d20"></option>
-                    </datalist>
+                    <!-- Datalist is loaded from central datalists.html -->
                 </div>
 
                 <div class="monster-modifier text-input">
@@ -370,5 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<!-- Load centralized datalists -->
+<script src="/client/js/datalists-loader.js"></script>
 </body>
 </html>

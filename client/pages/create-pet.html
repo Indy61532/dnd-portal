@@ -51,42 +51,14 @@
 
                 <div class="pet-size text-input">
                     <div>Size</div>
-                    <input list="list-pets-sizes" placeholder="-"">
-                    <datalist id="list-pets-sizes">
-                        <option value="Garguantuan"></option>
-                        <option value="Huge"></option>
-                        <option value="Large"></option>
-                        <option value="Medium"></option>
-                        <option value="Medium/Small"></option>
-                        <option value="Small"></option>
-                        <option value="Tiny"></option>
-                    </datalist>
+                    <input list="list-sizes" placeholder="-"">
+                    <!-- Datalist is loaded from central datalists.html -->
                 </div>
 
                 <div class="pet-aligment text-input">
                     <div>Aligment</div>
-                    <input list="list-pets-aligment" placeholder="-">
-                    <datalist id="list-pets-aligment">
-                        <option value="Any Alignment"></option>
-                        <option value="Any Chaotic Alignment"></option>
-                        <option value="Any Evil Alignment"></option>
-                        <option value="Any Good Alignment"></option>
-                        <option value="Any Lawful Alignment"></option>
-                        <option value="Any Neutral Alignment"></option>
-                        <option value="Any Non-Chaotic Alignment"></option>
-                        <option value="Any Non-Good Alignment"></option>
-                        <option value="Any Non-Lawful Alignment"></option>
-                        <option value="Chaotic Evil"></option>
-                        <option value="Chaotic Good"></option>
-                        <option value="Chaotic Neutral"></option>
-                        <option value="Lawful Evil"></option>
-                        <option value="Lawful Good"></option>
-                        <option value="Lawful Neutral"></option>
-                        <option value="Neutral"></option>
-                        <option value="Neutral Evil"></option>
-                        <option value="Neutral Good"></option>
-                        <option value="Typically Chaotic Evil"></option>
-                    </datalist>
+                    <input list="list-aligment" placeholder="-">
+                    <!-- Datalist is loaded from central datalists.html -->
                 </div>
 
             </div>
@@ -272,5 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
 });
 </script>
+<!-- Load centralized datalists -->
+<script src="/client/js/datalists-loader.js"></script>
 </body>
 </html>

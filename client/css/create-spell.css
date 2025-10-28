@@ -145,7 +145,6 @@
 .multiselect-container {
     position: relative;
     width: 100%;
-    min-height: 40px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -229,6 +228,7 @@
     font-family: 'Roboto', sans-serif;
     outline: none;
     transition: all 0.3s ease;
+    border-radius: 4px;
 }
 
 .multiselect-input::placeholder {
