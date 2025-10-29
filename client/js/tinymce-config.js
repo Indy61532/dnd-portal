@@ -4,7 +4,7 @@
 // Initialize TinyMCE for all description textareas
 function initializeTinyMCE() {
   tinymce.init({
-    selector: 'textarea[id="class-description"], textarea[id="traits"], textarea[id="actions"], textarea[id="bonus-actions"], textarea[id="reactions"], textarea[id="characteristics"], textarea[id="mythic-actions"], textarea[id="legendary-actions"], textarea[id="lair"], textarea[id="lair-actions"], textarea[id="spell-description"], textarea[id="spell-higher-levels"]',
+    selector: 'textarea[id="class-description"], textarea[id="text"],textarea[id="traits"], textarea[id="actions"], textarea[id="bonus-actions"], textarea[id="reactions"], textarea[id="characteristics"], textarea[id="mythic-actions"], textarea[id="legendary-actions"], textarea[id="lair"], textarea[id="lair-actions"], textarea[id="spell-description"], textarea[id="spell-higher-levels"]',
     menubar: false,
     plugins: 'lists link image table code',
     toolbar: 'undo redo | bold italic underline | bullist ',

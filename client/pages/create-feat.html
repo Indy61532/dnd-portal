@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="/client/css/style.css">
+    <link rel="stylesheet" href="/client/css/create-feat.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="/client/index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-center create-navbar">
+                    <div class="cteate-title">Creating feat</div>
+                </div>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+
+            <div class="section feat-info">
+                <div class="section-title">feat Information</div>
+
+                <div class="feat-name text-input">
+                    <div>Feat Name</div>
+                    <input type="text" placeholder="Enter feat name...">
+                </div>
+
+                <div id="feat" class="description">
+                    <div>Feat Description</div>
+                    <textarea id="feat-description" name="feat-description" placeholder="Enter feat description..."></textarea>
+                </div>
+
+                <div class="checkbox-unlock-stats">
+                    <input type="checkbox" id="stats-checkbox">
+                    <label for="stats-checkbox">Enable Stats</label>
+                </div>
+
+                <div class="multiselect-container">
+                    <div>Chose stats</div>
+                    <div class="selected-tags">
+                        <input type="text" list="list-stats" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="input-img">
+                <button class="button-create">Create feat</button>
+            </div>
+
+        </div>
+
+<script src="/client/js/particles.js"></script>
+<script src="/client/js/multiselect.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+<script src="/client/js/tinymce-config.js"></script>
+<script src="/client/js/datalists-loader.js"></script>
+<script>
+// TinyMCE initialization is now handled by tinymce-config.js
+
+// Multi-select functionality is now handled by multiselect.js
+
+// Checkbox functionality for enabling/disabling stats multiselect
+document.addEventListener('DOMContentLoaded', function() {
+    const statsCheckbox = document.getElementById('stats-checkbox');
+    const multiselectContainer = document.querySelector('.multiselect-container');
+    
+    if (statsCheckbox && multiselectContainer) {
+        // Initially disable the multiselect
+        multiselectContainer.classList.remove('enabled');
+        
+        // Add event listener to checkbox
+        statsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                multiselectContainer.classList.add('enabled');
+            } else {
+                multiselectContainer.classList.remove('enabled');
+                // Clear any selected tags when disabled
+                const tags = multiselectContainer.querySelectorAll('.tag');
+                tags.forEach(tag => tag.remove());
+                // Clear input value
+                const input = multiselectContainer.querySelector('.multiselect-input');
+                if (input) input.value = '';
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

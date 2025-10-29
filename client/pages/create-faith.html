@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="/client/css/style.css">
+    <link rel="stylesheet" href="/client/css/create-faith.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="/client/index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-center create-navbar">
+                    <div class="cteate-title">Creating faith</div>
+                </div>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+
+            <div class="section faith-info">
+                <div class="section-title">faith Information</div>
+
+                <div class="faith-name text-input">
+                    <div>faith Name</div>
+                    <input type="text" placeholder="Enter faith name...">
+                </div>
+
+                <div id="faith" class="description">
+                    <div>Faith Description</div>
+                    <textarea id="faith-description" name="faith-description" placeholder="Enter faith description..."></textarea>
+                </div>
+
+            <div id="deity/patron" class="text-input">
+                <div>deity/Patron</div>
+                <input list="list-deity-patron" placeholder="Enter deity/patron name...">
+            </div>
+
+            <div id="deity/patron-description" class="description">
+                <div>Description</div>
+                <textarea id="faith-description" name="faith-description" placeholder="Enter faith description..."></textarea>
+            </div>
+                
+
+
+            </div>
+
+            <div class="input-img">
+                <button class="button-create">Create faith</button>
+            </div>
+
+        </div>
+
+<script src="/client/js/particles.js"></script>
+<script src="/client/js/multiselect.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+<script src="/client/js/tinymce-config.js"></script>
+<script src="/client/js/datalists-loader.js"></script>
+</body>
+</html>

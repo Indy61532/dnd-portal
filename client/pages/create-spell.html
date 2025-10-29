@@ -51,9 +51,11 @@
                     <input type="text" placeholder="e.g., Evocation, Abjuration...">
                 </div>
 
-                <div class="spell-classes text-input">
+                <div class="spell-classes multiselect-container">
                     <div>Classes Can Use</div>
-                    <input list="list-classes" placeholder="e.g., Non-caster, Full-caster...">
+                    <div class="selected-tags">
+                        <input type="text" list="list-classes" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
+                    </div>
                 </div>
             </div>
 
@@ -80,11 +82,9 @@
                     <input type="text" placeholder="e.g., Instantaneous, 1 minute...">
                 </div>
 
-                <div class="spell-components multiselect-container">
+                <div class="spell-components text-input">
                     <div>Components</div>
-                    <div class="selected-tags">
-                        <input type="text" placeholder="Type and press Enter..." class="multiselect-input">
-                    </div>
+                    <input type="text" placeholder="e.g., V, S, M (a pinch of sand)...">
                 </div>
             </div>
 
@@ -93,12 +93,12 @@
                 
                 <div class="spell-description description">
                     <div>Description</div>
-                    <textarea name="spell-description" id="spell-description" placeholder="Enter spell description..."></textarea>
+                    <textarea name="spell-description" id="spell-description" placeholder="Enter spell description..." style="width: 100%;"></textarea>
                 </div>
 
                 <div class="spell-higher-levels description">
                     <div>At Higher Levels</div>
-                    <textarea name="spell-higher-levels" id="spell-higher-levels" placeholder="Describe what happens when cast at higher levels..."></textarea>
+                    <textarea name="spell-higher-levels" id="spell-higher-levels" placeholder="Describe what happens when cast at higher levels..." style="width: 100%;"></textarea>
                 </div>
             </div>
 
@@ -116,6 +116,7 @@
 <script src="/client/js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
 <script src="/client/js/tinymce-config.js"></script>
+<script src="/client/js/datalists-loader.js"></script>
 <script>
 // TinyMCE initialization is now handled by tinymce-config.js
 
