@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="/client/css/style.css">
+    <link rel="stylesheet" href="/client/css/create-item.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="/client/index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-center create-navbar">
+                    <div class="cteate-title">Creating item</div>
+                </div>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+
+            <div class="section item-info">
+                <div class="section-title">item Information</div>
+
+                <div class="item-type text-input">
+                    <div>Item type</div>
+                    <input list="list-item-type" placeholder="Enter item type...">
+                </div>
+
+                <div class="item-name text-input">
+                    <div>Item name</div>
+                    <input type="text" placeholder="Enter item name...">
+                </div>
+
+                <div class="item-description description">
+                    <div>Item description</div>
+                    <textarea id="item-description" name="item-description" placeholder="Enter item description..."></textarea>
+                </div>
+
+                <div class="item-weight text-input">
+                    <div>Weight</div>
+                    <input type="text" placeholder="Enter item weight...">
+                </div>
+
+                <div class="item-cost text-input">
+                    <div>Cost</div>
+                    <input type="text" placeholder="Enter item cost...">
+                </div>
+
+                <div class="item-rarity text-input">
+                    <div>Rarity</div>
+                    <input list="list-rarity" placeholder="Enter item rarity...">
+                </div>
+
+                <!-- zobrazí se pouze při vybrání armor-->
+                <div class="armor text-input">
+                    <div>Armor AC</div>
+                    <input type="text" placeholder="Enter armor AC...">
+                </div>
+
+
+                <div class="checkbox item-magic">
+                    <input type="checkbox" id="item-magic-checkbox">
+                    <label for="item-magic-checkbox">Is magic</label>
+                </div>
+
+                <!-- zobrazí se pouze při vybrání weapon-->
+                <div class="weapon-section">
+                <div class="weapon-type text-input">
+                    <div>Weapon type</div>
+                    <input list="list-weapon-type" placeholder="Enter weapon type...">
+                </div>
+
+                <div class="dise-trove text-input">
+                    <div>Dise trove</div>
+                    <input type="text" placeholder="Enter dise trove...">
+                </div>
+
+                <div class="die-type text-input">
+                    <div>Die type</div>
+                    <input list="list-die" placeholder="Enter die...">
+                </div>
+
+                <!-- Range pole (podle zvoleného weapon type = Range) -->
+                <div class="Range text-input">
+                    <div>Range</div>
+                    <input type="text" placeholder="Enter range...">
+                </div>
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="input-img">
+                <button class="button-create">Create item</button>
+            </div>
+
+        </div>
+
+<script src="/client/js/particles.js"></script>
+<script src="/client/js/multiselect.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+<script src="/client/js/tinymce-config.js"></script>
+<script src="/client/js/datalists-loader.js"></script>
+<script src="/client/js/create-item.js"></script>
+<script>
+// TinyMCE initialization is now handled by tinymce-config.js
+
+// Multi-select functionality is now handled by multiselect.js
+</script>
+</body>
+</html>
