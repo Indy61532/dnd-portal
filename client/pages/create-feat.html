@@ -73,7 +73,31 @@
 <script src="/client/js/datalists-loader.js"></script>
 <script>
 // TinyMCE initialization is now handled by tinymce-config.js
-
+// Checkbox functionality for enabling/disabling stats multiselect
+document.addEventListener('DOMContentLoaded', function() {
+    const statsCheckbox = document.getElementById('stats-checkbox');
+    const multiselectContainer = document.querySelector('.multiselect-container');
+    
+    if (statsCheckbox && multiselectContainer) {
+        // Initially disable the multiselect
+        multiselectContainer.classList.remove('enabled');
+        
+        // Add event listener to checkbox
+        statsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                multiselectContainer.classList.add('enabled');
+            } else {
+                multiselectContainer.classList.remove('enabled');
+                // Clear any selected tags when disabled
+                const tags = multiselectContainer.querySelectorAll('.tag');
+                tags.forEach(tag => tag.remove());
+                // Clear input value
+                const input = multiselectContainer.querySelector('.multiselect-input');
+                if (input) input.value = '';
+            }
+        });
+    }
+});
 // Multi-select functionality is now handled by multiselect.js
 </script>
 </body>
