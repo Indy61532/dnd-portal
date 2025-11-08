@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="/client/css/style.css">
+    <link rel="stylesheet" href="/client/css/charakter-sheet.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <!-- First Navbar -->
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="/client/index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+        <div class="main">
+            <div class="sheet-container">
+                <div class="sheet-grid">
+                    <aside class="sheet-sidebar">
+
+                        <section class="sheet-card sheet-card--abilities">
+                            <h3 class="sheet-card__title">Ability Scores</h3>
+                            <div class="ability-grid">
+                                <div class="ability-tile">
+                                    <span class="ability-tile__label">STR</span>
+                                    <span class="ability-tile__score">99</span>
+                                    <span class="ability-tile__mod">+9</span>
+                                </div>
+                                <div class="ability-tile">
+                                    <span class="ability-tile__label">DEX</span>
+                                    <span class="ability-tile__score">99</span>
+                                    <span class="ability-tile__mod">+9</span>
+                                </div>
+                                <div class="ability-tile">
+                                    <span class="ability-tile__label">CON</span>
+                                    <span class="ability-tile__score">99</span>
+                                    <span class="ability-tile__mod">+9</span>
+                                </div>
+                                <div class="ability-tile">
+                                    <span class="ability-tile__label">INT</span>
+                                    <span class="ability-tile__score">99</span>
+                                    <span class="ability-tile__mod">+9</span>
+                                </div>
+                                <div class="ability-tile">
+                                    <span class="ability-tile__label">WIS</span>
+                                    <span class="ability-tile__score">99</span>
+                                    <span class="ability-tile__mod">+9</span>
+                                </div>
+                                <div class="ability-tile">
+                                    <span class="ability-tile__label">CHA</span>
+                                    <span class="ability-tile__score">99</span>
+                                    <span class="ability-tile__mod">+9</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="sheet-card sheet-card--saves">
+                            <h3 class="sheet-card__title">Saving Throws</h3>
+                            <ul class="sheet-list">
+                                <li><span>Strength</span><span class="sheet-list__badge">+9</span></li>
+                                <li><span>Dexterity</span><span class="sheet-list__badge">+9</span></li>
+                                <li><span>Constitution</span><span class="sheet-list__badge">+9</span></li>
+                                <li><span>Intelligence</span><span class="sheet-list__badge">+9</span></li>
+                                <li><span>Wisdom</span><span class="sheet-list__badge">+9</span></li>
+                                <li><span>Charisma</span><span class="sheet-list__badge">+9</span></li>
+                            </ul>
+                        </section>
+
+                        <section class="sheet-card sheet-card--senses">
+                            <h3 class="sheet-card__title">Senses</h3>
+                            <ul class="sheet-list sheet-list--compact">
+                                <li><span>Passive Perception</span><span class="sheet-list__badge">99</span></li>
+                                <li><span>Passive Investigation</span><span class="sheet-list__badge">99</span></li>
+                                <li><span>Passive Insight</span><span class="sheet-list__badge">99</span></li>
+                                <li><span>Darkvision</span><span class="sheet-list__badge">99 ft.</span></li>
+                            </ul>
+                        </section>
+
+                        <section class="sheet-card sheet-card--proficiencies">
+                            <h3 class="sheet-card__title">Proficiencies</h3>
+                            <div class="sheet-tags">
+                                <span class="sheet-tag">Heavy Armor</span>
+                                <span class="sheet-tag">Medium Armor</span>
+                                <span class="sheet-tag">Shields</span>
+                                <span class="sheet-tag">Simple Weapons</span>
+                                <span class="sheet-tag">Martial Weapons</span>
+                                <span class="sheet-tag">Lorem Tools</span>
+                                <span class="sheet-tag">Languages: Lorem, Ipsum</span>
+                            </div>
+                        </section>
+                    </aside>
+
+                    <div class="sheet-main">
+                        <section class="sheet-card sheet-card--header">
+                            <header class="sheet-topbar">
+                                <div class="sheet-identity">
+                                    <div class="sheet-identity__avatar">
+                                        <img src="https://via.placeholder.com/80x80.png?text=99" alt="Token placeholder">
+                                    </div>
+                                    <div class="sheet-identity__details">
+                                        <h1>Astrál (Black Flame)</h1>
+                                        <p>Dragonborn Paladin · Level 99</p>
+                                    </div>
+                                </div>
+                                <div class="sheet-topbar__buttons">
+                                    <button class="sheet-button">
+                                        <i class="fa-solid fa-share-nodes"></i>
+                                        Share
+                                    </button>
+                                    <button class="sheet-button">
+                                        <i class="fa-solid fa-moon"></i>
+                                        Short Rest
+                                    </button>
+                                    <button class="sheet-button">
+                                        <i class="fa-solid fa-bed"></i>
+                                        Long Rest
+                                    </button>
+                                    <button class="sheet-button">
+                                        <i class="fa-solid fa-edit"></i>
+                                        Edit
+                                    </button>
+                                </div>
+                            </header>
+
+                            <div class="sheet-trackers">
+                                <div class="tracker-card">
+                                    <span class="tracker-card__label">Proficiency Bonus</span>
+                                    <span class="tracker-card__value">+9</span>
+                                </div>
+                                <div class="tracker-card">
+                                    <span class="tracker-card__label">Speed</span>
+                                    <span class="tracker-card__value">99 ft.</span>
+                                </div>
+                                <div class="tracker-card tracker-card--highlight">
+                                    <span class="tracker-card__label">Heroic Inspiration</span>
+                                    <span class="tracker-card__value">Active</span>
+                                </div>
+                                <div class="tracker-card tracker-card--health">
+                                    <span class="tracker-card__label">Hit Points</span>
+                                    <span class="tracker-card__value tracker-card__value--hp">99 / 99</span>
+                                    <span class="tracker-card__meta">Temp 99</span>
+                                </div>
+                                <div class="tracker-card">
+                                    <span class="tracker-card__label">Armor Class</span>
+                                    <span class="tracker-card__value">99</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="sheet-card sheet-card--skills">
+                            <h3 class="sheet-card__title">Skills</h3>
+                            <div class="skills-grid">
+                                <div class="skill-row"><span>Acrobatics</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Dex</span></div>
+                                <div class="skill-row"><span>Animal Handling</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Wis</span></div>                                
+                                <div class="skill-row"><span>Arcana</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Int</span></div>
+                                <div class="skill-row"><span>Athletics</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Str</span></div>
+                                <div class="skill-row"><span>Deception</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Cha</span></div>
+                                <div class="skill-row"><span>History</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Int</span></div>
+                                <div class="skill-row"><span>Insight</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Wis</span></div>
+                                <div class="skill-row"><span>Intimidation</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Cha</span></div>
+                                <div class="skill-row"><span>Investigation</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Int</span></div>
+                                <div class="skill-row"><span>Medicine</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Wis</span></div>
+                                <div class="skill-row"><span>Nature</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Int</span></div>
+                                <div class="skill-row"><span>Perception</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Wis</span></div>
+                                <div class="skill-row"><span>Performance</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Cha</span></div>
+                                <div class="skill-row"><span>Persuasion</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Cha</span></div>
+                                <div class="skill-row"><span>Religion</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Int</span></div>
+                                <div class="skill-row"><span>Sleight of Hand</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Dex</span></div>
+                                <div class="skill-row"><span>Stealth</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Dex</span></div>
+                                <div class="skill-row"><span>Survival</span><span class="skill-row__value">+9</span><span class="skill-row__meta">Wis</span></div>
+                            </div>
+                        </section>
+
+                        <section class="sheet-card sheet-card--tabs">
+                            <div class="sheet-tabs" role="tablist">
+                                <button class="sheet-tab is-active" type="button" role="tab" aria-selected="true" data-tab="actions">Actions</button>
+                                <button class="sheet-tab" type="button" role="tab" aria-selected="false" data-tab="spells">Spells</button>
+                                <button class="sheet-tab" type="button" role="tab" aria-selected="false" data-tab="inventory">Inventory</button>
+                                <button class="sheet-tab" type="button" role="tab" aria-selected="false" data-tab="features">Features &amp; Traits</button>
+                                <button class="sheet-tab" type="button" role="tab" aria-selected="false" data-tab="background">Background</button>
+                                <button class="sheet-tab" type="button" role="tab" aria-selected="false" data-tab="notes">Notes</button>
+                                <button class="sheet-tab" type="button" role="tab" aria-selected="false" data-tab="pets">Pets</button>
+                            </div>
+
+                            <div class="sheet-tab-panels">
+                                <div class="sheet-panel" role="tabpanel" data-tab-panel="actions">
+                                    <header class="sheet-panel__header">
+                                        <div>
+                                            <h3>Actions in Combat</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        </div>
+                                    </header>
+
+                                    <div class="sheet-actions">
+                                        <article class="sheet-action">
+                                            <div class="sheet-action__head">
+                                                <h4>Unarmed Strike</h4>
+                                                <div class="sheet-action__meta">
+                                                    <span>Melee · 5 ft.</span>
+                                                    <span>+9 to Hit</span>
+                                                    <span>99 Lorem</span>
+                                                </div>
+                                            </div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus.</p>
+                                            <footer class="sheet-action__footer">
+                                                <span class="sheet-pill sheet-pill--primary">Attack</span>
+                                                <span class="sheet-pill">Action</span>
+                                                <span class="sheet-pill">99 uses</span>
+                                            </footer>
+                                        </article>
+
+                                        <article class="sheet-action">
+                                            <div class="sheet-action__head">
+                                                <h4>Breath Weapon</h4>
+                                                <div class="sheet-action__meta">
+                                                    <span>Range · 99 ft.</span>
+                                                    <span>Save DC 99</span>
+                                                    <span>2d10 Lorem</span>
+                                                </div>
+                                            </div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque feugiat lorem ut semper viverra.</p>
+                                            <footer class="sheet-action__footer">
+                                                <span class="sheet-pill sheet-pill--warning">Limited Use</span>
+                                                <span class="sheet-pill">Short Rest</span>
+                                                <span class="sheet-pill">3/9 uses</span>
+                                            </footer>
+                                        </article>
+                                    </div>
+                                </div>
+
+                                <div class="sheet-panel sheet-panel--spells" role="tabpanel" data-tab-panel="spells" hidden>
+                                    <header class="sheet-panel__header">
+                                        <div>
+                                            <h3>Spellcasting Overview</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        </div>
+                                    </header>
+
+                                    <div class="spell-summary">
+                                        <div class="spell-summary__item">
+                                            <span class="spell-summary__label">Spell Attack</span>
+                                            <span class="spell-summary__value">+99</span>
+                                        </div>
+                                        <div class="spell-summary__item">
+                                            <span class="spell-summary__label">Save DC</span>
+                                            <span class="spell-summary__value">99</span>
+                                        </div>
+                                        <div class="spell-summary__item">
+                                            <span class="spell-summary__label">Spellcasting Ability</span>
+                                            <span class="spell-summary__value">Wisdom</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="spell-slots">
+                                        <div class="spell-slots__level">
+                                            <div class="spell-slots__head">
+                                                <span class="spell-slots__title">Cantrips</span>
+                                                <span class="spell-slots__meta">Always Prepared</span>
+                                            </div>
+                                            <ul class="spell-list">
+                                                <li class="spell-list__item">
+                                                    <span>Lorem Spark</span>
+                                                    <span class="spell-list__detail">0 slot • 99 ft • V, S</span>
+                                                </li>
+                                                <li class="spell-list__item">
+                                                    <span>Ipsum Guidance</span>
+                                                    <span class="spell-list__detail">0 slot • Touch • V</span>
+                                                </li>
+                                                <li class="spell-list__item">
+                                                    <span>Dolor Light</span>
+                                                    <span class="spell-list__detail">0 slot • 30 ft • V, M</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="spell-slots__level">
+                                            <div class="spell-slots__head">
+                                                <span class="spell-slots__title">Level 1</span>
+                                                <span class="spell-slots__meta">Slots: 9 / 9</span>
+                                            </div>
+                                            <ul class="spell-list">
+                                                <li class="spell-list__item">
+                                                    <span>Shield of Ipsum</span>
+                                                    <span class="spell-list__detail">1 slot • Reaction • V, S</span>
+                                                </li>
+                                                <li class="spell-list__item">
+                                                    <span>Healing Lorem</span>
+                                                    <span class="spell-list__detail">1 slot • Action • V, S</span>
+                                                </li>
+                                                <li class="spell-list__item">
+                                                    <span>Thunderwave 99</span>
+                                                    <span class="spell-list__detail">1 slot • Action • V, S</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="spell-slots__level">
+                                            <div class="spell-slots__head">
+                                                <span class="spell-slots__title">Level 2</span>
+                                                <span class="spell-slots__meta">Slots: 9 / 9</span>
+                                            </div>
+                                            <ul class="spell-list">
+                                                <li class="spell-list__item">
+                                                    <span>Misty Lorem</span>
+                                                    <span class="spell-list__detail">2 slot • Bonus Action • V</span>
+                                                </li>
+                                                <li class="spell-list__item">
+                                                    <span>Hold Ipsum</span>
+                                                    <span class="spell-list__detail">2 slot • Action • V, S</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="spell-slots__level">
+                                            <div class="spell-slots__head">
+                                                <span class="spell-slots__title">Level 3</span>
+                                                <span class="spell-slots__meta">Slots: 9 / 9</span>
+                                            </div>
+                                            <ul class="spell-list">
+                                                <li class="spell-list__item">
+                                                    <span>Fireball Ipsum</span>
+                                                    <span class="spell-list__detail">3 slot • Action • V, S, M</span>
+                                                </li>
+                                                <li class="spell-list__item">
+                                                    <span>Counterspell Lorem</span>
+                                                    <span class="spell-list__detail">3 slot • Reaction • S</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="sheet-panel" role="tabpanel" data-tab-panel="inventory" hidden>
+                                    <header class="sheet-panel__header">
+                                        <div>
+                                            <h3>Inventory</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        </div>
+                                    </header>
+                                    <div class="sheet-actions">
+                                        <article class="sheet-action">
+                                            <div class="sheet-action__head">
+                                                <h4>Lorem Blade</h4>
+                                                <div class="sheet-action__meta">
+                                                    <span>Weapon</span>
+                                                    <span>Weight: 9 lb.</span>
+                                                </div>
+                                            </div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor.</p>
+                                        </article>
+                                    </div>
+                                </div>
+
+                                <div class="sheet-panel" role="tabpanel" data-tab-panel="features" hidden>
+                                    <header class="sheet-panel__header">
+                                        <div>
+                                            <h3>Features &amp; Traits</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        </div>
+                                    </header>
+                                    <div class="sheet-actions">
+                                        <article class="sheet-action">
+                                            <div class="sheet-action__head">
+                                                <h4>Channel Divinity</h4>
+                                                <div class="sheet-action__meta">
+                                                    <span>Uses: 9 per Rest</span>
+                                                </div>
+                                            </div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+                                        </article>
+                                    </div>
+                                </div>
+
+                                <div class="sheet-panel" role="tabpanel" data-tab-panel="background" hidden>
+                                    <header class="sheet-panel__header">
+                                        <div>
+                                            <h3>Background</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        </div>
+                                    </header>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Nulla vitae elit libero, a pharetra augue.</p>
+                                </div>
+
+                                <div class="sheet-panel" role="tabpanel" data-tab-panel="notes" hidden>
+                                    <header class="sheet-panel__header">
+                                        <div>
+                                            <h3>Adventure Notes</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        </div>
+                                    </header>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis. Vestibulum id ligula porta felis euismod semper.</p>
+                                </div>
+
+                                <div class="sheet-panel" role="tabpanel" data-tab-panel="pets" hidden>
+                                    <header class="sheet-panel__header">
+                                        <div>
+                                            <h3>Companions &amp; Pets</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        </div>
+                                    </header>
+                                    <div class="sheet-actions">
+                                        <article class="sheet-action">
+                                            <div class="sheet-action__head">
+                                                <h4>Lorem Familiar</h4>
+                                                <div class="sheet-action__meta">
+                                                    <span>Hit Points: 9</span>
+                                                    <span>Armor Class: 9</span>
+                                                </div>
+                                            </div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/client/js/particles.js"></script>
+    <script>
+        (function () {
+            const tabContainer = document.querySelector('.sheet-card--tabs');
+            if (!tabContainer) return;
+
+            const tabs = Array.from(tabContainer.querySelectorAll('.sheet-tab'));
+            const panels = Array.from(tabContainer.querySelectorAll('[data-tab-panel]'));
+
+            function setActiveTab(tabId) {
+                tabs.forEach((tab) => {
+                    const isActive = tab.dataset.tab === tabId;
+                    tab.classList.toggle('is-active', isActive);
+                    tab.setAttribute('aria-selected', String(isActive));
+                    tab.setAttribute('tabindex', isActive ? '0' : '-1');
+                });
+
+                panels.forEach((panel) => {
+                    const shouldShow = panel.dataset.tabPanel === tabId;
+                    if (shouldShow) {
+                        panel.removeAttribute('hidden');
+                    } else {
+                        panel.setAttribute('hidden', '');
+                    }
+                });
+            }
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', () => setActiveTab(tab.dataset.tab));
+                tab.addEventListener('keydown', (event) => {
+                    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+                        event.preventDefault();
+                        const currentIndex = tabs.indexOf(tab);
+                        const nextIndex =
+                            event.key === 'ArrowRight'
+                                ? (currentIndex + 1) % tabs.length
+                                : (currentIndex - 1 + tabs.length) % tabs.length;
+                        tabs[nextIndex].focus();
+                        setActiveTab(tabs[nextIndex].dataset.tab);
+                    }
+                });
+            });
+
+            setActiveTab(tabs.find((tab) => tab.classList.contains('is-active'))?.dataset.tab || 'actions');
+        })();
+    </script>
+</body>
+</html>

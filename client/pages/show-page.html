@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="/client/css/style.css">
+    <link rel="stylesheet" href="/client/css/show-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="/client/index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-center create-navbar">
+                    <div id="nav-title" class="cteate-title">View Content</div>
+                </div>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="content-card">
+                <div class="content-card__top">
+                    <figure class="content-card__image" data-section="visual">
+                        <img id="image"
+                             src="https://via.placeholder.com/480x640.png?text=HeroVault+Art"
+                             alt="Detailní ilustrace bytosti"
+                             loading="lazy"
+                             data-field="imageUrl">
+                        <figcaption class="content-card__caption"
+                                    data-hide-empty
+                                    data-field="imageCredit"
+                                    data-hide-target="self">
+                            <span id="image-caption">Ilustrace: @herovault-studio</span>
+                            <a class="action-button action-button--ghost"
+                               href="#"
+                               aria-label="Otevřít obrázek ve větším náhledu">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                                Zvětšit
+                            </a>
+                        </figcaption>
+                    </figure>
+
+                    <div class="content-card__summary">
+                        <header class="content-card__header">
+                            <div id="name" class="short-text" data-field="name">Ashen Hydra</div>
+                        </header>
+
+                        <div id="description" class="text-block" data-field="descriptionHtml">
+                            <p>Ashen Hydra představuje extrémně inteligentní formu hydry, která si osvojila instinkt draků a schopnost vstřebávat energii ze žhavé lávy. Její šupiny jsou slitinou obsidiánu a dračího skla, což jí propůjčuje téměř neproniknutelný pancíř.</p>
+                            <p>Často vytváří vlastní teritorium v opuštěných důlních komplexech, které přetváří na obří inkubátory. V uzavřených prostorách dokáže recyklovat vzduch pomocí pyrovětrných vírů a tak ztěžovat pohyb protivníků.</p>
+                            <p>Každá hlava ovládá jiný proud elementální energie a dokáže je koordinovat do ničivých kombinací. Odborníci doporučují k boji specializované družiny s přístupem k ledové či gravitační magii.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="content-card__footer">
+                    <div class="content-card__actions">
+                        <a class="action-button action-button--primary" href="/client/pages/browse.html">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Zpět na přehled
+                        </a>
+                        <a class="action-button" href="/client/pages/create.html">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Upravit postavu
+                        </a>
+                        <a class="action-button action-button--ghost" href="#">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            Sdílet
+                        </a>
+                    </div>
+                    <p class="content-card__note">
+                        <strong>Tip:</strong> použij <kbd>Ctrl</kbd> + <kbd>P</kbd> pro rychlé stažení karty postavy jako PDF.
+                    </p>
+                </footer>
+            </div>
+        </div>
+
+<script src="/client/js/particles.js"></script>
+<script>
+(function () {
+    function hasMeaningfulContent(element, mode) {
+        if (mode === 'children') {
+            return Array.from(element.children).some((child) => child.textContent.trim().length > 0);
+        }
+        return element.textContent.trim().length > 0;
+    }
+
+    function toggleVisibility(element) {
+        const mode = element.dataset.hideMode || 'text';
+        const target =
+            element.dataset.hideTarget === 'parent'
+                ? element.parentElement
+                : element;
+
+        if (!target) {
+            return;
+        }
+
+        if (hasMeaningfulContent(element, mode)) {
+            target.removeAttribute('hidden');
+        } else {
+            target.setAttribute('hidden', '');
+        }
+    }
+
+    function applyAutoHide(root = document) {
+        root.querySelectorAll('[data-hide-empty]').forEach(toggleVisibility);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => applyAutoHide());
+    window.refreshShowPageLayout = applyAutoHide;
+})();
+</script>
+</body>
+</html>
