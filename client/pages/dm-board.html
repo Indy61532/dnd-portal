@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - DM Board</title>
+    <link rel="stylesheet" href="/client/css/style.css">
+    <link rel="stylesheet" href="/client/css/charakter-sheet.css">
+    <link rel="stylesheet" href="/client/css/dm-board.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <!-- First Navbar -->
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="/client/index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+        <div class="main dm-board-wrapper">
+            <aside class="dm-sidebar">
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">DM Board</h1>
+                    <button class="icon-button" id="create-folder-btn" aria-label="Create new folder">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <nav class="folder-list" id="folder-list" aria-label="DM folders">
+                    <!-- Folders rendered by script -->
+                </nav>
+            </aside>
+            <section class="dm-board">
+                <header class="board-header">
+                    <div>
+                        <h2 class="board-title" id="board-title">Items</h2>
+                        <p class="board-subtitle" id="board-subtitle">Drag & drop ideas, NPC hooks, loot tables, or session prep notes.</p>
+                    </div>
+                    <div class="board-actions">
+                        <button class="secondary-button" id="add-note-btn">
+                            <i class="fas fa-sticky-note"></i>
+                            Add Card
+                        </button>
+                        <button class="secondary-button" id="clear-folder-btn">
+                            <i class="fas fa-trash"></i>
+                            Clear
+                        </button>
+                    </div>
+                </header>
+                <div class="board-grid" id="board-grid" aria-live="polite">
+                    <!-- Cards rendered by script -->
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="/client/js/particles.js"></script>
+    <script src="/client/js/dm-board.js" type="module"></script>
+</body>
+</html>
