@@ -1,3 +1,5 @@
+@import url('./create-shared.css');
+
 /* ========================================
    CREATE MONSTER PAGE STYLES
    ======================================== */
@@ -48,7 +50,8 @@
     align-self: center;
 }
 
-/* Input grid layout - max 4 per row */
+@import url('./create-shared.css');
+
 .section-monster-info,
 .section-monster-stats,
 .section-otional {
@@ -58,7 +61,6 @@
     max-width: 100%;
 }
 
-/* Section title positioning in grid containers */
 .section-monster-info .section-title,
 .section-monster-stats .section-title,
 .section-monster-description .section-title,
