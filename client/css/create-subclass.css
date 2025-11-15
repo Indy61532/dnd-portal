@@ -1,8 +1,4 @@
-/* ========================================
-   CREATE SUBCLASS PAGE STYLES
-   ======================================== */
 
-/* Main container */
 .main {
     max-width: 1400px;
     margin: 0 auto;
@@ -11,7 +7,6 @@
     z-index: 2;
 }
 
-/* Section styling */
 .section-subclass-info,
 .section-subclass-description,
 .section-otional {
@@ -31,7 +26,6 @@
     box-shadow: 0 12px 40px var(--shadow-gold);
 }
 
-/* Section titles */
 .section-title {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
@@ -47,7 +41,6 @@
     margin-bottom: 1.5rem;
 }
 
-/* Input grid layout */
 .section-subclass-info,
 .section-otional {
     display: grid;
@@ -56,14 +49,12 @@
     max-width: 100%;
 }
 
-/* Section title positioning in grid containers */
 .section-subclass-info .section-title,
 .section-subclass-description .section-title,
 .section-otional .section-title {
     grid-column: 1 / -1;
 }
 
-/* Individual input styling */
 .text-input {
     display: flex;
     flex-direction: column;
@@ -102,12 +93,10 @@
     opacity: 0.7;
 }
 
-/* Full width input - spans entire grid */
 .full-width {
     grid-column: 1 / -1;
 }
 
-/* Description section - full width */
 .section-subclass-description {
     display: block;
     max-width: 100%;
@@ -149,7 +138,6 @@
     box-shadow: 0 0 15px var(--shadow-gold);
 }
 
-/* File input and button container */
 .input-img {
     display: flex;
     align-items: center;
@@ -196,7 +184,6 @@
     box-shadow: 0 0 15px var(--shadow-gold);
 }
 
-/* Create button */
 .button-create {
     background: linear-gradient(145deg, var(--primary-gold), var(--secondary-gold));
     color: var(--dark-bg);
@@ -224,7 +211,6 @@
     transform: translateY(-1px);
 }
 
-/* Table styling */
 .table-1 {
     width: 100%;
     border-collapse: collapse;
@@ -408,7 +394,6 @@
     background: rgba(212, 175, 55, 0.1);
 }
 
-/* Multi-select container styling within table */
 .table-1 .multiselect-container {
     position: relative;
     width: 100%;
@@ -442,7 +427,6 @@
     pointer-events: auto;
 }
 
-/* Individual tag styling */
 .tag {
     display: inline-flex;
     align-items: center;
@@ -482,7 +466,6 @@
     transform: scale(1.1);
 }
 
-/* Input styling within multiselect */
 .multiselect-input {
     flex: 1;
     min-width: 140px;
@@ -509,7 +492,6 @@
     opacity: 0.5;
 }
 
-/* Make input clickable with visual feedback in table */
 .table-1 .multiselect-input {
     padding: 0.5rem 0.8rem;
     background: rgba(42, 42, 42, 0.5);
@@ -528,7 +510,6 @@
     outline: none;
 }
 
-/* Animation for tag appearance */
 @keyframes tagSlideIn {
     from {
         opacity: 0;
@@ -540,7 +521,6 @@
     }
 }
 
-/* TinyMCE Editor Styling */
 .tox-tinymce {
     border: 2px solid rgba(212, 175, 55, 0.3) !important;
     border-radius: 12px !important;
@@ -568,7 +548,6 @@
     background: transparent !important;
 }
 
-/* Responsive adjustments */
 @media (max-width: 1200px) {
     .section-subclass-info,
     .section-otional {

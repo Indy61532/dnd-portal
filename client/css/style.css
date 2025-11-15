@@ -9,13 +9,9 @@ html, body {
     height: 100%;
     font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
+    overscroll-behavior: none;
 }
 
-/* ========================================
-   HERO VAULT - CHARACTER PAGE STYLES
-   ======================================== */
-
-/* Theme Variables and Base (moved from Index.css for shared use) */
 :root {
     --primary-gold: #d4af37;
     --secondary-gold: #b8941f;
@@ -33,7 +29,6 @@ html, body {
     --shadow-purple: rgba(139, 92, 246, 0.3);
 }
 
-/* Shared page wrapper */
 .content {
     min-height: 100vh;
     background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 50%, #16213e 100%);
@@ -56,11 +51,6 @@ html, body {
     z-index: 1;
 }
 
-/* ========================================
-   NAVIGATION & HEADER
-   ======================================== */
-
-/* Main Header */
 .main-header {
     border-bottom: 2px solid var(--primary-gold);
     background: linear-gradient(90deg, rgba(26, 26, 26, 0.95) 0%, rgba(42, 42, 42, 0.95) 100%);
@@ -78,7 +68,6 @@ html, body {
     min-height: 90px;
 }
 
-/* Left Section - Logo & Brand */
 .nav-left {
     display: flex;
     align-items: center;
@@ -101,7 +90,6 @@ html, body {
     letter-spacing: 2px;
 }
 
-/* Center Section - Page Title */
 .nav-center {
     flex: 1;
     text-align: center;
@@ -115,7 +103,6 @@ html, body {
     font-weight: 700;
 }
 
-/* Right Section - Profile */
 .nav-right.profile {
     display: flex;
     align-items: center;
@@ -150,7 +137,6 @@ html, body {
     white-space: nowrap;
 }
 
-/* Navigation Tabs */
 .nav-main-tabs {
     display: flex;
     align-items: center;
@@ -194,9 +180,6 @@ html, body {
     letter-spacing: 1px;
 }
 
-/* ========================================
-   Shared Card System (moved from Index.css)
-   ======================================== */
 .card {
     position: relative;
     background: linear-gradient(145deg, var(--card-bg) 0%, #2a2a2a 100%);
@@ -265,7 +248,6 @@ html, body {
     font-weight: 300;
 }
 
-/* Themed cards used across pages */
 .characters {
     background: linear-gradient(145deg, #1a1a1a 0%, #2d1b3d 100%);
 }
@@ -348,7 +330,6 @@ html, body {
     transform: scale(1.2) rotate(5deg);
 }
 
-/* Accessibility / helpers */
 .card:focus {
     outline: 2px solid var(--primary-gold);
     outline-offset: 2px;
@@ -374,9 +355,6 @@ html, body {
     color: var(--dark-bg);
 }
 
-/* ========================================
-   PAGE HEADER & TITLE SECTION
-   ======================================== */
 
 .header-container {
     max-width: 1200px;
@@ -432,9 +410,6 @@ html, body {
     font-size: 1.2rem;
 }
 
-/* ========================================
-   Animations (shared)
-   ======================================== */
 @keyframes dragonGlow {
     0% {
         text-shadow: 0 0 20px var(--shadow-gold);

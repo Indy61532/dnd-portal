@@ -1,26 +1,22 @@
 @import url('./create-shared.css');
 
-/* Background info section - grid layout */
 .background-info {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
 }
 
-/* Feat info section - single column layout */
 .background-feat-info {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
 }
 
-/* Section title positioning in grid containers */
 .background-info .section-title,
 .background-feat-info .section-title {
     grid-column: 1 / -1;
 }
 
-/* Responsive adjustments */
 @media (max-width: 1200px) {
     .background-feat-info {
         grid-template-columns: 1fr;

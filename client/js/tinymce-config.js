@@ -1,5 +1,3 @@
-// TinyMCE configuration for D&D Portal
-// Shared configuration file for all create pages
 
 // Initialize TinyMCE for all description textareas
 function initializeTinyMCE() {

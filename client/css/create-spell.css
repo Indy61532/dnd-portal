@@ -1,8 +1,4 @@
-/* ========================================
-   CREATE SPELL PAGE STYLES
-   ======================================== */
 
-/* Main container */
 .main {
     max-width: 1400px;
     margin: 0 auto;
@@ -11,7 +7,6 @@
     z-index: 2;
 }
 
-/* Section styling */
 .section-spell-info,
 .section-spell-stats,
 .section-spell-description {
@@ -31,7 +26,6 @@
     box-shadow: 0 12px 40px var(--shadow-gold);
 }
 
-/* Section titles */
 .section-title {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
@@ -44,7 +38,6 @@
     width: 100%;
 }
 
-/* Grid layouts */
 .section-spell-info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -61,14 +54,12 @@
     display: block;
 }
 
-/* Section title positioning in grid containers */
 .section-spell-info .section-title,
 .section-spell-stats .section-title,
 .section-spell-description .section-title {
     grid-column: 1 / -1;
 }
 
-/* Spell name - full width and prominent */
 .spell-name {
     grid-column: 1 / -1;
     display: flex;
@@ -102,7 +93,6 @@
     transform: translateY(-3px);
 }
 
-/* Individual input styling */
 .text-input {
     display: flex;
     flex-direction: column;
@@ -141,7 +131,6 @@
     opacity: 0.7;
 }
 
-/* Multi-select container styling */
 .multiselect-container {
     position: relative;
     width: 100%;
@@ -150,12 +139,10 @@
     gap: 0.5rem;
 }
 
-/* Spell components - full width */
 .spell-components {
     grid-column: 1 / -1;
 }
 
-/* Spell classes - expand to fill remaining space */
 .spell-classes {
     grid-column: span 2;
 }
@@ -186,7 +173,6 @@
     box-shadow: 0 0 15px var(--shadow-gold);
 }
 
-/* Individual tag styling */
 .tag {
     display: inline-flex;
     align-items: center;
@@ -226,7 +212,6 @@
     transform: scale(1.1);
 }
 
-/* Input styling within multiselect */
 .multiselect-input {
     flex: 1;
     min-width: 140px;
@@ -247,7 +232,6 @@
     font-style: italic;
 }
 
-/* Description section */
 .description {
     display: flex;
     flex-direction: column;
@@ -289,7 +273,6 @@
     opacity: 0.7;
 }
 
-/* File input and button container */
 .input-img {
     grid-column: 1 / -1;
     display: flex;
@@ -338,7 +321,6 @@
     box-shadow: 0 0 15px var(--shadow-gold);
 }
 
-/* Create button */
 .button-create {
     background: linear-gradient(145deg, var(--primary-gold), var(--secondary-gold));
     color: var(--dark-bg);
@@ -366,7 +348,6 @@
     transform: translateY(-1px);
 }
 
-/* TinyMCE Editor Styling */
 .tox-tinymce {
     border: 2px solid rgba(212, 175, 55, 0.3) !important;
     border-radius: 12px !important;
@@ -394,7 +375,6 @@
     background: transparent !important;
 }
 
-/* Animation for tag appearance */
 @keyframes tagSlideIn {
     from {
         opacity: 0;
@@ -406,7 +386,6 @@
     }
 }
 
-/* Responsive adjustments */
 @media (max-width: 1200px) {
     .section-spell-info,
     .section-spell-stats {

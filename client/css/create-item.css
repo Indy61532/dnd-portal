@@ -1,6 +1,5 @@
 @import url('./create-shared.css');
 
-/* Item info section - single column layout */
 .item-info {
     display: grid;
     grid-template-columns: 1fr;
@@ -11,7 +10,6 @@
     grid-column: 1 / -1;
 }
 
-/* Checkbox styling */
 .checkbox,
 .checkbox-unlock-lair,
 .checkbox-unlock-stats {
@@ -50,7 +48,6 @@
     user-select: none;
 }
 
-/* Conditional sections hidden by default */
 .armor,
 .weapon-section,
 .Range {

@@ -1,5 +1,4 @@
-// Multi-select functionality for D&D Portal
-// Shared JavaScript file for all create pages
+
 
 function initializeMultiSelect() {
   const multiselectInputs = document.querySelectorAll('.multiselect-input');

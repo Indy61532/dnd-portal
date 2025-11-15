@@ -69,7 +69,6 @@
     gap: 0.75rem;
 }
 
-/* Base item styles */
 .item {
 	display: grid;
 	gap: 1rem;
@@ -90,7 +89,7 @@
 	transform: translateY(-2px);
 }
 
-/* Specific grid layouts for different item types */
+
 .category-item {
 	grid-template-columns: 300px 120px 120px 120px 100px 1fr;
 }
@@ -135,7 +134,7 @@
 	grid-template-columns: 300px 120px 100px 100px 1fr;
 }
 
-/* Specific alignment for different data types */
+
 .cr,
 .ac,
 .hp,
@@ -174,7 +173,7 @@
 margin-left: auto;
 }
 
-/* Text styles for all item elements */
+
 .item-name,
 .item-type,
 .type-item,
@@ -216,7 +215,7 @@ margin-left: auto;
 	justify-content: flex-start;
 }
 
-/* Specific colors for different data types */
+
 .type-item,
 .type-monster,
 .type-spell,
@@ -260,7 +259,7 @@ margin-left: auto;
 	font-size: 1rem;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
 	.category-item {
 		grid-template-columns: 1fr 100px 80px 100px 80px 44px;
@@ -295,7 +294,7 @@ margin-left: auto;
 		height: 44px;
 	}
 	
-	/* Ensure consistent alignment on mobile */
+	
 	.item-name,
 	.item-type,
 	.type-item,

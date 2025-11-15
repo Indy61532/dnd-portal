@@ -1,13 +1,11 @@
 @import url('./create-shared.css');
 
-/* Faith info section - single column layout */
 .faith-info {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
 }
 
-/* Section title positioning in grid containers */
 .faith-info .section-title {
     grid-column: 1 / -1;
 }

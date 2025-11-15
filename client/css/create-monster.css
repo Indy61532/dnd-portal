@@ -1,10 +1,5 @@
 @import url('./create-shared.css');
 
-/* ========================================
-   CREATE MONSTER PAGE STYLES
-   ======================================== */
-
-/* Main container */
 .main {
     max-width: 1400px;
     margin: 0 auto;
@@ -13,7 +8,6 @@
     z-index: 2;
 }
 
-/* Section styling */
 .section-monster-info,
 .section-monster-stats,
 .section-monster-description,
@@ -35,7 +29,6 @@
     box-shadow: 0 12px 40px var(--shadow-gold);
 }
 
-/* Section titles */
 .section-title {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
@@ -68,7 +61,6 @@
     grid-column: 1 / -1;
 }
 
-/* Individual input styling */
 .text-input {
     display: flex;
     flex-direction: column;
@@ -107,7 +99,6 @@
     opacity: 0.7;
 }
 
-/* Monster name - full width */
 .monster-name {
     grid-column: 1 / -1;
     display: flex;
@@ -141,7 +132,6 @@
     transform: translateY(-3px);
 }
 
-/* Monster stats grid - 6 stats in 2 rows */
 .monster-stats {
     grid-column: 1 / -1;
     display: grid;
@@ -182,7 +172,6 @@
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
 }
 
-/* Description section - 2 per row */
 .section-monster-description {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -190,12 +179,10 @@
     max-width: 100%;
 }
 
-/* Characteristics takes full width */
 .monster-characteristics {
     grid-column: 1 / -1;
 }
 
-/* Mythic and Legendary actions take full width */
 .monster-mythic-actions,
 .monster-legendary-actions {
     grid-column: 1 / -1;
@@ -236,7 +223,6 @@
     box-shadow: 0 0 15px var(--shadow-gold);
 }
 
-/* Checkbox styling */
 .checkbox-unlock-mythic,
 .checkbox-unlock-legendary,
 .checkbox-unlock-lair {
@@ -270,7 +256,6 @@
     cursor: pointer;
 }
 
-/* File input and button container */
 .input-img {
     grid-column: 1 / -1;
     display: flex;
@@ -327,7 +312,6 @@
     box-shadow: 0 0 15px var(--shadow-gold);
 }
 
-/* Create button */
 .button-create {
     background: linear-gradient(145deg, var(--primary-gold), var(--secondary-gold));
     color: var(--dark-bg);
@@ -355,7 +339,6 @@
     transform: translateY(-1px);
 }
 
-/* TinyMCE Editor Styling */
 .tox-tinymce {
     border: 2px solid rgba(212, 175, 55, 0.3) !important;
     border-radius: 12px !important;
@@ -383,7 +366,6 @@
     background: transparent !important;
 }
 
-/* Responsive adjustments */
 @media (max-width: 1200px) {
     .section-monster-info,
     .section-monster-stats,

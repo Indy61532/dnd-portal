@@ -1,18 +1,15 @@
 @import url('./create-shared.css');
 
-/* Feat info section - single column layout */
 .feat-info {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
 }
 
-/* Section title positioning in grid containers */
 .feat-info .section-title {
     grid-column: 1 / -1;
 }
 
-/* Checkbox styling */
 .checkbox-unlock-lair,
 .checkbox-unlock-stats {
     display: flex;
@@ -51,7 +48,6 @@
     user-select: none;
 }
 
-/* Multi-select container styling */
 .multiselect-container {
     gap: 0.5rem;
     margin-bottom: 1.5rem;
@@ -60,13 +56,11 @@
     pointer-events: none;
 }
 
-/* Multiselect container - visible when enabled */
 .multiselect-container.enabled {
     opacity: 1;
     pointer-events: all;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .button-create {
         width: 100%;

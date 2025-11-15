@@ -2,9 +2,7 @@
     justify-content: space-between;
 }
 
-/* ========================================
-   CAMPAIGN GRID LAYOUT
-   ======================================== */
+
 
 .campaigns-grid {
     display: grid;
@@ -16,9 +14,6 @@
     padding: 0 2rem;
 }
 
-/* ========================================
-   CAMPAIGN CARDS
-   ======================================== */
 
 .campaign-card {
     background: linear-gradient(145deg, var(--card-bg) 0%, #23232e 100%);
@@ -44,7 +39,7 @@
     transform: translateY(-4px);
 }
 
-/* Campaign Header */
+
 .campaign-header {
     display: flex;
     flex-direction: column;
@@ -83,7 +78,7 @@
     border-left: 3px solid var(--primary-gold);
 }
 
-/* Campaign Info */
+
 .campaign-info {
     display: flex;
     flex-direction: column;
@@ -115,7 +110,7 @@
     font-weight: 700;
 }
 
-/* Campaign Actions */
+
 .campaign-actions {
     display: flex;
     justify-content: space-between;
@@ -173,7 +168,7 @@
     box-shadow: 0 0 12px 2px #e74c3c;
 }
 
-/* Campaign Status Indicators */
+
 .campaign-status {
     position: absolute;
     top: 1rem;
@@ -199,7 +194,7 @@
     box-shadow: 0 0 8px #3498db;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .campaigns-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

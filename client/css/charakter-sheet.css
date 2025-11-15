@@ -1,6 +1,3 @@
-/* ========================================
-   CHARACTER SHEET STYLES
-   ======================================== */
 
 :root {
     --sheet-bg: rgba(14, 14, 22, 0.92);
@@ -72,7 +69,6 @@
     margin-bottom: 0.25rem;
 }
 
-/* Sidebar */
 .sheet-sidebar {
     display: flex;
     flex-direction: column;
@@ -199,7 +195,6 @@
     letter-spacing: 0.04em;
 }
 
-/* Main column */
 .sheet-main {
     display: flex;
     flex-direction: column;
@@ -339,7 +334,6 @@
     background: rgba(255, 255, 255, 0.08);
 }
 
-/* Skills */
 .sheet-card--skills {
     gap: 1rem;
 }
@@ -374,7 +368,7 @@
     text-transform: uppercase;
 }
 
-/* Tabs and Actions */
+
 .sheet-card--tabs {
     gap: 1.5rem;
 }
@@ -627,7 +621,6 @@
     color: #ffcb80;
 }
 
-/* Session log */
 .sheet-card--log {
     gap: 1.25rem;
 }
@@ -667,7 +660,6 @@
     line-height: 1.6;
 }
 
-/* Responsive */
 @media (max-width: 1280px) {
     .sheet-grid {
         grid-template-columns: 300px 1fr;

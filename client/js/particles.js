@@ -1,11 +1,10 @@
 // HeroVault - Particle System
-// Samostatný script pro pokročilé částicové efekty
 
 class ParticleSystem {
     constructor(options = {}) {
         this.options = {
             container: document.body,
-            particleCount: 60,
+            particleCount: 20,
             minSize: 1,
             maxSize: 6,
             minOpacity: 0.1,

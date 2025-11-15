@@ -1,12 +1,5 @@
-/**
- * Datalists Loader
- * Dynamically loads centralized datalists from datalists.html
- * 
- * Usage: 
- *   1. Include this script in your HTML
- *   2. Call loadDatalists() when DOM is ready
- *   3. Or just include loadDatalists.js and it auto-loads
- */
+//Datalists Loader
+ 
 
 async function loadDatalists() {
     try {
