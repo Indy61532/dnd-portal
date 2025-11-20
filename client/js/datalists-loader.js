@@ -3,7 +3,7 @@
 
 async function loadDatalists() {
     try {
-        const response = await fetch('/client/pages/datalists.html');
+        const response = await fetch('pages/datalists.html');
         if (!response.ok) {
             console.error('Failed to load datalists:', response.status);
             return;
