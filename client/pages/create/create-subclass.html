@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeroVault - D&D Character Manager</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/create-subclass.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/create-subclass.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="content">
         <div class="navbar main-header">
             <div class="nav-content">
-                <a href="index.html">
+                <a href="../../index.html">
                     <div class="nav-left">
                         <i class="fas logo fa-dragon "></i>
                         <span class="brand">HeroVault</span>
@@ -38,7 +38,7 @@
 
                 <div class="text-input full-width">
                     <div>Subclass name</div>
-                    <input list="list-id-name" placeholder="Enter subclass name...">
+                    <input type="text" id="subclass-name" name="subclass-name" list="list-id-name" placeholder="Enter subclass name...">
                 </div>
 
                 <div class="description">
@@ -85,7 +85,8 @@
             </div>
             <div class="input-img">
                 <div class="input-img-content">
-                    <input type="file">
+                    <div>Subclass img:</div>
+                    <input type="file" id="subclass-image" name="subclass-image" accept="image/*">
                 </div>
                 <button class="button-create">Create</button>
             </div>
@@ -93,10 +94,10 @@
     </div>
 
     <!-- Centralized datalists are loaded automatically by datalists-loader.js -->
-<script src="../js/datalists-loader.js"></script>
-<script src="../js/particles.js"></script>
-<script src="../js/multiselect.js"></script>
+<script src="../../js/datalists-loader.js"></script>
+
+<script src="../../js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
-<script src="../js/tinymce-config.js"></script>
+<script src="../../js/tinymce-config.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ class HeroVault {
     constructor() {
         this.currentPage = 'home';
         this.isLoading = false;
+        this.currentLoadingCard = null;
         this.init();
     }
 
@@ -16,10 +17,20 @@ class HeroVault {
     }
 
     setupEventListeners() {
-        // Card click handlers
+        // Card click handlers - use event delegation
+        document.addEventListener('click', (e) => {
+            const card = e.target.closest('.card');
+            const link = e.target.closest('a');
+            
+            // Only handle card clicks that are NOT inside a link (Browse page)
+            if (card && !link) {
+                this.handleCardClick(e);
+            }
+        });
+
+        // Card hover effects
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
-            card.addEventListener('click', (e) => this.handleCardClick(e));
             card.addEventListener('mouseenter', (e) => this.handleCardHover(e, true));
             card.addEventListener('mouseleave', (e) => this.handleCardHover(e, false));
         });
@@ -34,19 +45,21 @@ class HeroVault {
 
 
     handleCardClick(e) {
-        const card = e.currentTarget;
+        const card = e.target.closest('.card');
+        if (!card) return;
+        
         const page = card.dataset.page;
         
         if (this.isLoading) return;
         
         this.isLoading = true;
+        this.currentLoadingCard = card;
         this.showLoadingState(card);
         
         // Simulate loading time for better UX
         setTimeout(() => {
             this.navigateToPage(page);
-            this.isLoading = false;
-        }, 800);
+        }, 300);
     }
 
     handleCardHover(e, isEntering) {
@@ -122,12 +135,61 @@ class HeroVault {
         card.dataset.originalContent = originalContent;
     }
 
+    resetLoadingState() {
+        if (this.currentLoadingCard) {
+            const card = this.currentLoadingCard;
+            const content = card.querySelector('.card-content');
+            const originalContent = card.dataset.originalContent;
+            
+            if (content && originalContent) {
+                content.innerHTML = originalContent;
+                delete card.dataset.originalContent;
+            }
+            
+            this.currentLoadingCard = null;
+            this.isLoading = false;
+        }
+    }
+
     navigateToPage(page) {
         console.log(`Navigating to: ${page}`);
         
-        // For now, show a modal or alert
-        // In a real app, this would navigate to different pages
-        this.showPageModal(page);
+        // Pages that require authentication
+        const authRequiredPages = ['characters', 'collection', 'creation', 'campaigns', 'create'];
+        
+        // Check if auth modal is enabled
+        const authModalEnabled = typeof window.ENABLE_AUTH_MODAL !== 'undefined' ? window.ENABLE_AUTH_MODAL : true;
+        
+        if (authRequiredPages.includes(page) && authModalEnabled) {
+            // Show auth modal instead of navigating
+            if (window.AuthModalInstance) {
+                window.AuthModalInstance.show();
+            } else {
+                console.warn('AuthModal not initialized');
+                this.showPageModal(page);
+            }
+        } else if (authRequiredPages.includes(page) && !authModalEnabled) {
+            // Auth modal is disabled - navigate to actual page
+            const pageMap = {
+                'characters': 'pages/charakters.html',
+                'collection': 'pages/collection.html',
+                'creation': 'pages/creation.html',
+                'campaigns': 'pages/campaigns.html',
+                'create': 'pages/create.html'
+            };
+            
+            const pagePath = pageMap[page];
+            if (pagePath) {
+                // Determine base path (current page might be in pages/ folder)
+                const basePath = window.location.pathname.includes('/pages/') ? '../' : '';
+                window.location.href = basePath + pagePath;
+            } else {
+                this.showPageModal(page);
+            }
+        } else {
+            // For other pages, show modal or navigate
+            this.showPageModal(page);
+        }
     }
 
     showPageModal(page) {
@@ -514,3 +576,10 @@ window.HeroVault = {
         }, 3000);
     }
 };
+
+// ========================================
+// CONFIGURATION FLAGS
+// ========================================
+// Enable/disable auth modal popup when clicking on protected pages
+// Set to false to disable auth modal (cards will navigate normally)
+window.ENABLE_AUTH_MODAL = false; // Change to false to turn off

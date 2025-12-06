@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeroVault - D&D Character Manager</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/create-item.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/create-item.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="content">
         <div class="navbar main-header">
             <div class="nav-content">
-                <a href="index.html">
+                <a href="../../index.html">
                     <div class="nav-left">
                         <i class="fas logo fa-dragon "></i>
                         <span class="brand">HeroVault</span>
@@ -38,12 +38,12 @@
 
                 <div class="item-type text-input">
                     <div>Item type</div>
-                    <input list="list-item-type" placeholder="Enter item type...">
+                    <input type="text" id="item-type" name="item-type" list="list-item-type" placeholder="Enter item type...">
                 </div>
 
                 <div class="item-name text-input">
                     <div>Item name</div>
-                    <input type="text" placeholder="Enter item name...">
+                    <input type="text" id="item-name" name="item-name" placeholder="Enter item name...">
                 </div>
 
                 <div class="item-description description">
@@ -53,23 +53,23 @@
 
                 <div class="item-weight text-input">
                     <div>Weight</div>
-                    <input type="text" placeholder="Enter item weight...">
+                    <input type="text" id="item-weight" name="item-weight" placeholder="Enter item weight...">
                 </div>
 
                 <div class="item-cost text-input">
                     <div>Cost</div>
-                    <input type="text" placeholder="Enter item cost...">
+                    <input type="text" id="item-cost" name="item-cost" placeholder="Enter item cost...">
                 </div>
 
                 <div class="item-rarity text-input">
                     <div>Rarity</div>
-                    <input list="list-rarity" placeholder="Enter item rarity...">
+                    <input type="text" id="item-rarity" name="item-rarity" list="list-rarity" placeholder="Enter item rarity...">
                 </div>
 
                 <!-- zobrazí se pouze při vybrání armor-->
                 <div class="armor text-input">
                     <div>Armor AC</div>
-                    <input type="text" placeholder="Enter armor AC...">
+                    <input type="text" id="item-armor-ac" name="item-armor-ac" placeholder="Enter armor AC...">
                 </div>
 
 
@@ -82,23 +82,23 @@
                 <div class="weapon-section">
                 <div class="weapon-type text-input">
                     <div>Weapon type</div>
-                    <input list="list-weapon-type" placeholder="Enter weapon type...">
+                    <input type="text" id="item-weapon-type" name="item-weapon-type" list="list-weapon-type" placeholder="Enter weapon type...">
                 </div>
 
                 <div class="dise-trove text-input">
                     <div>Dise trove</div>
-                    <input type="text" placeholder="Enter dise trove...">
+                    <input type="text" id="item-dice-trove" name="item-dice-trove" placeholder="Enter dise trove...">
                 </div>
 
                 <div class="die-type text-input">
                     <div>Die type</div>
-                    <input list="list-die" placeholder="Enter die...">
+                    <input type="text" id="item-die-type" name="item-die-type" list="list-die" placeholder="Enter die...">
                 </div>
 
                 <!-- Range pole (podle zvoleného weapon type = Range) -->
                 <div class="Range text-input">
                     <div>Range</div>
-                    <input type="text" placeholder="Enter range...">
+                    <input type="text" id="item-range" name="item-range" placeholder="Enter range...">
                 </div>
 
                 </div>
@@ -109,17 +109,21 @@
 
 
             <div class="input-img">
+                <div class="input-img-content">
+                    <div>Item img:</div>
+                    <input type="file" id="item-image" name="item-image" accept="image/*">
+                </div>
                 <button class="button-create">Create item</button>
             </div>
 
         </div>
 
-<script src="../js/particles.js"></script>
-<script src="../js/multiselect.js"></script>
+
+<script src="../../js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
-<script src="../js/tinymce-config.js"></script>
-<script src="../js/datalists-loader.js"></script>
-<script src="../js/create-item.js"></script>
+<script src="../../js/tinymce-config.js"></script>
+<script src="../../js/datalists-loader.js"></script>
+<script src="../../js/create-item.js"></script>
 <script>
 // TinyMCE initialization is now handled by tinymce-config.js
 

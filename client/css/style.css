@@ -473,3 +473,11 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+.profilecart{
+    display: none;
+}
+
+.nav-right.profile{
+    opacity: 0;
+}

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeroVault - D&D Character Manager</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/create-background.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/create-background.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="content">
         <div class="navbar main-header">
             <div class="nav-content">
-                <a href="index.html">
+                <a href="../../index.html">
                     <div class="nav-left">
                         <i class="fas logo fa-dragon "></i>
                         <span class="brand">HeroVault</span>
@@ -38,7 +38,7 @@
 
                 <div class="background-name text-input">
                     <div>Background Name</div>
-                    <input type="text" placeholder="Enter background name...">
+                    <input type="text" id="background-name" name="background-name" placeholder="Enter background name...">
                 </div>
 
                 <div id="background" class="description">
@@ -49,19 +49,19 @@
                 <div class="multiselect-container">
                     <div>Background Skills</div>
                     <div class="selected-tags">
-                        <input type="text" list="list-skills" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
+                        <input type="text" id="background-skills" list="list-skills" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
                     </div>
                 </div>
 
                 <div class="text-input">
                     <div>Background Tools</div>
-                    <input type="text" placeholder="Enter tools...">
+                    <input type="text" id="background-tools" name="background-tools" placeholder="Enter tools...">
                 </div>
 
                 <div class="multiselect-container">
                     <div>Background Languages</div>
                     <div class="selected-tags">
-                        <input type="text" list="list-languages" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
+                        <input type="text" id="background-languages" list="list-languages" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@
 
                 <div class="background-feat-name text-input">
                     <div>Feature Name</div>
-                    <input type="text" placeholder="Enter feature name...">
+                    <input type="text" id="background-feat-name" name="background-feat-name" placeholder="Enter feature name...">
                 </div>
 
                 <div class="background-feat-description description">
@@ -88,11 +88,11 @@
 
         </div>
 
-<script src="../js/particles.js"></script>
-<script src="../js/multiselect.js"></script>
+
+<script src="../../js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
-<script src="../js/tinymce-config.js"></script>
-<script src="../js/datalists-loader.js"></script>
+<script src="../../js/tinymce-config.js"></script>
+<script src="../../js/datalists-loader.js"></script>
 <script>
 // TinyMCE initialization is now handled by tinymce-config.js
 

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeroVault - D&D Character Manager</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/create-spell.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/create-spell.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="content">
         <div class="navbar main-header">
             <div class="nav-content">
-                <a href="index.html">
+                <a href="../../index.html">
                     <div class="nav-left">
                         <i class="fas logo fa-dragon "></i>
                         <span class="brand">HeroVault</span>
@@ -38,23 +38,23 @@
 
                 <div class="spell-name">
                     <div>Spell Name</div>
-                    <input type="text" placeholder="Enter spell name...">
+                    <input type="text" id="spell-name" name="spell-name" placeholder="Enter spell name...">
                 </div>
 
                 <div class="spell-level text-input">
                     <div>Level</div>
-                    <input type="text" placeholder="0-9">
+                    <input type="text" id="spell-level" name="spell-level" placeholder="0-9">
                 </div>
 
                 <div class="spell-school text-input">
                     <div>School</div>
-                    <input type="text" placeholder="e.g., Evocation, Abjuration...">
+                    <input type="text" id="spell-school" name="spell-school" placeholder="e.g., Evocation, Abjuration...">
                 </div>
 
                 <div class="spell-classes multiselect-container">
                     <div>Classes Can Use</div>
                     <div class="selected-tags">
-                        <input type="text" list="list-classes" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
+                        <input type="text" id="spell-classes" list="list-classes" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
                     </div>
                 </div>
             </div>
@@ -64,27 +64,27 @@
 
                 <div class="spell-cast-time text-input">
                     <div>Casting Time</div>
-                    <input type="text" placeholder="e.g., 1 action, 1 bonus action...">
+                    <input type="text" id="spell-cast-time" name="spell-cast-time" placeholder="e.g., 1 action, 1 bonus action...">
                 </div>
 
                 <div class="spell-range text-input">
                     <div>Range</div>
-                    <input type="text" placeholder="e.g., Self, 60 feet...">
+                    <input type="text" id="spell-range" name="spell-range" placeholder="e.g., Self, 60 feet...">
                 </div>
 
                 <div class="spell-radius text-input">
                     <div>Area/Radius</div>
-                    <input type="text" placeholder="e.g., 20-foot radius...">
+                    <input type="text" id="spell-radius" name="spell-radius" placeholder="e.g., 20-foot radius...">
                 </div>
 
                 <div class="spell-duration text-input">
                     <div>Duration</div>
-                    <input type="text" placeholder="e.g., Instantaneous, 1 minute...">
+                    <input type="text" id="spell-duration" name="spell-duration" placeholder="e.g., Instantaneous, 1 minute...">
                 </div>
 
                 <div class="spell-components text-input">
                     <div>Components</div>
-                    <input type="text" placeholder="e.g., V, S, M (a pinch of sand)...">
+                    <input type="text" id="spell-components" name="spell-components" placeholder="e.g., V, S, M (a pinch of sand)...">
                 </div>
             </div>
 
@@ -105,18 +105,18 @@
             <div class="input-img">
                 <div class="input-img-content">
                     <div>Spell Image</div>
-                    <input type="file" accept="image/*">
+                    <input type="file" id="spell-image" name="spell-image" accept="image/*">
                 </div>
                 <button class="button-create">Create Spell</button>
             </div>
 
         </div>
 
-<script src="../js/particles.js"></script>
-<script src="../js/multiselect.js"></script>
+
+<script src="../../js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
-<script src="../js/tinymce-config.js"></script>
-<script src="../js/datalists-loader.js"></script>
+<script src="../../js/tinymce-config.js"></script>
+<script src="../../js/datalists-loader.js"></script>
 <script>
 // TinyMCE initialization is now handled by tinymce-config.js
 

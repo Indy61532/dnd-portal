@@ -6,6 +6,7 @@
     <title>HeroVault - D&D Character Manager</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth-modal.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -22,7 +23,6 @@
         
         <div class="main">
                 <div class="parent">
-                <a href="pages/charakters.html">    
                     <div class="card characters" data-page="characters">
                         <div class="card-content">
                             <i class="fas fa-users"></i>
@@ -30,8 +30,7 @@
                             <p>Manage your heroes</p>
                         </div>
                     </div>
-                </a>
-                <a href="pages/collection.html"> 
+                    
                     <div class="card collection" data-page="collection">
                         <div class="card-content">
                             <i class="fas fa-book-open"></i>
@@ -39,8 +38,7 @@
                             <p>Browse your library</p>
                         </div>
                     </div>
-                </a>                
-                <a href="pages/creation.html"> 
+                    
                     <div class="card creation" data-page="creation">
                         <div class="card-content">
                             <i class="fas fa-magic"></i>
@@ -48,9 +46,7 @@
                             <p>Forge new heroes</p>
                         </div>
                     </div>
-                </a>
-                
-                <a href="pages/campaigns.html">
+                    
                     <div class="card campaigns" data-page="campaigns">
                         <div class="card-content">
                             <i class="fas fa-map"></i>
@@ -58,9 +54,7 @@
                             <p>Your adventures</p>
                         </div>
                     </div>
-                </a>
 
-                <a href="pages/create.html"> 
                     <div class="card create" data-page="create">
                         <div class="card-content">
                             <i class="fas fa-plus-circle"></i>
@@ -68,17 +62,17 @@
                             <p>Start something new</p>
                         </div>
                     </div>
-                </a>
-                <a href="pages/browse.html">                 
-                    <div class="card homebrew" data-page="homebrew">
-                        <div class="card-content">
-                            <i class="fas fa-search"></i>
-                            <h2>Browse</h2>
-                            <p>Search Content</p>
+                    
+                    <a href="pages/browse.html">                 
+                        <div class="card homebrew" data-page="homebrew">
+                            <div class="card-content">
+                                <i class="fas fa-search"></i>
+                                <h2>Browse</h2>
+                                <p>Search Content</p>
+                            </div>
                         </div>
-                    </div>
-                </a>                
-            </div>
+                    </a>                
+                </div>
         </div>
 
         <div class="profilecart">
@@ -101,6 +95,7 @@
 
     
     <script src="js/particles.js"></script>
+    <script src="js/auth-modal.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

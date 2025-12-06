@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeroVault - D&D Character Manager</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/create-pet.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/create-pet.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="content">
         <div class="navbar main-header">
             <div class="nav-content">
-                <a href="index.html">
+                <a href="../../index.html">
                     <div class="nav-left">
                         <i class="fas logo fa-dragon "></i>
                         <span class="brand">HeroVault</span>
@@ -36,28 +36,28 @@
                 <div class="section-title create-section-title">pet Info</div>
                 <div class="pet-name text-input create-field create-field-text">
                     <div class="create-label">Name</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-name" name="pet-name" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-type text-input create-field create-field-text">
                     <div class="create-label">Type</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-type" name="pet-type" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-sub-type text-input create-field create-field-text">
                     <div class="create-label">Sub-type</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-sub-type" name="pet-sub-type" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-size text-input create-field create-field-text">
                     <div class="create-label">Size</div>
-                    <input list="list-sizes" class="create-input" placeholder="-">
+                    <input type="text" id="pet-size" name="pet-size" list="list-sizes" class="create-input" placeholder="-">
                     <!-- Datalist is loaded from central datalists.html -->
                 </div>
 
                 <div class="pet-aligment text-input create-field create-field-text">
                     <div class="create-label">Aligment</div>
-                    <input list="list-aligment" class="create-input" placeholder="-">
+                    <input type="text" id="pet-alignment" name="pet-alignment" list="list-aligment" class="create-input" placeholder="-">
                     <!-- Datalist is loaded from central datalists.html -->
                 </div>
 
@@ -69,83 +69,83 @@
                 <div class="pet-stats create-field-group">
                     <div class="str create-field create-field-text">
                         <div class="create-label">STR</div>
-                        <input type="text" class="create-input" placeholder="-">
+                        <input type="text" id="pet-str" name="pet-str" class="create-input" placeholder="-">
                     </div>
 
                     <div class="dex create-field create-field-text">
                         <div class="create-label">DEX</div>
-                        <input type="text" class="create-input" placeholder="-">
+                        <input type="text" id="pet-dex" name="pet-dex" class="create-input" placeholder="-">
                     </div>
 
                     <div class="con create-field create-field-text">
                         <div class="create-label">CON</div>
-                        <input type="text" class="create-input" placeholder="-">
+                        <input type="text" id="pet-con" name="pet-con" class="create-input" placeholder="-">
                     </div>
 
                     <div class="int create-field create-field-text">
                         <div class="create-label">INT</div>
-                        <input type="text" class="create-input" placeholder="-">
+                        <input type="text" id="pet-int" name="pet-int" class="create-input" placeholder="-">
                     </div>
 
                     <div class="wis create-field create-field-text">
                         <div class="create-label">WIS</div>
-                        <input type="text" class="create-input" placeholder="-">
+                        <input type="text" id="pet-wis" name="pet-wis" class="create-input" placeholder="-">
                     </div>
 
                     <div class="cha create-field create-field-text">
                         <div class="create-label">CHA</div>
-                        <input type="text" class="create-input" placeholder="-">
+                        <input type="text" id="pet-cha" name="pet-cha" class="create-input" placeholder="-">
                     </div>
                 </div>
 
                 <div class="pet-armor text-input create-field create-field-text">
                     <div class="create-label">Armor</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-armor" name="pet-armor" class="create-input" placeholder="-">
                 </div>  
 
                 <div class="pet-inisiative-bonus text-input create-field create-field-text">
                     <div class="create-label">Inisiative bonus</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-initiative-bonus" name="pet-initiative-bonus" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-passive-perception text-input create-field create-field-text">
                     <div class="create-label">Passive perception</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-passive-perception" name="pet-passive-perception" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-average-hp text-input create-field create-field-text">
                     <div class="create-label">Average HP</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-average-hp" name="pet-average-hp" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-modifier text-input create-field create-field-text">
                     <div class="create-label">HP Modifier</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-hp-modifier" name="pet-hp-modifier" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-saving-throw text-input create-field create-field-text">
                     <div class="create-label">Saving throw</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-saving-throw" name="pet-saving-throw" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-resistances text-input create-field create-field-text">
                     <div class="create-label">Resistance</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-resistances" name="pet-resistances" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-immunities text-input create-field create-field-text">
                     <div class="create-label">Immunities</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-immunities" name="pet-immunities" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-vulnerabilities text-input create-field create-field-text">
                     <div class="create-label">Vulnerabilities</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-vulnerabilities" name="pet-vulnerabilities" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-condition-immunities text-input create-field create-field-text">
                     <div class="create-label">Condition immunities</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-condition-immunities" name="pet-condition-immunities" class="create-input" placeholder="-">
                 </div>
             </div>
 
@@ -197,27 +197,27 @@
                 <div class="section-title create-section-title">Optional</div>                
                 <div class="pet-gear text-input create-field create-field-text">
                     <div class="create-label">Gear</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-gear" name="pet-gear" class="create-input" placeholder="-">
                 </div>
 
                 <div class="pet-language text-input create-field create-field-text">
                     <div class="create-label">language</div>
-                    <input type="text" class="create-input" placeholder="-">
+                    <input type="text" id="pet-language" name="pet-language" class="create-input" placeholder="-">
                 </div>
             </div>
             <div class="input-img create-section">
                 <div class="input-img-content create-field create-field-text">
                     <div class="create-label">pet img:</div>
-                    <input type="file" class="create-input">
+                    <input type="file" id="pet-image" name="pet-image" class="create-input" accept="image/*">
                 </div>
                 <button class="button-create create-button">Create</button>
             </div>
         </div>
     </div>
-<script src="../js/particles.js"></script>
-<script src="../js/multiselect.js"></script>
+
+<script src="../../js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
-<script src="../js/tinymce-config.js"></script>
+<script src="../../js/tinymce-config.js"></script>
 <script>
 // TinyMCE initialization is now handled by tinymce-config.js
 
@@ -245,6 +245,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <!-- Load centralized datalists -->
-<script src="../js/datalists-loader.js"></script>
+<script src="../../js/datalists-loader.js"></script>
 </body>
 </html>

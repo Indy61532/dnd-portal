@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeroVault - D&D Character Manager</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/create-rase.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/create-rase.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="content">
         <div class="navbar main-header">
             <div class="nav-content">
-                <a href="index.html">
+                <a href="../../index.html">
                     <div class="nav-left">
                         <i class="fas logo fa-dragon "></i>
                         <span class="brand">HeroVault</span>
@@ -38,7 +38,7 @@
 
                 <div class="race-name text-input">
                     <div>Race Name</div>
-                    <input type="text" placeholder="Enter race name...">
+                    <input type="text" id="race-name" name="race-name" placeholder="Enter race name...">
                 </div>
 
                 <div class="race-info-container">
@@ -51,27 +51,27 @@
                 <div class="box1">
                     <div class="text-input">
                         <div>Vision</div>
-                        <input list="list-vision" placeholder="Enter vision...">
+                        <input type="text" id="race-vision" name="race-vision" list="list-vision" placeholder="Enter vision...">
                     </div>
 
                     <div class="text-input">
                         <div>Type</div>
-                        <input type="text" placeholder="Enter type...">
+                        <input type="text" id="race-type" name="race-type" placeholder="Enter type...">
                     </div>
 
                     <div class="race-speed text-input">
                         <div>Speed</div>
-                        <input type="text" placeholder="Enter speed...">
+                        <input type="text" id="race-speed" name="race-speed" placeholder="Enter speed...">
                     </div>
 
                     <div class="text-input">
                         <div>Language</div>
-                        <input list="list-languages" placeholder="Enter language...">
+                        <input type="text" id="race-language" name="race-language" list="list-languages" placeholder="Enter language...">
                     </div>
 
                     <div class="text-input size-field">
                         <div>Size</div>
-                        <input list="list-sizes" placeholder="Enter size...">
+                        <input type="text" id="race-size" name="race-size" list="list-sizes" placeholder="Enter size...">
                     </div>
                 </div>
                 </div>
@@ -88,7 +88,7 @@
                 <div class="multiselect-container">
                     <div>Resistances</div>
                     <div class="selected-tags">
-                        <input type="text" list="list-resistences" placeholder="Enter resistances..." class="multiselect-input">
+                        <input type="text" id="race-resistances" list="list-resistences" placeholder="Enter resistances..." class="multiselect-input">
                     </div>
                 </div>
             </div>
@@ -96,18 +96,18 @@
             <div class="input-img">
                 <div class="input-img-content">
                     <div>Rase img:</div>
-                    <input type="file">
+                    <input type="file" id="race-image" name="race-image" accept="image/*">
                 </div>
                 <button class="button-create">Create</button>
             </div>
 
         </div>
 
-<script src="../js/particles.js"></script>
-<script src="../js/multiselect.js"></script>
+
+<script src="../../js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
-<script src="../js/tinymce-config.js"></script>
-<script src="../js/datalists-loader.js"></script>
+<script src="../../js/tinymce-config.js"></script>
+<script src="../../js/datalists-loader.js"></script>
 <script>
 
 </script>
