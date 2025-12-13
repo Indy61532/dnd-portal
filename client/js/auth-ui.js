@@ -34,11 +34,17 @@ function showGuestUI() {
 
   const navProfile = document.querySelector(".nav-right.profile");
   if (navProfile) navProfile.classList.remove("active");
+  
+  // Lock cards when guest
+  updateCardsState(false);
 }
 
 function showAuthenticatedUI(user, profile) {
   document.body.classList.add("is-authenticated");
   hideAuthModalIfOpen();
+  
+  // Unlock cards when authenticated
+  updateCardsState(true);
 
   const displayName =
     (profile?.name && String(profile.name).trim().length > 0)
@@ -72,7 +78,45 @@ function showAuthenticatedUI(user, profile) {
 
     const createdThingsEl = profileCart.querySelector(".createthings");
     if (createdThingsEl) createdThingsEl.textContent = "Characters Created: 0";
+    
+    // Update new structure elements if they exist
+    const statsItems = profileCart.querySelectorAll(".stat-item span");
+    if (statsItems.length >= 2) {
+        statsItems[0].textContent = joined ? `Joined: ${joined}` : "Joined: -";
+        statsItems[1].textContent = "Created: 0"; // Placeholder
+    }
   }
+}
+
+// Function to handle locked cards state
+function updateCardsState(isAuthenticated) {
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        // Skip 'browse' card (homebrew) - always accessible
+        if (card.classList.contains('homebrew')) return;
+        
+        if (!isAuthenticated) {
+            card.classList.add('locked');
+            
+            // Add click listener to show auth modal if locked
+            if (!card.dataset.authListener) {
+                card.addEventListener('click', (e) => {
+                    if (card.classList.contains('locked')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Trigger auth modal
+                        if (window.AuthModalInstance) {
+                            window.AuthModalInstance.show();
+                        }
+                    }
+                });
+                card.dataset.authListener = 'true';
+            }
+        } else {
+            card.classList.remove('locked');
+        }
+    });
 }
 
 async function fetchProfileForUser(userId) {
@@ -168,7 +212,6 @@ function ensureLockOverlay(el) {
   overlay.setAttribute("role", "button");
   overlay.setAttribute("tabindex", "0");
   overlay.setAttribute("aria-label", "Login required");
-  overlay.innerHTML = `<span class="lock-overlay__text">Login required</span>`;
 
   overlay.addEventListener("click", (ev) => {
     ev.preventDefault();

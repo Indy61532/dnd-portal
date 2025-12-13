@@ -4,9 +4,127 @@ document.addEventListener('DOMContentLoaded', () => {
     const weaponSection = document.querySelector('.weapon-section');
     const weaponTypeInput = document.querySelector('.weapon-type input[list="list-weapon-type"]');
     const rangeBlock = document.querySelector('.Range');
+    const saveBtn = document.querySelector('.button-create');
+
+    const STORAGE_BUCKET = 'homebrew-images';
+    const LOCAL_STORAGE_KEY = 'hv_current_item_id';
+    let currentItemId = localStorage.getItem(LOCAL_STORAGE_KEY);
+    let existingRecordData = null; // preserve image fields on update if no new upload
 
     function normalize(value) {
         return (value || '').trim().toLowerCase();
+    }
+
+    function toNumberOrNull(value) {
+        const n = parseFloat(String(value ?? '').trim());
+        return Number.isFinite(n) ? n : null;
+    }
+
+    function getItemDescriptionHtml() {
+        try {
+            const fromTiny = window.tinymce?.get('item-description')?.getContent();
+            if (typeof fromTiny === 'string') return fromTiny;
+        } catch (e) {
+            // ignore
+        }
+        const el = document.getElementById('item-description');
+        return el ? (el.value || '') : '';
+    }
+
+    function collectItemData() {
+        const itemType = (document.getElementById('item-type')?.value || '').trim();
+        const name = (document.getElementById('item-name')?.value || '').trim();
+        const weight = toNumberOrNull(document.getElementById('item-weight')?.value);
+        const cost = toNumberOrNull(document.getElementById('item-cost')?.value);
+        const rarity = (document.getElementById('item-rarity')?.value || '').trim();
+        const isMagic = Boolean(document.getElementById('item-magic-checkbox')?.checked);
+        const ac = toNumberOrNull(document.getElementById('item-armor-ac')?.value);
+
+        const weaponType = (document.getElementById('item-weapon-type')?.value || '').trim();
+        const diceTrove = toNumberOrNull(document.getElementById('item-dice-trove')?.value);
+        const dieType = (document.getElementById('item-die-type')?.value || '').trim();
+        const range = (document.getElementById('item-range')?.value || '').trim();
+
+        return {
+            info: {
+                itemType,
+                name,
+                weight,
+                cost,
+                rarity,
+                isMagic
+            },
+            armor: {
+                ac
+            },
+            weapon: {
+                weaponType,
+                diceTrove,
+                dieType,
+                range
+            },
+            description: getItemDescriptionHtml(),
+            image_path: existingRecordData?.image_path || null,
+            image_url: existingRecordData?.image_url || null
+        };
+    }
+
+    async function getSessionOrPrompt() {
+        const supabase = window.supabase;
+        if (!supabase) return null;
+        const { data } = await supabase.auth.getSession();
+        const session = data?.session || null;
+        if (!session) {
+            window.AuthModalInstance?.show?.();
+            return null;
+        }
+        return session;
+    }
+
+    async function loadExistingItemData(id, userId) {
+        try {
+            const { data, error } = await window.supabase
+                .from('homebrew')
+                .select('id, user_id, data')
+                .eq('id', id)
+                .eq('user_id', userId)
+                .single();
+            if (error) return null;
+            return data?.data || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async function uploadItemImage({ userId, homebrewId, file }) {
+        const safeName = String(file.name || 'image').replace(/[^\w.\-]+/g, '_');
+        const path = `${userId}/items/${homebrewId}/${Date.now()}-${safeName}`;
+
+        const { error: uploadError } = await window.supabase.storage
+            .from(STORAGE_BUCKET)
+            .upload(path, file, { upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data: publicData } = window.supabase.storage
+            .from(STORAGE_BUCKET)
+            .getPublicUrl(path);
+
+        return { image_path: path, image_url: publicData?.publicUrl || null };
+    }
+
+    function notifySuccess(message) {
+        if (window.HeroVault?.showNotification) {
+            window.HeroVault.showNotification(message, 'success');
+            return;
+        }
+        alert(message);
+    }
+
+    function setSavingState(isSaving) {
+        if (!saveBtn) return;
+        saveBtn.disabled = Boolean(isSaving);
+        saveBtn.textContent = isSaving ? 'Saving...' : (currentItemId ? 'Update item' : 'Create item');
     }
 
     function updateVisibilityByType() {
@@ -52,6 +170,100 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial state
     updateVisibilityByType();
     updateRangeVisibility();
+
+    // Button label for update mode
+    if (saveBtn && currentItemId) {
+        saveBtn.textContent = 'Update item';
+    }
+
+    async function handleSave() {
+        setSavingState(true);
+        try {
+            const session = await getSessionOrPrompt();
+            if (!session) return;
+
+            const name = (document.getElementById('item-name')?.value || '').trim();
+            if (!name) {
+                alert('Name is required.');
+                return;
+            }
+
+            // preserve existing image if updating and no new file uploaded
+            if (currentItemId && !existingRecordData) {
+                existingRecordData = await loadExistingItemData(currentItemId, session.user.id);
+            }
+
+            let dataJson = collectItemData();
+            const file = document.getElementById('item-image')?.files?.[0] || null;
+
+            if (!currentItemId) {
+                // INSERT
+                const { data, error } = await window.supabase
+                    .from('homebrew')
+                    .insert({
+                        user_id: session.user.id,
+                        type: 'item',
+                        status: 'draft',
+                        name,
+                        data: dataJson
+                    })
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                currentItemId = data.id;
+                localStorage.setItem(LOCAL_STORAGE_KEY, String(currentItemId));
+
+                if (file) {
+                    const img = await uploadItemImage({ userId: session.user.id, homebrewId: currentItemId, file });
+                    dataJson = { ...dataJson, ...img };
+                    existingRecordData = dataJson;
+
+                    const { error: upErr } = await window.supabase
+                        .from('homebrew')
+                        .update({ name, data: dataJson })
+                        .eq('id', currentItemId)
+                        .eq('user_id', session.user.id);
+
+                    if (upErr) throw upErr;
+                }
+
+                if (saveBtn) saveBtn.textContent = 'Update item';
+                notifySuccess('Item saved');
+                return;
+            }
+
+            // UPDATE
+            if (file) {
+                const img = await uploadItemImage({ userId: session.user.id, homebrewId: currentItemId, file });
+                dataJson = { ...dataJson, ...img };
+                existingRecordData = dataJson;
+            }
+
+            const { error: updErr } = await window.supabase
+                .from('homebrew')
+                .update({ name, data: dataJson })
+                .eq('id', currentItemId)
+                .eq('user_id', session.user.id);
+
+            if (updErr) throw updErr;
+
+            notifySuccess('Item saved');
+        } catch (err) {
+            console.error('Save failed:', err);
+            alert(`Save failed: ${err?.message || 'Unknown error'}`);
+        } finally {
+            setSavingState(false);
+        }
+    }
+
+    if (saveBtn) {
+        saveBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleSave();
+        });
+    }
 });
 
 

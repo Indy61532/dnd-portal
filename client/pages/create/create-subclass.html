@@ -79,7 +79,7 @@
             </div>
 
             <div class="section-class-features">
-                <div class="section-title">Class Features</div>
+                <div class="section-title">Sub-class Features</div>
                 
                 <div class="feature-builder">
                     <div class="feature-inputs">
@@ -120,5 +120,106 @@
 <script src="../../js/multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
 <script src="../../js/tinymce-config.js"></script>
+<script>
+// TinyMCE initialization is now handled by tinymce-config.js
+
+// Feature Builder Logic (similar to create-class)
+document.addEventListener('DOMContentLoaded', function() {
+    const addFeatureBtn = document.getElementById('add-feature-btn');
+    const featureNameInput = document.getElementById('new-feature-name');
+    const featureDescInput = document.getElementById('new-feature-description');
+    const featuresList = document.getElementById('features-list');
+    
+    // Toast notification function
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.backgroundColor = type === 'success' ? '#10B981' : '#EF4444';
+        toast.style.color = 'white';
+        toast.style.padding = '1rem 2rem';
+        toast.style.borderRadius = '8px';
+        toast.style.zIndex = '1000';
+        toast.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        
+        document.body.appendChild(toast);
+        
+        // Trigger reflow
+        void toast.offsetWidth;
+        toast.style.opacity = '1';
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    if (addFeatureBtn) {
+        addFeatureBtn.addEventListener('click', function() {
+            const name = featureNameInput.value.trim();
+            const desc = featureDescInput.value.trim();
+            
+            if (!name) {
+                showToast('Please enter a feature name', 'error');
+                return;
+            }
+            
+            // Add to datalist if it exists
+            const datalist = document.getElementById('list-non-caster');
+            if (datalist) {
+                // Check if already exists
+                let exists = false;
+                for (let option of datalist.options) {
+                    if (option.value === name) {
+                        exists = true;
+                        break;
+                    }
+                }
+                
+                if (!exists) {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    datalist.appendChild(option);
+                }
+            }
+            
+            // Create visual card
+            const card = document.createElement('div');
+            card.className = 'feature-card';
+            card.innerHTML = `
+                <h4>${name}</h4>
+                <p>${desc}</p>
+                <button class="feature-delete" title="Remove feature"><i class="fas fa-times"></i></button>
+            `;
+            
+            // Remove empty state if present
+            const emptyState = featuresList.querySelector('.empty-state');
+            if (emptyState) {
+                emptyState.remove();
+            }
+            
+            featuresList.appendChild(card);
+            
+            // Handle delete
+            card.querySelector('.feature-delete').addEventListener('click', function() {
+                card.remove();
+                if (featuresList.children.length === 0) {
+                    featuresList.innerHTML = '<div class="empty-state">No custom features added yet. Create one above to assign it to levels.</div>';
+                }
+            });
+            
+            // Clear inputs
+            featureNameInput.value = '';
+            featureDescInput.value = '';
+            showToast('Feature added successfully');
+        });
+    }
+});
+</script>
+<script src="../../js/create-subclass-save.js"></script>
 </body>
 </html>
