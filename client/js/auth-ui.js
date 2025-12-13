@@ -10,10 +10,25 @@ function formatJoinedDate(isoDate) {
 
 function getDisplayNameFromSession(session) {
   const name = session?.user?.user_metadata?.name;
-  return (typeof name === "string" && name.trim().length > 0) ? name.trim() : "Adventurer";
+  if (typeof name === "string" && name.trim().length > 0) return name.trim();
+
+  return "Adventurer";
 }
 
-function setLoggedOutUI() {
+function hideAuthModalIfOpen() {
+  // Best-effort: close modal after login so it never reappears
+  try {
+    if (window.AuthModalInstance?.close) {
+      window.AuthModalInstance.close();
+    }
+  } catch (_e) {
+    // ignore
+  }
+}
+
+function showGuestUI() {
+  document.body.classList.remove("is-authenticated");
+
   const profileCart = document.querySelector(".profilecart");
   if (profileCart) profileCart.classList.remove("active");
 
@@ -21,10 +36,17 @@ function setLoggedOutUI() {
   if (navProfile) navProfile.classList.remove("active");
 }
 
-function setLoggedInUI(session) {
-  const displayName = getDisplayNameFromSession(session);
-  const email = session?.user?.email || "";
-  const joined = formatJoinedDate(session?.user?.created_at);
+function showAuthenticatedUI(user, profile) {
+  document.body.classList.add("is-authenticated");
+  hideAuthModalIfOpen();
+
+  const displayName =
+    (profile?.name && String(profile.name).trim().length > 0)
+      ? String(profile.name).trim()
+      : getDisplayNameFromSession({ user });
+
+  const email = user?.email || "";
+  const joined = formatJoinedDate(profile?.created_at);
 
   // Navbar profile
   const navProfile = document.querySelector(".nav-right.profile");
@@ -53,10 +75,25 @@ function setLoggedInUI(session) {
   }
 }
 
+async function fetchProfileForUser(userId) {
+  try {
+    const { data, error } = await window.supabase
+      .from("profiles")
+      .select("id, name, created_at")
+      .eq("id", userId)
+      .single();
+
+    if (error) return null;
+    return data || null;
+  } catch (_e) {
+    return null;
+  }
+}
+
 export async function updateAuthUI() {
   try {
     if (!window.supabase) {
-      setLoggedOutUI();
+      showGuestUI();
       window.__authSession = null;
       lockGatedUI();
       return;
@@ -64,7 +101,7 @@ export async function updateAuthUI() {
 
     const { data, error } = await window.supabase.auth.getSession();
     if (error) {
-      setLoggedOutUI();
+      showGuestUI();
       window.__authSession = null;
       lockGatedUI();
       return;
@@ -72,29 +109,32 @@ export async function updateAuthUI() {
 
     const session = data?.session || null;
     if (!session) {
-      setLoggedOutUI();
+      showGuestUI();
       window.__authSession = null;
       lockGatedUI();
       return;
     }
 
     window.__authSession = session;
-    setLoggedInUI(session);
+    const user = session.user;
+    const profile = await fetchProfileForUser(user.id);
+    showAuthenticatedUI(user, profile);
     unlockGatedUI();
   } catch (_e) {
-    setLoggedOutUI();
+    showGuestUI();
     window.__authSession = null;
     lockGatedUI();
   }
 }
 
 export async function logout() {
-  try {
-    await window.supabase?.auth.signOut();
-  } finally {
-    // onAuthStateChange will also fire; this is a safe immediate refresh
-    await updateAuthUI();
-  }
+  // Immediate UI switch to guest (no reload) + lock gated UI
+  window.__authSession = null;
+  showGuestUI();
+  lockGatedUI();
+
+  // Real sign out (onAuthStateChange will also fire)
+  await window.supabase?.auth.signOut();
 }
 
 function getAuthGatedElementsForLock() {
@@ -213,12 +253,22 @@ export async function ensureAuthOrPrompt() {
 // Make available for inline handlers if needed
 window.updateAuthUI = updateAuthUI;
 window.logout = logout;
+window.logoutUser = logout;
 window.lockGatedUI = lockGatedUI;
 window.unlockGatedUI = unlockGatedUI;
 window.ensureAuthOrPrompt = ensureAuthOrPrompt;
 
 document.addEventListener("DOMContentLoaded", () => {
   updateAuthUI();
+
+  // Sign out button (exists on index page)
+  const signOutBtn = document.getElementById("signout-btn");
+  if (signOutBtn) {
+    signOutBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await logout();
+    });
+  }
 
   // React to auth changes (login/logout, refresh, etc.)
   if (window.supabase) {

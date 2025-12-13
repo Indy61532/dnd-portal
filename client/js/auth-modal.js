@@ -427,6 +427,19 @@ class AuthModal {
                 return;
             }
 
+            // Insert profile row (id = auth.user.id) so UI can read `profiles.name`
+            // Requires RLS policy allowing insert where auth.uid() = id (typical setup).
+            try {
+                const user = data?.user;
+                if (user?.id) {
+                    await window.supabase
+                        .from('profiles')
+                        .upsert({ id: user.id, name }, { onConflict: 'id' });
+                }
+            } catch (_e) {
+                // Best-effort; ignore if RLS/email-confirmation prevents insert at this step
+            }
+
             this.close();
 
             // Pokud je v Supabase zapnuté potvrzení emailu, session může být null.

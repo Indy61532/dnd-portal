@@ -133,6 +133,16 @@ html, body {
     display: flex;
 }
 
+/* Auth state helper class */
+body.is-authenticated .profilecart,
+body.is-authenticated .nav-right.profile {
+    opacity: 1;
+}
+
+body:not(.is-authenticated) .profilecart {
+    display: none;
+}
+
 /* =========================
    Auth-gated UI (locked)
    - Wrapper stays clickable via overlay
