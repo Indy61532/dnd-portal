@@ -78,21 +78,42 @@
                 
             </div>
 
+            <div class="section-class-features">
+                <div class="section-title">Class Features</div>
+                
+                <div class="feature-builder">
+                    <div class="feature-inputs">
+                        <div class="text-input">
+                            <div>Feature Name</div>
+                            <input type="text" id="new-feature-name" placeholder="e.g. Divine Smite">
+                        </div>
+                        <div class="text-input">
+                            <div>Feature Description</div>
+                            <textarea id="new-feature-description" placeholder="Describe the capability..." rows="3"></textarea>
+                        </div>
+                        <button id="add-feature-btn" class="button-create small-btn">Add Feature</button>
+                    </div>
+                    
+                    <div class="features-list" id="features-list">
+                        <!-- Added features will appear here -->
+                        <div class="empty-state">No custom features added yet. Create one above to assign it to levels.</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="section-otional">
                 <div class="section-title">Optional</div>
                                 
 
             </div>
             <div class="input-img">
-                <div class="input-img-content">
-                    <div>Subclass img:</div>
-                    <input type="file" id="subclass-image" name="subclass-image" accept="image/*">
-                </div>
                 <button class="button-create">Create</button>
             </div>
         </div>
     </div>
 
+    <script type="module" src="../../js/supabase-client.js"></script>
+    <script type="module" src="../../js/auth-ui.js"></script>
     <!-- Centralized datalists are loaded automatically by datalists-loader.js -->
 <script src="../../js/datalists-loader.js"></script>
 

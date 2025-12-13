@@ -161,13 +161,38 @@ class HeroVault {
         const authModalEnabled = typeof window.ENABLE_AUTH_MODAL !== 'undefined' ? window.ENABLE_AUTH_MODAL : true;
         
         if (authRequiredPages.includes(page) && authModalEnabled) {
-            // Show auth modal instead of navigating
+            // If already logged in, DO NOT open modal, just navigate.
+            if (window.ensureAuthOrPrompt) {
+                window.ensureAuthOrPrompt().then((ok) => {
+                    if (!ok) return;
+
+                    const pageMap = {
+                        'characters': 'pages/charakters.html',
+                        'collection': 'pages/collection.html',
+                        'creation': 'pages/creation.html',
+                        'campaigns': 'pages/campaigns.html',
+                        'create': 'pages/create.html'
+                    };
+
+                    const pagePath = pageMap[page];
+                    if (pagePath) {
+                        const basePath = window.location.pathname.includes('/pages/') ? '../' : '';
+                        window.location.href = basePath + pagePath;
+                    } else {
+                        this.showPageModal(page);
+                    }
+                });
+                return;
+            }
+
+            // Fallback: old behavior
             if (window.AuthModalInstance) {
                 window.AuthModalInstance.show();
             } else {
                 console.warn('AuthModal not initialized');
                 this.showPageModal(page);
             }
+            return;
         } else if (authRequiredPages.includes(page) && !authModalEnabled) {
             // Auth modal is disabled - navigate to actual page
             const pageMap = {
@@ -582,4 +607,4 @@ window.HeroVault = {
 // ========================================
 // Enable/disable auth modal popup when clicking on protected pages
 // Set to false to disable auth modal (cards will navigate normally)
-window.ENABLE_AUTH_MODAL = false; // Change to false to turn off
+window.ENABLE_AUTH_MODAL = true; // Change to false to turn off

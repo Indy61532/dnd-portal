@@ -329,7 +329,7 @@ class AuthModal {
         }
     }
 
-    handleLogin(e) {
+    async handleLogin(e) {
         const form = e.target;
         const submitBtn = form.querySelector('.auth-submit-btn');
         const email = document.getElementById('login-email').value;
@@ -348,26 +348,35 @@ class AuthModal {
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
 
-        // Simulate API call (will be replaced with actual API call later)
-        setTimeout(() => {
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
+        try {
+            if (!window.supabase) {
+                this.showError('login', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                return;
+            }
 
-            // TODO: Replace with actual API call
-            console.log('Login attempt:', { email, password });
-            
-            // For now, just close the modal
-            // In real implementation, check response and handle errors
+            const { error } = await window.supabase.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                this.showError('login', error.message);
+                return;
+            }
+
             this.close();
-            
-            // Show success message (you can add a notification system)
             if (window.HeroVault && window.HeroVault.showNotification) {
                 window.HeroVault.showNotification('Přihlášení proběhlo úspěšně!', 'success');
             }
-        }, 1000);
+        } catch (err) {
+            this.showError('login', err?.message || 'Přihlášení se nezdařilo.');
+        } finally {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+        }
     }
 
-    handleRegister(e) {
+    async handleRegister(e) {
         const form = e.target;
         const submitBtn = form.querySelector('.auth-submit-btn');
         const name = document.getElementById('register-name').value;
@@ -398,23 +407,42 @@ class AuthModal {
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
 
-        // Simulate API call (will be replaced with actual API call later)
-        setTimeout(() => {
+        try {
+            if (!window.supabase) {
+                this.showError('register', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                return;
+            }
+
+            const { data, error } = await window.supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    // user_metadata (užitečné, pokud máš trigger na vytvoření profilu z metadata)
+                    data: { name }
+                }
+            });
+
+            if (error) {
+                this.showError('register', error.message);
+                return;
+            }
+
+            this.close();
+
+            // Pokud je v Supabase zapnuté potvrzení emailu, session může být null.
+            const msg = data?.session
+                ? 'Registrace proběhla úspěšně!'
+                : 'Registrace proběhla. Zkontroluj email pro potvrzení účtu.';
+
+            if (window.HeroVault && window.HeroVault.showNotification) {
+                window.HeroVault.showNotification(msg, 'success');
+            }
+        } catch (err) {
+            this.showError('register', err?.message || 'Registrace se nezdařila.');
+        } finally {
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
-
-            // TODO: Replace with actual API call
-            console.log('Register attempt:', { name, email, password });
-            
-            // For now, just close the modal
-            // In real implementation, check response and handle errors
-            this.close();
-            
-            // Show success message
-            if (window.HeroVault && window.HeroVault.showNotification) {
-                window.HeroVault.showNotification('Registrace proběhla úspěšně!', 'success');
-            }
-        }, 1000);
+        }
     }
 
     handleForgotPassword(e) {

@@ -1,0 +1,8 @@
+# NOTE (school project):
+# Do NOT ignore env/config files, uploads/, or editor/system files.
+# Teacher needs them versioned for review.
+#
+# Allowed to ignore:
+server/node_modules/
+server/package-lock.json
+
