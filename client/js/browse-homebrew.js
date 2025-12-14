@@ -1,4 +1,4 @@
-// Creation page: list "My Homebrew" like Collection does, but only the user's own records.
+// Browse page: list only public homebrew, with "Add" to user's collection.
 // ESM module. Depends on:
 // - window.supabase (from supabase-client.js)
 // - window.ensureAuthOrPrompt (from auth-ui.js)
@@ -25,13 +25,6 @@ function createSpan(className, text) {
   el.className = className;
   el.textContent = text ?? "";
   return el;
-}
-
-function createBadge(status) {
-  const b = document.createElement("span");
-  b.className = `hv-badge ${normalizeType(status) || "unknown"}`.trim();
-  b.textContent = textOrDash(status);
-  return b;
 }
 
 function getCategoryHeaderSelector(type) {
@@ -61,7 +54,7 @@ function getCategoryHeaderSelector(type) {
   }
 }
 
-function getEditHref(type, id) {
+function getOpenHref(type, id) {
   const t = normalizeType(type);
   if (t === "class") return `./create/create-class.html?id=${encodeURIComponent(id)}`;
   if (t === "spell") return `./create/create-spell.html?id=${encodeURIComponent(id)}`;
@@ -76,90 +69,76 @@ function getEditHref(type, id) {
   return "./create.html";
 }
 
+async function addToCollection(homebrewId) {
+  const ok = await window.ensureAuthOrPrompt?.();
+  if (!ok) return false;
+
+  const { data: sessionData } = await window.supabase.auth.getSession();
+  const userId = sessionData?.session?.user?.id;
+  if (!userId) return false;
+
+  // user_saved_items is expected to have at least: user_id, homebrew_id
+  // Use upsert to avoid duplicates if a unique constraint exists.
+  const { error } = await window.supabase
+    .from("user_saved_items")
+    .upsert({ user_id: userId, homebrew_id: homebrewId }, { onConflict: "user_id,homebrew_id", ignoreDuplicates: true });
+
+  if (error) throw error;
+  return true;
+}
+
 function createActions({ homebrewId, rowEl }) {
   const wrap = document.createElement("div");
   wrap.className = "hv-actions";
 
-  const editBtn = document.createElement("button");
-  editBtn.type = "button";
-  editBtn.className = "hv-btn hv-open";
-  editBtn.textContent = "Edit";
-  editBtn.addEventListener("click", () => {
+  const openBtn = document.createElement("button");
+  openBtn.type = "button";
+  openBtn.className = "hv-btn hv-open";
+  openBtn.textContent = "Open";
+  openBtn.addEventListener("click", () => {
     const type = normalizeType(rowEl?.dataset?.hvType);
-    window.location.href = getEditHref(type, homebrewId);
+    window.location.href = getOpenHref(type, homebrewId);
   });
 
-  const shareBtn = document.createElement("button");
-  shareBtn.type = "button";
-  shareBtn.className = "hv-btn hv-share";
-  shareBtn.textContent = "Share";
-  shareBtn.addEventListener("click", async () => {
+  const addBtn = document.createElement("button");
+  addBtn.type = "button";
+  addBtn.className = "hv-btn hv-add";
+  addBtn.title = "Add to collection";
+  addBtn.innerHTML = '<i class="fas fa-plus"></i> Add';
+  addBtn.addEventListener("click", async () => {
     try {
-      shareBtn.disabled = true;
-      shareBtn.textContent = "Sharing...";
+      // Prevent duplicate add if already in collection
+      if (String(rowEl?.dataset?.hvIsSaved || "") === "1") return;
 
-      const { data: sessionData } = await window.supabase.auth.getSession();
-      const userId = sessionData?.session?.user?.id;
-      if (!userId) {
-        window.AuthModalInstance?.show?.();
-        return;
-      }
+      addBtn.disabled = true;
+      addBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
 
-      const { error } = await window.supabase
-        .from("homebrew")
-        .update({ status: "public" })
-        .eq("id", homebrewId)
-        .eq("user_id", userId);
-      if (error) throw error;
+      await addToCollection(homebrewId);
 
-      // Update badge in DOM (if present)
-      const badge = rowEl.querySelector(".hv-badge");
-      if (badge) {
-        badge.classList.remove("draft", "private");
-        badge.classList.add("public");
-        badge.textContent = "public";
-      }
+      rowEl.dataset.hvIsSaved = "1";
 
-      // Remember new status on row and hide share button
-      rowEl.dataset.hvStatus = "public";
-      shareBtn.remove();
-
-      notify("Shared", "success");
+      addBtn.innerHTML = '<i class="fas fa-check"></i> Added';
+      notify("Added", "success");
     } catch (err) {
-      console.error("Share failed:", err);
-      notify("Share failed", "error");
-      shareBtn.disabled = false;
-      shareBtn.textContent = "Share";
+      console.error("Add failed:", err);
+      notify("Add failed", "error");
+      addBtn.disabled = false;
+      addBtn.innerHTML = '<i class="fas fa-plus"></i> Add';
     }
   });
 
-  const deleteBtn = document.createElement("button");
-  deleteBtn.type = "button";
-  deleteBtn.className = "hv-btn hv-remove";
-  deleteBtn.textContent = "Delete";
-  deleteBtn.addEventListener("click", async () => {
-    try {
-      const { error } = await window.supabase
-        .from("homebrew")
-        .delete()
-        .eq("id", homebrewId);
-      if (error) throw error;
-
-      rowEl?.remove();
-      notify("Deleted", "success");
-      ensureEmptyMessageIfNeeded();
-    } catch (err) {
-      console.error("Delete failed:", err);
-      notify("Delete failed", "error");
-    }
-  });
-
-  // Share should only be available when status === "draft"
-  const currentStatus = normalizeType(rowEl?.dataset?.hvStatus);
-  if (currentStatus === "draft") {
-    wrap.append(editBtn, shareBtn, deleteBtn);
+  // If it's the current user's own homebrew, don't show Add
+  const isOwner = String(rowEl?.dataset?.hvIsOwner || "") === "1";
+  const isSaved = String(rowEl?.dataset?.hvIsSaved || "") === "1";
+  if (isOwner) {
+    wrap.append(openBtn);
   } else {
-    wrap.append(editBtn, deleteBtn);
+    if (isSaved) {
+      addBtn.disabled = true;
+      addBtn.innerHTML = '<i class="fas fa-check"></i> Added';
+      addBtn.title = "Already in your collection";
+    }
+    wrap.append(openBtn, addBtn);
   }
   return wrap;
 }
@@ -177,15 +156,10 @@ function buildRow(homebrew) {
   li.dataset.hvName = String(homebrew.name || "");
   li.dataset.hvType = type;
   li.dataset.hvHomebrewId = String(homebrew.id);
-  li.dataset.hvStatus = normalizeType(homebrew.status || "draft");
+  li.dataset.hvOwnerId = String(homebrew.user_id || "");
+  // hvIsOwner is set later (after we know current user id)
 
-  const nameEl = createSpan("item-name", textOrDash(homebrew.name));
-  // For class + all other types (except item/spell/monster) show status badge next to name
-  if (type !== "item" && type !== "spell" && type !== "monster") {
-    nameEl.appendChild(createBadge(homebrew.status));
-  }
-
-  li.appendChild(nameEl);
+  li.appendChild(createSpan("item-name", textOrDash(homebrew.name)));
   li.appendChild(createSpan("item-type", textOrDash(type)));
 
   if (type === "item") {
@@ -193,17 +167,15 @@ function buildRow(homebrew) {
     li.appendChild(createSpan("weapon-type", textOrDash(data?.weapon?.weaponType)));
     li.appendChild(createSpan("rarity", textOrDash(data?.info?.rarity)));
   } else if (type === "spell") {
-    li.appendChild(createSpan("type-spell", textOrDash(data?.info?.school)));
+    li.appendChild(createSpan("type-spell", textOrDash(data?.info?.school ?? data?.school)));
     li.appendChild(createSpan("range", textOrDash(data?.details?.range)));
     li.appendChild(createSpan("level", textOrDash(data?.info?.level)));
   } else if (type === "monster") {
-    // placeholder (until monster data structure is stabilized)
     li.appendChild(createSpan("type-monster", "-"));
     li.appendChild(createSpan("cr", "-"));
     li.appendChild(createSpan("ac", "-"));
     li.appendChild(createSpan("hp", "-"));
   } else {
-    // keep grid alignment; leave placeholders as "-" or empty
     if (type === "feat") li.appendChild(createSpan("tier", "-"));
     else if (type === "subclass") li.appendChild(createSpan("parent-class", "-"));
     else if (type === "faith") {
@@ -211,8 +183,6 @@ function buildRow(homebrew) {
       li.appendChild(createSpan("alignment", "-"));
     }
   }
-
-  li.appendChild(createActions({ homebrewId: homebrew.id, rowEl: li }));
   return li;
 }
 
@@ -220,16 +190,16 @@ function ensureEmptyMessageIfNeeded() {
   const header = document.querySelector(".main-content-header");
   if (!header) return;
 
-  const existing = document.getElementById("hv-empty-homebrew");
+  const existing = document.getElementById("hv-empty-public");
   const rows = document.querySelectorAll(".main-list .hv-row");
   const anyVisible = Array.from(rows).some((r) => !r.hidden && r.style.display !== "none");
 
   if (!anyVisible) {
     if (!existing) {
       const div = document.createElement("div");
-      div.id = "hv-empty-homebrew";
+      div.id = "hv-empty-public";
       div.className = "hv-empty";
-      div.textContent = "You haven’t created anything yet.";
+      div.textContent = "No public content yet";
       header.insertAdjacentElement("afterend", div);
     }
   } else {
@@ -255,28 +225,42 @@ function wireSearch() {
   });
 }
 
-async function loadMyHomebrew(userId) {
-  console.log("Creation: loading homebrew…");
+async function loadPublicHomebrew() {
   const { data, error } = await window.supabase
     .from("homebrew")
-    .select("id, type, status, name, data, updated_at")
-    .eq("user_id", userId)
+    .select("id, user_id, type, status, name, data, updated_at")
+    .eq("status", "public")
     .order("updated_at", { ascending: false });
 
   if (error) throw error;
-  const items = Array.isArray(data) ? data : [];
-  console.log("Creation: fetched", items.length);
-  return items;
+  return Array.isArray(data) ? data : [];
 }
 
-function renderHomebrew(items) {
+async function loadSavedHomebrewIds(currentUserId) {
+  if (!currentUserId) return new Set();
+  try {
+    const { data, error } = await window.supabase
+      .from("user_saved_items")
+      .select("homebrew_id")
+      .eq("user_id", currentUserId);
+    if (error) throw error;
+    const set = new Set();
+    (Array.isArray(data) ? data : []).forEach((r) => set.add(String(r.homebrew_id)));
+    return set;
+  } catch (err) {
+    // Don't block browse if this fails (RLS/policy etc.)
+    console.error("Failed to load saved items:", err);
+    return new Set();
+  }
+}
+
+function renderHomebrew(items, currentUserId, savedSet) {
   const list = document.querySelector(".main-list");
   if (!list) return;
 
-  // remove any previously rendered rows
   list.querySelectorAll(".hv-row").forEach((el) => el.remove());
 
-  // ignore NPC header row (DB doesn't have npc enum)
+  // ignore NPC header row (DB doesn't have npc enum here)
   const npcHeader = list.querySelector(".category-nps");
   if (npcHeader) npcHeader.style.display = "none";
 
@@ -293,6 +277,25 @@ function renderHomebrew(items) {
     const row = buildRow(hb);
     if (!row) continue;
 
+    // Mark ownership so actions can hide Add for user's own content
+    const isOwner = currentUserId && String(hb.user_id) === String(currentUserId);
+    row.dataset.hvIsOwner = isOwner ? "1" : "0";
+    row.dataset.hvIsSaved = savedSet?.has(String(hb.id)) ? "1" : "0";
+
+    // Optional: show a subtle note in the name if already in collection
+    if (row.dataset.hvIsSaved === "1") {
+      const nameEl = row.querySelector(".item-name");
+      if (nameEl && !nameEl.querySelector(".hv-pill")) {
+        const pill = document.createElement("span");
+        pill.className = "hv-pill";
+        pill.textContent = "In collection";
+        nameEl.appendChild(pill);
+      }
+    }
+
+    // Actions depend on hvIsOwner/hvIsSaved, so append AFTER datasets are set
+    row.appendChild(createActions({ homebrewId: hb.id, rowEl: row }));
+
     const anchor = lastInsertedAfter.get(headerEl) || headerEl;
     anchor.insertAdjacentElement("afterend", row);
     lastInsertedAfter.set(headerEl, row);
@@ -303,16 +306,12 @@ function renderHomebrew(items) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const ok = await window.ensureAuthOrPrompt?.();
-    if (!ok) return;
-
-    const { data: sessionData } = await window.supabase.auth.getSession();
-    const session = sessionData?.session || null;
-    if (!session?.user?.id) return;
-
     wireSearch();
-    const items = await loadMyHomebrew(session.user.id);
-    renderHomebrew(items);
+    const { data: sessionData } = await window.supabase.auth.getSession();
+    const currentUserId = sessionData?.session?.user?.id || null;
+    const savedSet = await loadSavedHomebrewIds(currentUserId);
+    const items = await loadPublicHomebrew();
+    renderHomebrew(items, currentUserId, savedSet);
   } catch (err) {
     console.error(err);
     notify("Load failed", "error");
