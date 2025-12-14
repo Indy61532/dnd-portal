@@ -68,6 +68,21 @@
     gap: 0.75rem;
 }
 
+/* Hide template category header rows (kept in DOM as anchors for JS insertion) */
+.main-list > li.item.category-item:not(.hv-row),
+.main-list > li.item.category-monster:not(.hv-row),
+.main-list > li.item.category-class:not(.hv-row),
+.main-list > li.item.category-spell:not(.hv-row),
+.main-list > li.item.category-race:not(.hv-row),
+.main-list > li.item.category-backgroun:not(.hv-row),
+.main-list > li.item.category-feat:not(.hv-row),
+.main-list > li.item.category-nps:not(.hv-row),
+.main-list > li.item.category-sub-class:not(.hv-row),
+.main-list > li.item.category-pet:not(.hv-row),
+.main-list > li.item.category-faith:not(.hv-row) {
+	display: none;
+}
+
 .item {
 	display: grid;
 	gap: 1rem;
@@ -86,6 +101,70 @@
 	border-color: var(--primary-gold);
 	box-shadow: 0 16px 32px var(--shadow-gold);
 	transform: translateY(-2px);
+}
+
+.hv-actions {
+	display: inline-flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+}
+
+.hv-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 20px;
+	padding: 0 0.5rem;
+	margin-left: 0.5rem;
+	border-radius: 999px;
+	font-size: 0.7rem;
+	font-weight: 700;
+	line-height: 1;
+	border: 1px solid rgba(212, 175, 55, 0.35);
+	color: var(--text-light);
+	background: rgba(0, 0, 0, 0.25);
+}
+
+.hv-badge.draft {
+	border-color: rgba(212, 175, 55, 0.55);
+}
+
+.hv-badge.public {
+	border-color: rgba(16, 185, 129, 0.7);
+}
+
+.hv-badge.private {
+	border-color: rgba(239, 68, 68, 0.7);
+}
+
+.hv-btn {
+	height: 30px;
+	padding: 0 0.6rem;
+	border-radius: 10px;
+	border: 1px solid rgba(212, 175, 55, 0.35);
+	background: rgba(0, 0, 0, 0.25);
+	color: var(--text-light);
+	font-family: 'Cinzel', serif;
+	font-size: 0.75rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.hv-btn:hover {
+	border-color: var(--primary-gold);
+}
+
+.hv-btn.hv-remove {
+	border-color: rgba(239, 68, 68, 0.6);
+}
+
+.hv-empty {
+	margin: 0.5rem 0 1rem 0;
+	padding: 0.75rem 1rem;
+	border-radius: 12px;
+	border: 2px dashed rgba(212, 175, 55, 0.35);
+	color: var(--text-muted);
+	background: rgba(0,0,0,0.15);
 }
 
 .category-item {

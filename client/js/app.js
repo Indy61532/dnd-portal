@@ -51,7 +51,7 @@ class HeroVault {
         const page = card.dataset.page;
         
         if (this.isLoading) return;
-
+        
         // If user is already authenticated, don't show card loading state.
         // We can navigate immediately for snappier UX.
         if (window.__authSession) {
