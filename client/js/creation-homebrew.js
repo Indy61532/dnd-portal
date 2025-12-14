@@ -80,13 +80,25 @@ function createActions({ homebrewId, rowEl }) {
   const wrap = document.createElement("div");
   wrap.className = "hv-actions";
 
+  function getHref() {
+    const type = normalizeType(rowEl?.dataset?.hvType);
+    return getEditHref(type, homebrewId);
+  }
+
+  const openBtn = document.createElement("button");
+  openBtn.type = "button";
+  openBtn.className = "hv-btn hv-open";
+  openBtn.textContent = "Open";
+  openBtn.addEventListener("click", () => {
+    window.open(getHref(), "_blank", "noopener");
+  });
+
   const editBtn = document.createElement("button");
   editBtn.type = "button";
   editBtn.className = "hv-btn hv-open";
   editBtn.textContent = "Edit";
   editBtn.addEventListener("click", () => {
-    const type = normalizeType(rowEl?.dataset?.hvType);
-    window.location.href = getEditHref(type, homebrewId);
+    window.location.href = getHref();
   });
 
   const shareBtn = document.createElement("button");
@@ -157,9 +169,9 @@ function createActions({ homebrewId, rowEl }) {
   // Share should only be available when status === "draft"
   const currentStatus = normalizeType(rowEl?.dataset?.hvStatus);
   if (currentStatus === "draft") {
-    wrap.append(editBtn, shareBtn, deleteBtn);
+    wrap.append(openBtn, editBtn, shareBtn, deleteBtn);
   } else {
-    wrap.append(editBtn, deleteBtn);
+    wrap.append(openBtn, editBtn, deleteBtn);
   }
   return wrap;
 }

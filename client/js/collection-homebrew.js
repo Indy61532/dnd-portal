@@ -31,17 +31,29 @@ function createActions({ homebrewId, rowEl }) {
   const wrap = document.createElement("div");
   wrap.className = "hv-actions";
 
-  const editBtn = document.createElement("button");
-  editBtn.type = "button";
-  editBtn.className = "hv-btn hv-open";
-  editBtn.textContent = "Edit";
-  editBtn.addEventListener("click", () => {
+  function getHref() {
     const type = normalizeType(rowEl?.dataset?.hvType);
     let href = "./create.html";
     if (type === "class") href = `./create/create-class.html?id=${encodeURIComponent(homebrewId)}`;
     else if (type === "spell") href = `./create/create-spell.html?id=${encodeURIComponent(homebrewId)}`;
     else if (type === "item") href = `./create/create-item.html?id=${encodeURIComponent(homebrewId)}`;
-    window.location.href = href;
+    return href;
+  }
+
+  const openBtn = document.createElement("button");
+  openBtn.type = "button";
+  openBtn.className = "hv-btn hv-open";
+  openBtn.textContent = "Open";
+  openBtn.addEventListener("click", () => {
+    window.open(getHref(), "_blank", "noopener");
+  });
+
+  const editBtn = document.createElement("button");
+  editBtn.type = "button";
+  editBtn.className = "hv-btn hv-open";
+  editBtn.textContent = "Edit";
+  editBtn.addEventListener("click", () => {
+    window.location.href = getHref();
   });
 
   const deleteBtn = document.createElement("button");
@@ -67,7 +79,7 @@ function createActions({ homebrewId, rowEl }) {
     }
   });
 
-  wrap.append(editBtn, deleteBtn);
+  wrap.append(openBtn, editBtn, deleteBtn);
   return wrap;
 }
 
