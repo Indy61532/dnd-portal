@@ -177,6 +177,21 @@
   function init() {
     const btn = getSaveBtn();
     if (!btn) return;
+
+    // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+    try {
+      const urlId = new URLSearchParams(window.location.search || "").get("id");
+      if (urlId) {
+        currentBackgroundId = urlId;
+        localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+      } else {
+        currentBackgroundId = null;
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      }
+    } catch (_e) {
+      // ignore
+    }
+
     btn.textContent = currentBackgroundId ? "Update" : "Create background";
 
     btn.addEventListener("click", (e) => {

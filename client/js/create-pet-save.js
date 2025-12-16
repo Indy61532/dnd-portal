@@ -230,15 +230,25 @@ async function handleSaveClick() {
 }
 
 function init() {
-  const savedId = localStorage.getItem(LOCAL_STORAGE_KEY);
-  if (savedId) {
-    currentPetId = /^\d+$/.test(savedId) ? Number(savedId) : savedId;
-    const button = document.querySelector(".button-create.create-button");
-    if (button) button.textContent = "Update";
+  // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+  try {
+    const urlId = new URLSearchParams(window.location.search || "").get("id");
+    if (urlId) {
+      currentPetId = /^\d+$/.test(urlId) ? Number(urlId) : urlId;
+      localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+    } else {
+      currentPetId = null;
+      existingRecordData = null;
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
+  } catch (_e) {
+    // ignore
   }
 
   const button = document.querySelector(".button-create.create-button");
   if (!button) return;
+
+  button.textContent = currentPetId ? "Update" : "Create";
 
   button.addEventListener("click", (e) => {
     e.preventDefault();

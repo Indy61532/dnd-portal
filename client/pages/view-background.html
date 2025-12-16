@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Detail | DnD Portal</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/view-background.css">
+</head>
+<body class="dark-theme">
+
+    <!-- Navbar -->
+    <div class="navbar main-header">
+        <div class="nav-content">
+            <a href="../index.html">
+                <div class="nav-left">
+                    <i class="fas logo fa-dragon "></i>
+                    <span class="brand">HeroVault</span>
+                </div>
+            </a>
+            <div class="nav-center create-navbar">
+                <div id="nav-title" class="cteate-title">View Background</div>
+            </div>
+            <div class="nav-right profile">
+                <div class="profileimg"></div>
+                <div class="profilename">Adventure Master</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="bg-detail-container">
+        
+        <div id="loading-state" class="status-message">
+            <i class="fa-solid fa-spinner fa-spin"></i> Načítám background...
+        </div>
+
+        <div id="error-state" class="status-message hidden">
+            <i class="fa-solid fa-triangle-exclamation"></i> Background nenalezen nebo došlo k chybě.
+        </div>
+
+        <!-- Background Content -->
+        <article id="bg-content" class="bg-page hidden">
+            
+            <!-- Header -->
+            <header class="bg-header">
+                <h1 id="b-name">Background Name</h1>
+                <div class="tapered-rule"></div>
+            </header>
+
+            <!-- Description -->
+            <section class="bg-description-section">
+                <div id="b-description" class="content-block"></div>
+            </section>
+
+            <!-- Proficiencies Box -->
+            <section class="bg-proficiencies-box">
+                <div class="prof-item" id="row-skills">
+                    <span class="prof-label">Skill Proficiencies:</span>
+                    <span id="b-skills" class="prof-value">None</span>
+                </div>
+                <div class="prof-item" id="row-tools">
+                    <span class="prof-label">Tool Proficiencies:</span>
+                    <span id="b-tools" class="prof-value">None</span>
+                </div>
+                <div class="prof-item" id="row-languages">
+                    <span class="prof-label">Languages:</span>
+                    <span id="b-languages" class="prof-value">None</span>
+                </div>
+                <!-- Equipment is not in create-background-save.js, skipping -->
+            </section>
+
+            <!-- Feature -->
+            <section class="bg-feature-section">
+                <h2 id="b-feature-name">Feature Name</h2>
+                <div id="b-feature-desc" class="content-block"></div>
+            </section>
+
+        </article>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/supabase-client.js"></script>
+    <script type="module" src="../js/view-background.js"></script>
+</body>
+</html>

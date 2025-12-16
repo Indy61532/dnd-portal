@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Detail | DnD Portal</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/view-race.css">
+</head>
+<body class="dark-theme">
+
+    <!-- Navbar -->
+    <div class="navbar main-header">
+        <div class="nav-content">
+            <a href="../index.html">
+                <div class="nav-left">
+                    <i class="fas logo fa-dragon "></i>
+                    <span class="brand">HeroVault</span>
+                </div>
+            </a>
+            <div class="nav-center create-navbar">
+                <div id="nav-title" class="cteate-title">View Race</div>
+            </div>
+            <div class="nav-right profile">
+                <div class="profileimg"></div>
+                <div class="profilename">Adventure Master</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="race-detail-container">
+        
+        <div id="loading-state" class="status-message">
+            <i class="fa-solid fa-spinner fa-spin"></i> Načítám rasu...
+        </div>
+
+        <div id="error-state" class="status-message hidden">
+            <i class="fa-solid fa-triangle-exclamation"></i> Rasa nenalezena nebo došlo k chybě.
+        </div>
+
+        <!-- Race Content -->
+        <article id="race-content" class="race-page hidden">
+            
+            <!-- Header -->
+            <header class="race-header">
+                <div class="header-text">
+                    <h1 id="r-name">Race Name</h1>
+                    <div class="race-meta">
+                        <span id="r-type">Humanoid</span> <span id="r-size">(Medium)</span>
+                    </div>
+                </div>
+                <!-- Image Wrapper -->
+                <div class="header-image-wrapper hidden" id="r-image-wrapper">
+                    <img id="r-image" src="" alt="Race Image">
+                </div>
+            </header>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Basic Info Grid -->
+            <section class="race-info-grid">
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-person-running"></i> Speed</span>
+                    <span id="r-speed" class="info-value">30 ft.</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-eye"></i> Vision</span>
+                    <span id="r-vision" class="info-value">Normal</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-language"></i> Languages</span>
+                    <span id="r-languages" class="info-value">Common</span>
+                </div>
+            </section>
+
+             <!-- Resistances (Optional) -->
+             <div id="resistance-section" class="resistance-section hidden">
+                <span class="info-label"><i class="fa-solid fa-shield-halved"></i> Resistances: </span>
+                <span id="r-resistances" class="info-value">None</span>
+            </div>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Description -->
+            <section class="race-section">
+                <h2>Description</h2>
+                <div id="r-description" class="content-block"></div>
+            </section>
+
+            <!-- Traits -->
+            <section class="race-section">
+                <h2>Racial Traits</h2>
+                <div id="r-traits" class="content-block"></div>
+            </section>
+
+        </article>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/supabase-client.js"></script>
+    <script type="module" src="../js/view-race.js"></script>
+</body>
+</html>

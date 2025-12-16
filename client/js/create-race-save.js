@@ -261,6 +261,22 @@
   function init() {
     const saveBtn = getSaveBtn();
     if (!saveBtn) return;
+
+    // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+    try {
+      const urlId = new URLSearchParams(window.location.search || "").get("id");
+      if (urlId) {
+        currentRaceId = urlId;
+        localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+      } else {
+        currentRaceId = null;
+        existingRecordData = null;
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      }
+    } catch (_e) {
+      // ignore
+    }
+
     saveBtn.textContent = currentRaceId ? "Update" : "Create";
 
     saveBtn.addEventListener("click", (e) => {

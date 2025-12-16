@@ -135,11 +135,21 @@
     const saveBtn = getSaveBtn();
     if (!saveBtn) return;
 
-    if (currentFaithId) {
-      saveBtn.textContent = "Update";
-    } else {
-      saveBtn.textContent = "Create faith";
+    // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+    try {
+      const urlId = new URLSearchParams(window.location.search || "").get("id");
+      if (urlId) {
+        currentFaithId = urlId;
+        localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+      } else {
+        currentFaithId = null;
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      }
+    } catch (_e) {
+      // ignore
     }
+
+    saveBtn.textContent = currentFaithId ? "Update" : "Create faith";
 
     saveBtn.addEventListener("click", (e) => {
       e.preventDefault();

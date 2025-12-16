@@ -11,6 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentItemId = localStorage.getItem(LOCAL_STORAGE_KEY);
     let existingRecordData = null; // preserve image fields on update if no new upload
 
+    // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+    try {
+        const urlId = new URLSearchParams(window.location.search || '').get('id');
+        if (urlId) {
+            currentItemId = urlId;
+            localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+        } else {
+            currentItemId = null;
+            existingRecordData = null;
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
+        }
+    } catch (_e) {
+        // ignore
+    }
+
     function normalize(value) {
         return (value || '').trim().toLowerCase();
     }
@@ -38,12 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const cost = toNumberOrNull(document.getElementById('item-cost')?.value);
         const rarity = (document.getElementById('item-rarity')?.value || '').trim();
         const isMagic = Boolean(document.getElementById('item-magic-checkbox')?.checked);
+        const attunement = Boolean(document.getElementById('item-attunement-checkbox')?.checked);
         const ac = toNumberOrNull(document.getElementById('item-armor-ac')?.value);
 
         const weaponType = (document.getElementById('item-weapon-type')?.value || '').trim();
         const diceTrove = toNumberOrNull(document.getElementById('item-dice-trove')?.value);
         const dieType = (document.getElementById('item-die-type')?.value || '').trim();
+        const damageType = (document.getElementById('item-damage-type')?.value || '').trim();
         const range = (document.getElementById('item-range')?.value || '').trim();
+        const properties = (document.getElementById('item-properties')?.value || '').trim();
 
         return {
             info: {
@@ -52,7 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 weight,
                 cost,
                 rarity,
-                isMagic
+                isMagic,
+                attunement
             },
             armor: {
                 ac
@@ -61,7 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 weaponType,
                 diceTrove,
                 dieType,
-                range
+                damageType,
+                range,
+                properties
             },
             description: getItemDescriptionHtml(),
             image_path: existingRecordData?.image_path || null,
@@ -171,9 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateVisibilityByType();
     updateRangeVisibility();
 
-    // Button label for update mode
-    if (saveBtn && currentItemId) {
-        saveBtn.textContent = 'Update item';
+    // Button label
+    if (saveBtn) {
+        saveBtn.textContent = currentItemId ? 'Update item' : 'Create item';
     }
 
     async function handleSave() {

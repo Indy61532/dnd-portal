@@ -37,7 +37,30 @@ function createActions({ homebrewId, rowEl }) {
     if (type === "class") href = `./create/create-class.html?id=${encodeURIComponent(homebrewId)}`;
     else if (type === "spell") href = `./create/create-spell.html?id=${encodeURIComponent(homebrewId)}`;
     else if (type === "item") href = `./create/create-item.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "monster") href = `./create/create-monster.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "pet") href = `./create/create-pet.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "class") href = `./create/create-class.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "race") href = `./create/create-race.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "background") href = `./create/create-background.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "feat") href = `./create/create-feat.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "subclass") href = `./create/create-subclass.html?id=${encodeURIComponent(homebrewId)}`;
+    else if (type === "faith") href = `./create/create-faith.html?id=${encodeURIComponent(homebrewId)}`;
     return href;
+  }
+
+  function getOpenHref() {
+    const type = normalizeType(rowEl?.dataset?.hvType);
+    if (type === "monster") return `./view-monster.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "pet") return `./view-pet.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "faith") return `./view-faith.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "class") return `./view-class.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "spell") return `./view-spell.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "item") return `./view-item.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "race") return `./view-race.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "background") return `./view-background.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "feat") return `./view-feat.html?id=${encodeURIComponent(homebrewId)}`;
+    if (type === "subclass") return `./view-subclass.html?id=${encodeURIComponent(homebrewId)}`;
+    return getHref();
   }
 
   const openBtn = document.createElement("button");
@@ -45,7 +68,7 @@ function createActions({ homebrewId, rowEl }) {
   openBtn.className = "hv-btn hv-open";
   openBtn.textContent = "Open";
   openBtn.addEventListener("click", () => {
-    window.open(getHref(), "_blank", "noopener");
+    window.open(getOpenHref(), "_blank", "noopener");
   });
 
   const editBtn = document.createElement("button");

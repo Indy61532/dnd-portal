@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Detail | DnD Portal</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/view-monster.css">
+    
+    <!-- Supabase (initialized by ../js/supabase-client.js as an ESM module) -->
+</head>
+<body class="dark-theme">
+
+    <!-- Navbar (zjednodušená verze pro demo, ideálně includovaná) -->
+    <div class="navbar main-header">
+        <div class="nav-content">
+            <a href="../index.html">
+                <div class="nav-left">
+                    <i class="fas logo fa-dragon "></i>
+                    <span class="brand">HeroVault</span>
+                </div>
+            </a>
+            <div class="nav-center create-navbar">
+                <div id="nav-title" class="cteate-title">View Content</div>
+            </div>
+            <div class="nav-right profile">
+                <div class="profileimg"></div>
+                <div class="profilename">Adventure Master</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="monster-detail-container">
+        
+        <div id="loading-state" class="status-message">
+            <i class="fa-solid fa-spinner fa-spin"></i> Načítám bestiář...
+        </div>
+
+        <div id="error-state" class="status-message hidden">
+            <i class="fa-solid fa-triangle-exclamation"></i> Monstrum nenalezeno nebo došlo k chybě.
+        </div>
+
+        <!-- Monster Content -->
+        <article id="monster-content" class="monster-stat-block hidden">
+            
+            <!-- Header Section -->
+            <header class="monster-header">
+                <div class="header-info">
+                    <h1 id="m-name" class="monster-name">Název Monstra</h1>
+                    <div class="monster-meta">
+                        <span id="m-size">Medium</span>
+                        <span id="m-type">humanoid</span>, 
+                        <span id="m-alignment">any alignment</span>
+                    </div>
+                </div>
+                <div class="header-image-wrapper hidden" id="m-image-wrapper">
+                    <img id="m-image" src="" alt="Monster Image">
+                </div>
+            </header>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Combat Stats -->
+            <section class="combat-stats">
+                <div class="property-line">
+                    <span class="label">Armor Class</span>
+                    <span id="m-ac">10</span>
+                    <span id="m-armor-desc" class="sub-text"></span>
+                </div>
+                <div class="property-line">
+                    <span class="label">Hit Points</span>
+                    <span id="m-hp">10</span>
+                    <span id="m-hp-formula" class="sub-text">(2d8 + 2)</span>
+                </div>
+                <div class="property-line">
+                    <span class="label">Speed</span>
+                    <span id="m-speed">30 ft.</span>
+                </div>
+            </section>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Ability Scores -->
+            <section class="ability-scores">
+                <div class="ability-cell">
+                    <span class="ability-label">STR</span>
+                    <span class="ability-score" id="score-str">10</span>
+                    <span class="ability-mod" id="mod-str">(+0)</span>
+                </div>
+                <div class="ability-cell">
+                    <span class="ability-label">DEX</span>
+                    <span class="ability-score" id="score-dex">10</span>
+                    <span class="ability-mod" id="mod-dex">(+0)</span>
+                </div>
+                <div class="ability-cell">
+                    <span class="ability-label">CON</span>
+                    <span class="ability-score" id="score-con">10</span>
+                    <span class="ability-mod" id="mod-con">(+0)</span>
+                </div>
+                <div class="ability-cell">
+                    <span class="ability-label">INT</span>
+                    <span class="ability-score" id="score-int">10</span>
+                    <span class="ability-mod" id="mod-int">(+0)</span>
+                </div>
+                <div class="ability-cell">
+                    <span class="ability-label">WIS</span>
+                    <span class="ability-score" id="score-wis">10</span>
+                    <span class="ability-mod" id="mod-wis">(+0)</span>
+                </div>
+                <div class="ability-cell">
+                    <span class="ability-label">CHA</span>
+                    <span class="ability-score" id="score-cha">10</span>
+                    <span class="ability-mod" id="mod-cha">(+0)</span>
+                </div>
+            </section>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Skills & Saves -->
+            <section class="skills-saves">
+                <div class="property-line" id="row-saves">
+                    <span class="label">Saving Throws</span>
+                    <span id="m-saves"></span>
+                </div>
+                <!-- Skills would go here if they were separated in JSON, currently generic -->
+                
+                <div class="property-line" id="row-immunities">
+                    <span class="label">Damage Immunities</span>
+                    <span id="m-immunities"></span>
+                </div>
+                <div class="property-line" id="row-resistances">
+                    <span class="label">Damage Resistances</span>
+                    <span id="m-resistances"></span>
+                </div>
+                <div class="property-line" id="row-vulnerabilities">
+                    <span class="label">Damage Vulnerabilities</span>
+                    <span id="m-vulnerabilities"></span>
+                </div>
+                <div class="property-line" id="row-conditions">
+                    <span class="label">Condition Immunities</span>
+                    <span id="m-conditions"></span>
+                </div>
+                
+                <div class="property-line" id="row-senses">
+                    <span class="label">Senses</span>
+                    <span id="m-senses">passive Perception 10</span>
+                </div>
+                <div class="property-line" id="row-languages">
+                    <span class="label">Languages</span>
+                    <span id="m-languages">-</span>
+                </div>
+                <div class="property-line">
+                    <span class="label">Challenge</span>
+                    <span id="m-cr">0</span>
+                </div>
+            </section>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Traits -->
+            <section id="section-traits" class="content-block"></section>
+
+            <!-- Actions -->
+            <h2 id="header-actions" class="section-header hidden">Actions</h2>
+            <section id="section-actions" class="content-block"></section>
+
+            <!-- Bonus Actions -->
+            <h2 id="header-bonus" class="section-header hidden">Bonus Actions</h2>
+            <section id="section-bonus" class="content-block"></section>
+
+            <!-- Reactions -->
+            <h2 id="header-reactions" class="section-header hidden">Reactions</h2>
+            <section id="section-reactions" class="content-block"></section>
+
+            <!-- Legendary -->
+            <h2 id="header-legendary" class="section-header hidden">Legendary Actions</h2>
+            <p id="desc-legendary" class="legendary-desc hidden"></p>
+            <section id="section-legendary" class="content-block"></section>
+
+            <!-- Mythic -->
+            <h2 id="header-mythic" class="section-header hidden">Mythic Actions</h2>
+            <section id="section-mythic" class="content-block"></section>
+
+            <!-- Lair -->
+            <h2 id="header-lair" class="section-header hidden">Lair Actions</h2>
+            <section id="section-lair" class="content-block"></section>
+
+        </article>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/supabase-client.js"></script>
+    <script type="module" src="../js/view-monster.js"></script>
+</body>
+</html>

@@ -78,6 +78,11 @@
                     <label for="item-magic-checkbox">Is magic</label>
                 </div>
 
+                <div class="checkbox item-attunement">
+                    <input type="checkbox" id="item-attunement-checkbox">
+                    <label for="item-attunement-checkbox">Requires Attunement</label>
+                </div>
+
                 <!-- zobrazí se pouze při vybrání weapon-->
                 <div class="weapon-section">
                 <div class="weapon-type text-input">
@@ -86,8 +91,8 @@
                 </div>
 
                 <div class="dise-trove text-input">
-                    <div>Dise trove</div>
-                    <input type="text" id="item-dice-trove" name="item-dice-trove" placeholder="Enter dise trove...">
+                    <div>Dice count</div>
+                    <input type="text" id="item-dice-trove" name="item-dice-trove" placeholder="Enter dice count...">
                 </div>
 
                 <div class="die-type text-input">
@@ -95,10 +100,20 @@
                     <input type="text" id="item-die-type" name="item-die-type" list="list-die" placeholder="Enter die...">
                 </div>
 
+                <div class="damage-type text-input">
+                    <div>Damage type</div>
+                    <input type="text" id="item-damage-type" name="item-damage-type" list="list-damage-type" placeholder="e.g. Slashing">
+                </div>
+
                 <!-- Range pole (podle zvoleného weapon type = Range) -->
                 <div class="Range text-input">
                     <div>Range</div>
                     <input type="text" id="item-range" name="item-range" placeholder="Enter range...">
+                </div>
+
+                <div class="properties text-input">
+                    <div>Properties</div>
+                    <input type="text" id="item-properties" name="item-properties" placeholder="e.g. Light, Finesse">
                 </div>
 
                 </div>

@@ -157,11 +157,21 @@
     const saveBtn = getSaveBtn();
     if (!saveBtn) return;
 
-    if (currentFeatId) {
-      saveBtn.textContent = "Update";
-    } else {
-      saveBtn.textContent = "Create feat";
+    // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+    try {
+      const urlId = new URLSearchParams(window.location.search || "").get("id");
+      if (urlId) {
+        currentFeatId = urlId;
+        localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+      } else {
+        currentFeatId = null;
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      }
+    } catch (_e) {
+      // ignore
     }
+
+    saveBtn.textContent = currentFeatId ? "Update" : "Create feat";
 
     saveBtn.addEventListener("click", (e) => {
       e.preventDefault();

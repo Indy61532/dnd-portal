@@ -76,6 +76,22 @@ function getEditHref(type, id) {
   return "./create.html";
 }
 
+function getOpenHref(type, id) {
+  const t = normalizeType(type);
+  if (t === "monster") return `./view-monster.html?id=${encodeURIComponent(id)}`;
+  if (t === "pet") return `./view-pet.html?id=${encodeURIComponent(id)}`;
+  if (t === "class") return `./view-class.html?id=${encodeURIComponent(id)}`;
+  if (t === "spell") return `./view-spell.html?id=${encodeURIComponent(id)}`;
+  if (t === "item") return `./view-item.html?id=${encodeURIComponent(id)}`;
+  if (t === "race") return `./view-race.html?id=${encodeURIComponent(id)}`;
+  if (t === "background") return `./view-background.html?id=${encodeURIComponent(id)}`;
+  if (t === "feat") return `./view-feat.html?id=${encodeURIComponent(id)}`;
+  if (t === "subclass") return `./view-subclass.html?id=${encodeURIComponent(id)}`;
+  if (t === "faith") return `./view-faith.html?id=${encodeURIComponent(id)}`;
+  // fallback: open behaves like edit for other types (no dedicated view pages yet)
+  return getEditHref(t, id);
+}
+
 function createActions({ homebrewId, rowEl }) {
   const wrap = document.createElement("div");
   wrap.className = "hv-actions";
@@ -90,7 +106,8 @@ function createActions({ homebrewId, rowEl }) {
   openBtn.className = "hv-btn hv-open";
   openBtn.textContent = "Open";
   openBtn.addEventListener("click", () => {
-    window.open(getHref(), "_blank", "noopener");
+    const type = normalizeType(rowEl?.dataset?.hvType);
+    window.open(getOpenHref(type, homebrewId), "_blank", "noopener");
   });
 
   const editBtn = document.createElement("button");

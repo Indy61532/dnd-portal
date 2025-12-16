@@ -56,17 +56,17 @@ function getCategoryHeaderSelector(type) {
 
 function getOpenHref(type, id) {
   const t = normalizeType(type);
-  if (t === "class") return `./create/create-class.html?id=${encodeURIComponent(id)}`;
-  if (t === "spell") return `./create/create-spell.html?id=${encodeURIComponent(id)}`;
-  if (t === "item") return `./create/create-item.html?id=${encodeURIComponent(id)}`;
-  if (t === "monster") return `./create/create-monster.html?id=${encodeURIComponent(id)}`;
-  if (t === "race") return `./create/create-rase.html?id=${encodeURIComponent(id)}`;
-  if (t === "background") return `./create/create-background.html?id=${encodeURIComponent(id)}`;
-  if (t === "feat") return `./create/create-feat.html?id=${encodeURIComponent(id)}`;
-  if (t === "subclass") return `./create/create-subclass.html?id=${encodeURIComponent(id)}`;
-  if (t === "pet") return `./create/create-pet.html?id=${encodeURIComponent(id)}`;
-  if (t === "faith") return `./create/create-faith.html?id=${encodeURIComponent(id)}`;
-  return "./create.html";
+  if (t === "class") return `./view-class.html?id=${encodeURIComponent(id)}`;
+  if (t === "spell") return `./view-spell.html?id=${encodeURIComponent(id)}`;
+  if (t === "item") return `./view-item.html?id=${encodeURIComponent(id)}`;
+  if (t === "monster") return `./view-monster.html?id=${encodeURIComponent(id)}`;
+  if (t === "race") return `./view-race.html?id=${encodeURIComponent(id)}`;
+  if (t === "background") return `./view-background.html?id=${encodeURIComponent(id)}`;
+  if (t === "feat") return `./view-feat.html?id=${encodeURIComponent(id)}`;
+  if (t === "subclass") return `./view-subclass.html?id=${encodeURIComponent(id)}`;
+  if (t === "pet") return `./view-pet.html?id=${encodeURIComponent(id)}`;
+  if (t === "faith") return `./view-faith.html?id=${encodeURIComponent(id)}`;
+  return "./view-homebrew.html";
 }
 
 async function addToCollection(homebrewId) {

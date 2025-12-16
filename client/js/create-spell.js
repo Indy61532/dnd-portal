@@ -248,8 +248,23 @@
   }
 
   function init() {
+    // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+    try {
+      const urlId = new URLSearchParams(window.location.search || "").get("id");
+      if (urlId) {
+        currentSpellId = urlId;
+        localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+      } else {
+        currentSpellId = null;
+        existingRecordData = null;
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      }
+    } catch (_e) {
+      // ignore
+    }
+
     const btn = document.querySelector(".button-create");
-    if (btn && currentSpellId) btn.textContent = "Update Spell";
+    if (btn) btn.textContent = currentSpellId ? "Update Spell" : "Create Spell";
 
     if (btn) {
       btn.addEventListener("click", (e) => {

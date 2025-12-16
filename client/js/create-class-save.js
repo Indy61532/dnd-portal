@@ -327,9 +327,22 @@
     const saveBtn = document.querySelector(".input-img .button-create");
     if (!saveBtn) return;
 
-    if (currentClassId) {
-      saveBtn.textContent = "Update";
+    // Prefer URL id for edit mode. If no ?id= provided, treat as NEW and clear stored id.
+    try {
+      const urlId = new URLSearchParams(window.location.search || "").get("id");
+      if (urlId) {
+        currentClassId = urlId;
+        localStorage.setItem(LOCAL_STORAGE_KEY, String(urlId));
+      } else {
+        currentClassId = null;
+        existingRecordData = null;
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      }
+    } catch (_e) {
+      // ignore
     }
+
+    saveBtn.textContent = currentClassId ? "Update" : "Create";
 
     saveBtn.addEventListener("click", (e) => {
       e.preventDefault();
