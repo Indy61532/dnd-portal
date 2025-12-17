@@ -233,6 +233,11 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
+.selection-card.is-selected {
+    border-color: var(--step-active-color);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25), 0 6px 18px rgba(0,0,0,0.55);
+}
+
 .card-image-wrapper {
     flex-shrink: 0;
     order: 2; /* Obrázek napravo */
@@ -269,6 +274,387 @@
     font-size: 0.9rem;
     color: #aaa;
     line-height: 1.4;
+}
+
+/* --- Class Features Panel (DDB-like) --- */
+.hv-class-features {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hv-cf-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.hv-cf-title {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--step-active-color);
+    font-size: 1rem;
+}
+
+.hv-cf-level {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #cfcfcf;
+    font-size: 0.95rem;
+}
+
+.hv-cf-level select {
+    padding: 0.5rem 0.6rem;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
+    color: #fff;
+}
+
+.hv-cf-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.hv-cf-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.hv-cf-head {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #e8e8e8;
+    padding: 0.9rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    text-align: left;
+}
+
+.hv-cf-head:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.hv-cf-head-left {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.hv-cf-name {
+    font-family: 'Cinzel', serif;
+    color: #f0f0f0;
+    font-size: 1.05rem;
+    overflow-wrap: anywhere;
+}
+
+.hv-cf-meta {
+    font-size: 0.85rem;
+    color: #a9a9a9;
+}
+
+.hv-cf-caret {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: rgba(255,255,255,0.7);
+    transition: transform 180ms ease, background 180ms ease;
+}
+
+.hv-cf-caret::before {
+    content: "▾";
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.hv-cf-card.is-open .hv-cf-caret {
+    transform: rotate(180deg);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.hv-cf-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 220ms ease;
+    padding: 0 1rem;
+}
+
+.hv-cf-body-inner {
+    padding: 0.25rem 0 1rem 0;
+    color: #d5d5d5;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.hv-cf-empty {
+    opacity: 0.8;
+    color: #bdbdbd;
+    padding: 0.75rem 0.25rem;
+}
+
+/* --- Race Details Panel --- */
+.hv-race-details {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.hv-rd-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.hv-rd-title {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--step-active-color);
+    font-size: 1rem;
+}
+
+.hv-rd-body {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.hv-rd-empty {
+    opacity: 0.85;
+    color: #bdbdbd;
+}
+
+.hv-rd-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #f0f0f0;
+    overflow-wrap: anywhere;
+}
+
+.hv-rd-desc {
+    color: #d6d6d6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.hv-rd-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.hv-rd-row {
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem;
+    display: grid;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.hv-rd-label {
+    font-size: 0.78rem;
+    color: #a9a9a9;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.hv-rd-value {
+    font-size: 1rem;
+    color: #ececec;
+    overflow-wrap: anywhere;
+}
+
+.hv-rd-subtitle {
+    font-family: 'Cinzel', serif;
+    color: var(--step-active-color);
+    font-size: 0.95rem;
+    letter-spacing: 0.6px;
+}
+
+.hv-lang-grid {
+    display: grid;
+    gap: 0.6rem;
+}
+
+.hv-lang-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.hv-lang-label {
+    color: #cfcfcf;
+    font-size: 0.92rem;
+}
+
+.hv-lang-select {
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    color: #fff;
+}
+
+.hv-rd-traits {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.hv-rd-trait-name {
+    font-weight: 700;
+    color: #f0f0f0;
+    margin-bottom: 0.25rem;
+}
+
+.hv-rd-trait-desc {
+    color: #d6d6d6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+@media (max-width: 900px) {
+    .hv-rd-meta {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Background Panel (DDB-like) --- */
+.hv-bg {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.hv-bg > h2 {
+    margin: 0 0 0.35rem 0;
+    font-family: 'Cinzel', serif;
+    color: var(--step-active-color);
+    font-size: 1.4rem;
+}
+
+.hv-bg-hint {
+    margin: 0 0 1rem 0;
+    color: #bdbdbd;
+}
+
+.hv-select {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    color: #fff;
+}
+
+.hv-bg-desc {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    color: #d6d6d6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.hv-bg-picks {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.hv-pick label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #cfcfcf;
+}
+
+.hv-accordion {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.hv-acc-btn {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    color: #f0f0f0;
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.hv-acc-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.hv-acc-btn .caret {
+    transition: transform 180ms ease;
+    opacity: 0.9;
+}
+
+.hv-acc-btn.is-open .caret {
+    transform: rotate(180deg);
+}
+
+.hv-acc-panel {
+    display: none;
+    padding: 0.9rem 1rem;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    color: #d6d6d6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.hv-feat-name {
+    font-family: 'Cinzel', serif;
+    color: var(--step-active-color);
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+}
+
+.hv-pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9rem;
+    color: #e2e2e2;
+}
+
+@media (max-width: 900px) {
+    .hv-bg-picks {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Form Styles */
@@ -855,6 +1241,55 @@
 .add-item-btn:hover {
     background: rgba(16, 185, 129, 0.3);
     transform: scale(1.1);
+}
+
+/* Inventory rows (left column) */
+.hv-inv-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.6rem 0.7rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 0.5rem;
+}
+
+.hv-inv-left {
+    min-width: 0;
+    display: grid;
+    gap: 0.15rem;
+}
+
+.hv-inv-name {
+    color: #fff;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.hv-inv-meta {
+    color: #9a9a9a;
+    font-size: 0.85rem;
+}
+
+.hv-inv-remove {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.10);
+    border: 1px solid rgba(239, 68, 68, 0.30);
+    color: #ef4444;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    flex: 0 0 auto;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.hv-inv-remove:hover {
+    background: rgba(239, 68, 68, 0.22);
 }
 
 /* Equipment Panel Specific Fit */

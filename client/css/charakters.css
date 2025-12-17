@@ -189,6 +189,17 @@ justify-content: space-between;
     letter-spacing: 1px;
 }
 
+.charakter-value {
+    margin-top: 0.35rem;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: none;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
 .charakter-info-box:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -230,6 +241,26 @@ justify-content: space-between;
     border: 2px solid var(--primary-gold);
     transition: border-color 0.2s, box-shadow 0.2s;
     box-shadow: 0 1px 4px var(--shadow-dark);
+}
+
+.stat-abbr {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--primary-gold);
+    opacity: 0.9;
+}
+
+.stat-num {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+}
+
+/* Stats: label on top, number below */
+.stat-box {
+    flex-direction: column;
+    gap: 0.15rem;
 }
 
 .character-card:hover {
