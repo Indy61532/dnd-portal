@@ -284,6 +284,7 @@ export async function initEquipmentPanel() {
   const { data: savedRows, error: savedErr } = await window.supabase
     .from("user_saved_items")
     .select("id, added_at, homebrew:homebrew_id (id, user_id, type, status, name, data, updated_at)")
+    .eq("user_id", userId)
     .order("added_at", { ascending: false });
   if (savedErr) throw savedErr;
 
