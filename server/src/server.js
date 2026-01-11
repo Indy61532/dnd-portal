@@ -15,9 +15,27 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(express.json());
+const corsAllowList = (process.env.CORS_ORIGIN || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: (origin, cb) => {
+      // Allow same-origin / server-to-server calls (no Origin header)
+      if (!origin) return cb(null, true);
+
+      // If no allowlist is configured, allow any origin (reflected) for easier setup.
+      if (corsAllowList.length === 0) return cb(null, true);
+
+      // Allow wildcard or exact matches. Also allow "null" origin if explicitly listed.
+      if (corsAllowList.includes("*")) return cb(null, true);
+      if (corsAllowList.includes(origin)) return cb(null, true);
+      if (origin === "null" && corsAllowList.includes("null")) return cb(null, true);
+
+      return cb(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );

@@ -1,3 +1,5 @@
+import { getApiBaseUrl, pingHealth } from "./api-client.js";
+
 const STORAGE_KEY = 'dmBoardState';
 
 const DEFAULT_FOLDERS = [
@@ -338,7 +340,41 @@ function init() {
     bindEvents();
     renderFolders();
     renderBoard();
+    initBackendBadge();
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+async function initBackendBadge() {
+    const navRight = document.querySelector(".nav-right.profile");
+    if (!navRight) return;
+
+    const badge = document.createElement("span");
+    badge.className = "backend-badge";
+    badge.textContent = "Backend: …";
+    badge.title = `API: ${getApiBaseUrl()}`;
+    badge.style.cssText = [
+        "margin-left: 12px",
+        "padding: 4px 8px",
+        "border-radius: 999px",
+        "font-size: 12px",
+        "border: 1px solid rgba(212,175,55,0.35)",
+        "background: rgba(0,0,0,0.25)",
+        "color: #d4af37",
+        "white-space: nowrap"
+    ].join("; ");
+
+    navRight.appendChild(badge);
+
+    try {
+        const result = await pingHealth();
+        // /health returns plain text "OK"
+        badge.textContent = `Backend: ${String(result).trim() || "OK"}`;
+    } catch (e) {
+        badge.textContent = "Backend: ERR";
+        badge.style.borderColor = "rgba(239,68,68,0.6)";
+        badge.style.color = "#ef4444";
+        console.warn("Backend healthcheck failed", e);
+    }
+}
 
