@@ -6,10 +6,8 @@
   // Highest priority: keep any value already set inline in HTML.
   if (window.API_BASE_URL) return;
 
-  // Default: Railway backend.
-  // If you later host frontend + backend under the same domain, you can remove this line
-  // and rely on api-client.js falling back to window.location.origin.
-  window.API_BASE_URL = "https://dnd-portal-production.up.railway.app";
+  // For the "single URL" setup (frontend + API on the same origin),
+  // do NOT force API_BASE_URL. api-client.js will use window.location.origin.
 })();
 
 
