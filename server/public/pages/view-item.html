@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Detail | DnD Portal</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/view-item.css">
+</head>
+<body class="dark-theme">
+
+    <!-- Navbar -->
+    <div class="navbar main-header">
+        <div class="nav-content">
+            <a href="../index.html">
+                <div class="nav-left">
+                    <i class="fas logo fa-dragon "></i>
+                    <span class="brand">HeroVault</span>
+                </div>
+            </a>
+            <div class="nav-center create-navbar">
+                <div id="nav-title" class="cteate-title">View Item</div>
+            </div>
+            <div class="nav-right profile">
+                <div class="profileimg"></div>
+                <div class="profilename">Adventure Master</div>
+            </div>
+        </div>
+    </div>
+
+    <main class="item-detail-container">
+        
+        <div id="loading-state" class="status-message">
+            <i class="fa-solid fa-spinner fa-spin"></i> Načítám předmět...
+        </div>
+
+        <div id="error-state" class="status-message hidden">
+            <i class="fa-solid fa-triangle-exclamation"></i> Předmět nenalezen nebo došlo k chybě.
+        </div>
+
+        <!-- Item Content -->
+        <article id="item-content" class="item-card hidden">
+            
+            <!-- Header -->
+            <header class="item-header">
+                <div class="header-text">
+                    <h1 id="i-name">Item Name</h1>
+                    <div class="item-meta">
+                        <span id="i-rarity">Rare</span>
+                        <span id="i-type">Weapon</span>
+                        <span id="i-magic-badge" class="magic-badge hidden"><i class="fa-solid fa-sparkles"></i> Magical</span>
+                    </div>
+                </div>
+                <!-- Image Wrapper -->
+                <div class="header-image-wrapper hidden" id="i-image-wrapper">
+                    <img id="i-image" src="" alt="Item Image">
+                </div>
+            </header>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Stats Grid -->
+            <section class="item-stats-grid">
+                <!-- Basic -->
+                <div class="stat-box">
+                    <span class="stat-label">Cost</span>
+                    <span id="i-cost" class="stat-value">-</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Weight</span>
+                    <span id="i-weight" class="stat-value">-</span>
+                </div>
+                
+                <!-- Combat (Armor/Weapon) -->
+                <div id="box-ac" class="stat-box hidden">
+                    <span class="stat-label">AC</span>
+                    <span id="i-ac" class="stat-value">-</span>
+                </div>
+                <div id="box-damage" class="stat-box hidden">
+                    <span class="stat-label">Damage</span>
+                    <span id="i-damage" class="stat-value">-</span>
+                </div>
+                <div id="box-range" class="stat-box hidden">
+                    <span class="stat-label">Range</span>
+                    <span id="i-range" class="stat-value">-</span>
+                </div>
+                <div id="box-properties" class="stat-box hidden">
+                    <span class="stat-label">Properties</span>
+                    <span id="i-properties" class="stat-value">-</span>
+                </div>
+            </section>
+
+            <div class="tapered-rule"></div>
+
+            <!-- Description -->
+            <section class="item-description-section">
+                <h2>Description</h2>
+                <div id="i-description" class="content-block"></div>
+            </section>
+
+        </article>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/runtime-config.js"></script>
+    <script type="module" src="../js/supabase-client.js"></script>
+    <script type="module" src="../js/view-item.js"></script>
+</body>
+</html>

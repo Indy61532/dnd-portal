@@ -1,0 +1,59 @@
+@import url('./create-shared.css');
+
+.item-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.item-info .section-title {
+    grid-column: 1 / -1;
+}
+
+.checkbox,
+.checkbox-unlock-lair,
+.checkbox-unlock-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.checkbox:hover,
+.checkbox-unlock-lair:hover,
+.checkbox-unlock-stats:hover {
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 15px var(--shadow-gold);
+}
+
+.checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary-gold);
+    cursor: pointer;
+}
+
+.checkbox label {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--text-light);
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.armor,
+.weapon-section,
+.Range {
+    display: none;
+}
+
+.visible {
+    display: block !important;
+}

@@ -1,0 +1,11 @@
+@import url('./create-shared.css');
+
+.faith-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.faith-info .section-title {
+    grid-column: 1 / -1;
+}

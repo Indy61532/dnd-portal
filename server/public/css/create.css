@@ -1,0 +1,122 @@
+.main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.create-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 1100px;
+    padding: 1.5rem;
+}
+
+@media (min-width: 900px) {
+    .create-grid {
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+    }
+}
+
+@media (min-width: 1200px) {
+    .create-grid {
+        grid-template-columns: repeat(4, minmax(220px, 1fr));
+    }
+}
+
+.create-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: linear-gradient(180deg, rgba(30,30,30,0.9), rgba(15,15,15,0.9));
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2rem 1rem;
+    height: 180px;
+    color: var(--text-primary, #e5e7eb);
+    position: relative;
+    overflow: hidden;
+    transition: transform 180ms ease, box-shadow 220ms ease, border-color 180ms ease;
+}
+
+.create-card i {
+    font-size: 2.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-gold, #fbbf24);
+}
+
+.create-card span {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
+    color: #f3f4f6;
+}
+
+.create-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-orange);
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3), 0 0 30px rgba(59, 130, 246, 0.3);
+}
+
+.create-card:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: radial-gradient(600px circle at var(--x, 50%) var(--y, 0%), rgba(59, 130, 246, 0.08), transparent 40%);
+    opacity: 0;
+    transition: opacity 180ms ease;
+}
+
+.create-card:hover:before {
+    opacity: 1;
+}
+
+.create-card {
+    --x: 50%;
+    --y: 0%;
+}
+
+.create-grid.cols-2 {
+    grid-template-columns: repeat(2, minmax(210px, 1fr));
+}
+
+.create-grid.cols-3 {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+}
+
+.create-grid.cols-4 {
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.create-grid.cols-3 .create-card {
+    height: 170px;
+    padding: 1.5rem 1rem;
+}
+
+.create-grid.cols-3 .create-card i {
+    font-size: 2rem;
+}
+
+.create-grid.cols-3 .create-card span {
+    font-size: 1.05rem;
+}
+
+.create-grid.cols-4 .create-card {
+    height: 160px;
+    padding: 1.25rem 1rem;
+}
+
+.create-grid.cols-4 .create-card i {
+    font-size: 1.8rem;
+}
+
+.create-grid.cols-4 .create-card span {
+    font-size: 1rem;
+}

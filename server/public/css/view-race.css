@@ -1,0 +1,168 @@
+:root {
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaa;
+    --border-gold: #c9ad6a;
+    --bg-dark: #121212;
+    --card-bg: #1a1a1d;
+    --info-bg: #222226;
+}
+
+body.dark-theme {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Roboto', sans-serif;
+}
+
+.race-detail-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.status-message {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--border-gold);
+    margin-top: 3rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Header --- */
+.race-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Align bottom to match text baseline */
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.race-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: var(--border-gold);
+    margin: 0;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.race-meta {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.header-image-wrapper {
+    width: 200px; /* Větší obrázek pro rasu */
+    height: 300px; /* Portrétní orientace */
+    border: 2px solid var(--border-gold);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #000;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.header-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- Tapered Rule --- */
+.tapered-rule {
+    height: 4px;
+    background: linear-gradient(to right, transparent, #922610, transparent);
+    margin: 2rem 0;
+}
+
+/* --- Info Grid --- */
+.race-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    background-color: var(--info-bg);
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--border-gold);
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-weight: 700;
+    color: var(--border-gold);
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+}
+
+.info-label i {
+    margin-right: 0.5rem;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.resistance-section {
+    background-color: var(--info-bg);
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 3px solid #b71c1c; /* Red border for resistance/defense */
+    margin-bottom: 1.5rem;
+}
+
+/* --- Content Sections --- */
+.race-section {
+    margin-bottom: 3rem;
+}
+
+.race-section h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--border-gold);
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.content-block {
+    line-height: 1.6;
+    font-size: 1.05rem;
+    color: #ddd;
+    overflow-wrap: anywhere;
+}
+
+.content-block p {
+    margin-bottom: 1rem;
+}
+
+.content-block strong {
+    color: var(--border-gold);
+}
+
+/* Responsivita */
+@media (max-width: 768px) {
+    .race-header {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+    
+    .header-image-wrapper {
+        width: 100%;
+        height: 300px; /* Keep height but full width on mobile */
+    }
+
+    .race-header h1 {
+        font-size: 2.5rem;
+    }
+}

@@ -2,7 +2,6 @@
   "name": "herovault-backend",
   "version": "1.0.0",
   "description": "Backend API for HeroVault using Supabase Auth",
-  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

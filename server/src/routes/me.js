@@ -1,7 +1,6 @@
-import express from "express";
-
-import supabaseAdmin from "../supabaseAdmin.js";
-import requireAuth from "../middleware/requireAuth.js";
+const express = require("express");
+const supabaseAdmin = require("../supabaseAdmin");
+const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
 
@@ -22,5 +21,5 @@ router.get("/", requireAuth, async (req, res) => {
   });
 });
 
-export default router;
+module.exports = router;
 

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/create-spell.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="../../index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-center create-navbar">
+                    <div class="cteate-title">Creating Spell</div>
+                </div>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+
+            <div class="section-spell-info">
+                <div class="section-title">Spell Information</div>
+
+                <div class="spell-name">
+                    <div>Spell Name</div>
+                    <input type="text" id="spell-name" name="spell-name" placeholder="Enter spell name...">
+                </div>
+
+                <div class="spell-level text-input">
+                    <div>Level</div>
+                    <input type="text" id="spell-level" name="spell-level" placeholder="0-9">
+                </div>
+
+                <div class="spell-school text-input">
+                    <div>School</div>
+                    <input type="text" id="spell-school" name="spell-school" placeholder="e.g., Evocation, Abjuration...">
+                </div>
+
+                <div class="spell-classes multiselect-container">
+                    <div>Classes Can Use</div>
+                    <div class="selected-tags">
+                        <input type="text" id="spell-classes" list="list-classes" placeholder="Type and press Enter..." class="multiselect-input" onkeydown="return false;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-spell-stats">
+                <div class="section-title">Spell Details</div>
+
+                <div class="spell-cast-time text-input">
+                    <div>Casting Time</div>
+                    <input type="text" id="spell-cast-time" name="spell-cast-time" placeholder="e.g., 1 action, 1 bonus action...">
+                </div>
+
+                <div class="spell-range text-input">
+                    <div>Range</div>
+                    <input type="text" id="spell-range" name="spell-range" placeholder="e.g., Self, 60 feet...">
+                </div>
+
+                <div class="spell-radius text-input">
+                    <div>Area/Radius</div>
+                    <input type="text" id="spell-radius" name="spell-radius" placeholder="e.g., 20-foot radius...">
+                </div>
+
+                <div class="spell-duration text-input">
+                    <div>Duration</div>
+                    <input type="text" id="spell-duration" name="spell-duration" placeholder="e.g., Instantaneous, 1 minute...">
+                </div>
+
+                <div class="spell-components text-input">
+                    <div>Components</div>
+                    <input type="text" id="spell-components" name="spell-components" placeholder="e.g., V, S, M (a pinch of sand)...">
+                </div>
+            </div>
+
+            <div class="section-spell-description">
+                <div class="section-title">Spell Description</div>
+                
+                <div class="spell-description description">
+                    <div>Description</div>
+                    <textarea name="spell-description" id="spell-description" placeholder="Enter spell description..." style="width: 100%;"></textarea>
+                </div>
+
+                <div class="spell-higher-levels description">
+                    <div>At Higher Levels</div>
+                    <textarea name="spell-higher-levels" id="spell-higher-levels" placeholder="Describe what happens when cast at higher levels..." style="width: 100%;"></textarea>
+                </div>
+            </div>
+
+            <div class="input-img">
+                <div class="input-img-content">
+                    <div>Spell Image</div>
+                    <input type="file" id="spell-image" name="spell-image" accept="image/*">
+                </div>
+                <button class="button-create">Create Spell</button>
+            </div>
+
+        </div>
+
+
+<!-- Load centralized datalists FIRST so they're available when needed -->
+<script src="../../js/runtime-config.js"></script>
+<script type="module" src="../../js/supabase-client.js"></script>
+<script type="module" src="../../js/auth-ui.js"></script>
+<script src="../../js/datalists-loader.js"></script>
+<script src="../../js/multiselect.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+<script src="../../js/tinymce-config.js"></script>
+<script src="../../js/create-spell.js"></script>
+<script>
+// TinyMCE initialization is now handled by tinymce-config.js
+
+// Multi-select functionality is now handled by multiselect.js
+</script>
+</body>
+</html>

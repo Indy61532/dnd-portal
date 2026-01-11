@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth-modal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar">
+            <div class="nav-content">
+                <h1><i class="fas fa-dragon"></i> HeroVault</h1>
+                <p class="subtitle">Your D&D Adventure Awaits</p>
+            </div>
+        </div>
+        
+        <div class="main">
+                <div class="parent">
+                    <div class="card characters" data-page="characters">
+                        <div class="card-content">
+                            <i class="fas fa-users"></i>
+                            <h2>Characters</h2>
+                            <p>Manage your heroes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card collection" data-page="collection">
+                        <div class="card-content">
+                            <i class="fas fa-book-open"></i>
+                            <h2>Collection</h2>
+                            <p>Browse your library</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card creation" data-page="creation">
+                        <div class="card-content">
+                            <i class="fas fa-magic"></i>
+                            <h2>Creation</h2>
+                            <p>Forge new heroes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card campaigns" data-page="campaigns">
+                        <div class="card-content">
+                            <i class="fas fa-map"></i>
+                            <h2>Campaigns</h2>
+                            <p>Your adventures</p>
+                        </div>
+                    </div>
+
+                    <div class="card create" data-page="create">
+                        <div class="card-content">
+                            <i class="fas fa-plus-circle"></i>
+                            <h2>Create</h2>
+                            <p>Start something new</p>
+                        </div>
+                    </div>
+                    
+                    <a href="pages/browse.html">                 
+                        <div class="card homebrew" data-page="homebrew">
+                            <div class="card-content">
+                                <i class="fas fa-search"></i>
+                                <h2>Browse</h2>
+                                <p>Search Content</p>
+                            </div>
+                        </div>
+                    </a>                
+                </div>
+        </div>
+
+        <div class="profilecart">
+            <div class="profileimg"></div>
+            <div class="information">
+                <div class="profilename">Adventure Master</div>
+                <div class="email">adventure@herovault.com</div>
+                <div class="whenyoujoin">Joined: January 15, 2024</div>
+                <div class="createthings">Characters Created: 12</div>
+                
+                <div class="profile-actions">
+                    <button class="profile-btn edit" onclick="editProfile()">
+                        <i class="fas fa-edit"></i>
+                        Edit Profile
+                    </button>
+                    <button id="signout-btn" class="profile-btn logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+    
+    <script src="js/runtime-config.js"></script>
+    <script src="js/particles.js"></script>
+    <script type="module" src="js/supabase-client.js"></script>
+    <script type="module" src="js/auth-ui.js"></script>
+    <script src="js/auth-modal.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

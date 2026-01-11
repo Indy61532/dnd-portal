@@ -1,6 +1,5 @@
-import express from "express";
-
-import supabaseAdmin from "../supabaseAdmin.js";
+const express = require("express");
+const supabaseAdmin = require("../supabaseAdmin");
 
 const router = express.Router();
 
@@ -34,5 +33,5 @@ router.post("/login", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
 

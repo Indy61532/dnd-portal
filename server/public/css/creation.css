@@ -1,0 +1,486 @@
+
+
+.main {
+	max-width: 1200px;
+	margin: 0 auto;
+	width: 100%;
+	padding: 0 2rem 2rem 2rem;
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+}
+
+.main-content-header {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 1rem;
+	align-items: center;
+	margin: 1rem 0 1.5rem 0;
+}
+
+.searchbar-wrap {
+	width: 100%;
+}
+
+.search-input {
+	width: 100%;
+	height: 48px;
+	padding: 0 1rem;
+	border: 2px solid var(--primary-gold);
+	border-radius: 12px;
+	background: linear-gradient(145deg, var(--card-bg), #2a2a2a);
+	color: var(--text-light);
+	box-shadow: 0 6px 20px var(--shadow-dark);
+	outline: none;
+}
+
+.search-input::placeholder {
+	color: var(--text-muted);
+}
+
+.filter-button {
+	height: 48px;
+	padding: 0 1rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	border-radius: 12px;
+	border: 2px solid var(--primary-gold);
+	background: linear-gradient(145deg, var(--primary-gold), var(--secondary-gold));
+	color: #1a1a1a;
+	font-family: 'Cinzel', serif;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: 0 8px 24px var(--shadow-gold);
+}
+
+.filter-button i {
+	color: #1a1a1a;
+}
+
+.main-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Hide template category rows (kept as anchors for JS insertion) */
+.main-list > li.item.category-item:not(.hv-row),
+.main-list > li.item.category-monster:not(.hv-row),
+.main-list > li.item.category-class:not(.hv-row),
+.main-list > li.item.category-spell:not(.hv-row),
+.main-list > li.item.category-race:not(.hv-row),
+.main-list > li.item.category-backgroun:not(.hv-row),
+.main-list > li.item.category-feat:not(.hv-row),
+.main-list > li.item.category-nps:not(.hv-row),
+.main-list > li.item.category-sub-class:not(.hv-row),
+.main-list > li.item.category-pet:not(.hv-row),
+.main-list > li.item.category-faith:not(.hv-row) {
+	display: none;
+}
+
+.hv-actions {
+	display: inline-flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	margin-left: auto;
+}
+
+.hv-btn {
+	height: 30px;
+	padding: 0 0.6rem;
+	border-radius: 10px;
+	border: 1px solid rgba(212, 175, 55, 0.35);
+	background: rgba(0, 0, 0, 0.25);
+	color: var(--text-light);
+	font-family: 'Cinzel', serif;
+	font-size: 0.75rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.hv-btn:hover {
+	border-color: var(--primary-gold);
+}
+
+.hv-btn.hv-remove {
+	border-color: rgba(239, 68, 68, 0.6);
+}
+
+.hv-btn.hv-share {
+	border-color: rgba(16, 185, 129, 0.7);
+}
+
+.hv-btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.hv-empty {
+	margin: 0.5rem 0 1rem 0;
+	padding: 0.75rem 1rem;
+	border-radius: 12px;
+	border: 2px dashed rgba(212, 175, 55, 0.35);
+	color: var(--text-muted);
+	background: rgba(0,0,0,0.15);
+}
+
+.hv-row-actions {
+	display: inline-flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	margin-left: auto;
+}
+
+.hv-action-btn {
+	height: 30px;
+	padding: 0 0.6rem;
+	border-radius: 10px;
+	border: 1px solid rgba(212, 175, 55, 0.35);
+	background: rgba(0, 0, 0, 0.25);
+	color: var(--text-light);
+	font-family: 'Cinzel', serif;
+	font-size: 0.75rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.hv-action-btn:hover {
+	border-color: var(--primary-gold);
+}
+
+.hv-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 20px;
+	padding: 0 0.5rem;
+	border-radius: 999px;
+	font-size: 0.7rem;
+	font-weight: 700;
+	line-height: 1;
+	border: 1px solid rgba(212, 175, 55, 0.35);
+	color: var(--text-light);
+	background: rgba(0, 0, 0, 0.25);
+}
+
+.hv-badge.draft { border-color: rgba(212, 175, 55, 0.55); }
+.hv-badge.public { border-color: rgba(16, 185, 129, 0.7); }
+.hv-badge.private { border-color: rgba(239, 68, 68, 0.7); }
+
+.hv-sublist {
+	grid-column: 1 / -1;
+	list-style: none;
+	margin: 0;
+	padding: 0.5rem 0 0.25rem 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.hv-subitem {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	gap: 0.5rem;
+	align-items: center;
+	padding: 0.5rem 0.75rem;
+	border-radius: 12px;
+	border: 1px solid rgba(212, 175, 55, 0.2);
+	background: rgba(0,0,0,0.18);
+	cursor: pointer;
+}
+
+.hv-subitem:hover {
+	border-color: var(--primary-gold);
+}
+
+.hv-subname {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--text-light);
+	font-weight: 600;
+}
+
+.hv-subdate {
+	color: var(--text-muted);
+	font-size: 0.85rem;
+}
+
+.hv-creation-summary {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 1rem;
+	margin-top: 0.75rem;
+}
+
+.hv-creation-card {
+	padding: 1rem;
+	border-radius: 14px;
+	border: 2px solid rgba(212, 175, 55, 0.2);
+	background: linear-gradient(145deg, var(--card-bg), #2a2a2a);
+	box-shadow: 0 8px 24px var(--shadow-dark);
+}
+
+.hv-creation-title {
+	font-family: 'Cinzel', serif;
+	font-weight: 800;
+	color: var(--text-light);
+	margin-bottom: 0.25rem;
+}
+
+.hv-meta {
+	color: var(--text-muted);
+	margin-bottom: 0.75rem;
+}
+
+.item {
+	display: grid;
+	gap: 1rem;
+	align-items: center;
+	width: 100%;
+	min-height: 56px;
+	padding: 0.75rem 1rem;
+	background: linear-gradient(145deg, var(--card-bg), #2a2a2a);
+	border: 2px solid rgba(212, 175, 55, 0.2);
+	border-radius: 14px;
+	box-shadow: 0 8px 24px var(--shadow-dark);
+	transition: all 0.3s ease;
+}
+
+.item:hover {
+	border-color: var(--primary-gold);
+	box-shadow: 0 16px 32px var(--shadow-gold);
+	transform: translateY(-2px);
+}
+
+.category-item {
+	grid-template-columns: 300px 120px 120px 120px 100px 1fr;
+}
+
+.category-monster {
+	grid-template-columns: 300px 120px 120px 80px 80px 80px 1fr;
+}
+
+.category-class {
+	grid-template-columns: 300px 120px 1fr;
+}
+
+.category-spell {
+	grid-template-columns: 300px 120px 120px 100px 80px 1fr;
+}
+
+.category-race {
+	grid-template-columns: 300px 120px 1fr;
+}
+
+.category-backgroun {
+	grid-template-columns: 300px 120px 1fr;
+}
+
+.category-feat {
+	grid-template-columns: 300px 120px 80px 1fr;
+}
+
+.category-nps {
+	grid-template-columns: 300px 120px 100px 80px 1fr;
+}
+
+.category-sub-class {
+	grid-template-columns: 300px 120px 120px 1fr;
+}
+
+.category-pet {
+	grid-template-columns: 300px 120px 1fr;
+}
+
+.category-faith {
+	grid-template-columns: 300px 120px 100px 100px 1fr;
+}
+
+.cr,
+.ac,
+.hp,
+.level {
+	text-align: center;
+	justify-content: center;
+	font-weight: 700;
+}
+
+.rarity,
+.tier {
+	text-align: center;
+	justify-content: center;
+	font-weight: 600;
+}
+
+.weapon-type,
+.range,
+.domain,
+.alignment,
+.role,
+.parent-class {
+	text-align: center;
+	justify-content: center;
+}
+
+.type-item,
+.type-monster,
+.type-spell {
+	text-align: center;
+	justify-content: center;
+	font-weight: 500;
+}
+
+.item-button-edit{
+margin-left: auto;
+}
+
+.item-name,
+.item-type,
+.type-item,
+.weapon-type,
+.rarity,
+.type-monster,
+.cr,
+.ac,
+.hp,
+.type-spell,
+.range,
+.level,
+.tier,
+.role,
+.parent-class,
+.domain,
+.alignment {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 0.25rem 0;
+	text-align: left;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.item-name {
+	color: var(--text-light);
+	font-weight: 600;
+	font-size: 1.1rem;
+}
+
+.item-type {
+	color: var(--text-muted);
+	font-weight: 500;
+	text-align: center;
+	justify-content: flex-start;
+}
+
+.type-item,
+.type-monster,
+.type-spell,
+.weapon-type,
+.rarity,
+.cr,
+.ac,
+.hp,
+.range,
+.level,
+.tier,
+.role,
+.parent-class,
+.domain,
+.alignment {
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+.item-button-edit {
+	height: 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: 10px;
+	background: linear-gradient(145deg, var(--primary-gold), var(--secondary-gold));
+	color: #1a1a1a;
+	cursor: pointer;
+	box-shadow: 0 6px 18px var(--shadow-gold);
+	transition: all 0.3s ease;
+	font-weight: 600;
+	font-size: 1.1rem;
+	padding: 0 10px;
+	gap: 5px;
+}
+
+.item-button-edit:hover {
+	transform: scale(1.1);
+	box-shadow: 0 8px 24px var(--shadow-gold);
+}
+
+.item-button-edit i {
+	font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+	.category-item {
+		grid-template-columns: 1fr 100px 80px 100px 80px 44px;
+	}
+	
+	.category-monster {
+		grid-template-columns: 1fr 100px 80px 60px 60px 60px 44px;
+	}
+	
+	.category-spell {
+		grid-template-columns: 1fr 100px 80px 80px 60px 44px;
+	}
+	
+	.category-feat {
+		grid-template-columns: 1fr 100px 60px 44px;
+	}
+	
+	.category-nps {
+		grid-template-columns: 1fr 100px 80px 60px 44px;
+	}
+	
+	.category-sub-class {
+		grid-template-columns: 1fr 100px 100px 44px;
+	}
+	
+	.category-faith {
+		grid-template-columns: 1fr 100px 80px 80px 44px;
+	}
+
+	.search-input,
+	.filter-button {
+		height: 44px;
+	}
+	
+	.item-name,
+	.item-type,
+	.type-item,
+	.weapon-type,
+	.rarity,
+	.type-monster,
+	.cr,
+	.ac,
+	.hp,
+	.type-spell,
+	.range,
+	.level,
+	.tier,
+	.role,
+	.parent-class,
+	.domain,
+	.alignment {
+		font-size: 0.9rem;
+		padding: 0.2rem 0;
+	}
+}
+

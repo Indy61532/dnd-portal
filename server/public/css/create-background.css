@@ -1,0 +1,24 @@
+@import url('./create-shared.css');
+
+.background-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.background-feat-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.background-info .section-title,
+.background-feat-info .section-title {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 1200px) {
+    .background-feat-info {
+        grid-template-columns: 1fr;
+    }
+}

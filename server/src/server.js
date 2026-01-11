@@ -1,20 +1,19 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+const path = require("path");
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
 
-import meRoutes from "./routes/me.js";
+dotenv.config({ path: path.resolve(__dirname, "../config.env") });
 
-dotenv.config({ path: "./config.env" });
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const meRoutes = require("./routes/me");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 
 app.use(express.json());
+
+// CORS: for single-origin setup (frontend served by this same Express), you can keep this permissive.
+// If you want stricter, set CORS_ORIGIN="https://your-frontend.com, http://localhost:5500"
 const corsAllowList = (process.env.CORS_ORIGIN || "")
   .split(",")
   .map((s) => s.trim())
@@ -23,40 +22,36 @@ const corsAllowList = (process.env.CORS_ORIGIN || "")
 app.use(
   cors({
     origin: (origin, cb) => {
-      // Allow same-origin / server-to-server calls (no Origin header)
       if (!origin) return cb(null, true);
-
-      // If no allowlist is configured, allow any origin (reflected) for easier setup.
       if (corsAllowList.length === 0) return cb(null, true);
-
-      // Allow wildcard or exact matches. Also allow "null" origin if explicitly listed.
       if (corsAllowList.includes("*")) return cb(null, true);
       if (corsAllowList.includes(origin)) return cb(null, true);
-      if (origin === "null" && corsAllowList.includes("null")) return cb(null, true);
-
       return cb(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
 );
 
-// Healthcheck (JSON is more useful for clients)
-app.get("/health", (_req, res) => res.json({ ok: true }));
-// Plain-text variant (nice for dumb monitors / curl)
-app.get("/health.txt", (_req, res) => res.type("text").send("OK"));
-app.use("/me", meRoutes);
+// -----------------------------
+// API routes (all under /api/*)
+// -----------------------------
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
+app.use("/api/me", meRoutes);
+app.use("/api/auth", authRoutes);
 
+// Backward-compat aliases (optional; safe to keep while migrating frontend)
+app.get("/health", (_req, res) => res.redirect(307, "/api/health"));
+
+// -----------------------------
+// Static frontend (server/public)
+// -----------------------------
 const publicDir = path.join(__dirname, "../public");
 app.use(express.static(publicDir));
 
-// Root should always return something useful (Railway health-check / manual browser test).
-// If a static frontend exists, serve it; otherwise return JSON.
-app.get("/", (_req, res) => {
-  const indexPath = path.join(publicDir, "index.html");
-  if (fs.existsSync(indexPath)) {
-    return res.sendFile(indexPath);
-  }
-  return res.json({ ok: true, service: "dnd-portal backend" });
+// SPA fallback: send index.html for any non-API route
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api/")) return next();
+  return res.sendFile(path.join(publicDir, "index.html"));
 });
 
 const port = Number(process.env.PORT || 3000);

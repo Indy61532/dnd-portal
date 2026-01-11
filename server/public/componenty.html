@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Předloha Komponent - D&D Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="content">
+        <div class="main" style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+            
+            <!-- 1. TEXT INPUT S DATALIST -->
+            <div class="text-input">
+                <div>Label název</div>
+                <input list="list-id-name" placeholder="Placeholder text...">
+            </div>
+
+            <!-- 2. ZÁKLADNÍ TEXT INPUT -->
+            <div class="text-input">
+                <div>Label název</div>
+                <input type="text" placeholder="Placeholder text...">
+            </div>
+
+            <!-- 3. MULTISELECT CONTAINER (TAGY) -->
+            <div class="multiselect-container">
+                <div>Label název</div>
+                <div class="selected-tags">
+                    <input type="text" placeholder="Type and press Enter..." class="multiselect-input">
+                </div>
+            </div>
+
+            <!-- 4. TEXTAREA (VÍCEŘÁDKOVÝ TEXT) -->
+            <div id="text" class="description">
+                <div>Label název</div>
+                <textarea id="text" placeholder="Placeholder text..."></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        /* ========================================
+           KOMPONENTY STYLY
+           ======================================== */
+
+        /* Main container */
+        .main {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Individual input styling */
+        .text-input {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-input > div {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .text-input input,
+        .text-input select {
+            padding: 0.8rem 1rem;
+            background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .text-input input:focus,
+        .text-input select:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px var(--shadow-gold);
+            transform: translateY(-2px);
+        }
+
+        .text-input input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        /* Multi-select container styling */
+        .multiselect-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .multiselect-container > div:first-child {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .multiselect-container .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+            padding: 0.6rem;
+            background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            min-height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .multiselect-container .selected-tags:focus-within {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px var(--shadow-gold);
+        }
+
+        /* Input styling within multiselect */
+        .multiselect-input {
+            flex: 1;
+            min-width: 140px;
+            padding: 0.4rem 0.6rem;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-family: 'Roboto', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .multiselect-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        /* Individual tag styling */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.4rem 0.7rem;
+            background: linear-gradient(145deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--dark-bg);
+            border-radius: 18px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            white-space: nowrap;
+            animation: tagSlideIn 0.3s ease;
+            box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+        }
+
+        .tag .tag-remove {
+            background: none;
+            border: none;
+            color: var(--dark-bg);
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 0;
+            margin-left: 0.3rem;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .tag .tag-remove:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Description section */
+
+    </style>
+
+    <script src="js/tinymce-config.js"></script>
+    <script src="js/multiselect.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeroVault - D&D Character Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/show-page-nonimg.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&family=Cinzel:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="navbar main-header">
+            <div class="nav-content">
+                <a href="../index.html">
+                    <div class="nav-left">
+                        <i class="fas logo fa-dragon "></i>
+                        <span class="brand">HeroVault</span>
+                    </div>
+                </a>
+                <div class="nav-center create-navbar">
+                    <div id="nav-title" class="cteate-title">View Content</div>
+                </div>
+                <div class="nav-right profile">
+                    <div class="profileimg"></div>
+                    <div class="profilename">Adventure Master</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="content-card">
+                <div id="name" class="short-text">Lorem Ipsum</div>
+                <div id="description" class="text-block">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati saepe dolor nisi architecto voluptatum ipsam reiciendis ut dolore pariatur distinctio similique, numquam dicta accusamus odio repellendus eius vel odit voluptatibus?</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Quisquam, quos. Quisquam, quos. Quisquam, quos. Quisquam, quos.</p>
+                </div>
+
+                <footer class="content-card__footer">
+                    <div class="content-card__actions">
+                        <a class="action-button action-button--primary" href="pages/browse.html">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Zpět na přehled
+                        </a>
+                        <a class="action-button" href="pages/create.html">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Upravit záznam
+                        </a>
+                        <a class="action-button action-button--ghost" href="#">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            Sdílet
+                        </a>
+                    </div>
+                    <p class="content-card__note">
+                        <strong>Tip:</strong> použij <kbd>Ctrl</kbd> + <kbd>P</kbd> pro export stránky do PDF.
+                    </p>
+                </footer>
+            </div>
+        </div>
+
+<script src="../js/runtime-config.js"></script>
+<script src="../js/particles.js"></script>
+<script type="module" src="../js/supabase-client.js"></script>
+<script type="module" src="../js/auth-ui.js"></script>
+</body>
+</html>

@@ -1,7 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
-import dotenv from "dotenv";
+const path = require("path");
+const dotenv = require("dotenv");
+const { createClient } = require("@supabase/supabase-js");
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: path.resolve(__dirname, "../config.env") });
 
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
@@ -11,5 +12,5 @@ const supabaseAdmin = createClient(
   }
 );
 
-export default supabaseAdmin;
+module.exports = supabaseAdmin;
 
