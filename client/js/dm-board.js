@@ -368,8 +368,7 @@ async function initBackendBadge() {
 
     try {
         const result = await pingHealth();
-        // /health returns plain text "OK"
-        badge.textContent = `Backend: ${String(result).trim() || "OK"}`;
+        badge.textContent = `Backend: ${result?.ok ? "OK" : "ERR"}`;
     } catch (e) {
         badge.textContent = "Backend: ERR";
         badge.style.borderColor = "rgba(239,68,68,0.6)";

@@ -40,10 +40,10 @@ app.use(
   })
 );
 
-// Simple healthcheck for Railway/monitoring
-app.get("/health", (_req, res) => res.type("text").send("OK"));
-// JSON variant (useful for debugging)
-app.get("/health.json", (_req, res) => res.json({ ok: true }));
+// Healthcheck (JSON is more useful for clients)
+app.get("/health", (_req, res) => res.json({ ok: true }));
+// Plain-text variant (nice for dumb monitors / curl)
+app.get("/health.txt", (_req, res) => res.type("text").send("OK"));
 app.use("/me", meRoutes);
 
 const publicDir = path.join(__dirname, "../public");

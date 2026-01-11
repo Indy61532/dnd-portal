@@ -3,17 +3,21 @@ function isHttpOrigin(origin) {
 }
 
 export function getApiBaseUrl() {
+  // 1) Manually configured (highest priority)
   if (typeof window !== "undefined" && window.API_BASE_URL) {
     return String(window.API_BASE_URL).replace(/\/+$/, "");
   }
 
-  // If frontend is served from the same origin as API, this "just works".
+  // 2) Optional local dev fallback
+  // return "http://localhost:3000";
+
+  // 3) If frontend is served from the same origin as API, this "just works".
   if (typeof window !== "undefined" && isHttpOrigin(window.location?.origin)) {
     return window.location.origin;
   }
 
-  // Fallback for file:// usage during development.
-  return "https://dnd-portal-production.up.railway.app";
+  // 4) Last resort: empty (caller can decide what to do)
+  return "";
 }
 
 async function getAccessToken() {
@@ -66,7 +70,7 @@ export async function apiFetch(path, options = {}, { auth = false } = {}) {
 }
 
 export async function pingHealth() {
-  return apiFetch("/health", { method: "GET" }, { auth: false });
+  return apiFetch("/health");
 }
 
 
