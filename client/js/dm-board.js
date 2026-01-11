@@ -376,4 +376,3 @@ async function initBackendBadge() {
         console.warn("Backend healthcheck failed", e);
     }
 }
-
