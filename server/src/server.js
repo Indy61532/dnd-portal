@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -24,9 +25,17 @@ app.use(
 app.get("/health", (_req, res) => res.json({ ok: true }));
 app.use("/me", meRoutes);
 
-app.use(express.static(path.join(__dirname, "../public")));
+const publicDir = path.join(__dirname, "../public");
+app.use(express.static(publicDir));
+
+// Root should always return something useful (Railway health-check / manual browser test).
+// If a static frontend exists, serve it; otherwise return JSON.
 app.get("/", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  const indexPath = path.join(publicDir, "index.html");
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  return res.json({ ok: true, service: "dnd-portal backend" });
 });
 
 const port = Number(process.env.PORT || 3000);
