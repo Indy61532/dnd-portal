@@ -1,6 +1,6 @@
-const supabaseAdmin = require("../supabaseAdmin");
+import supabaseAdmin from "../supabaseAdmin.js";
 
-module.exports = async function requireAuth(req, res, next) {
+export default async function requireAuth(req, res, next) {
   try {
     const authHeader = req.headers.authorization || "";
     const match = authHeader.match(/^Bearer\s+(.+)$/);
@@ -22,5 +22,5 @@ module.exports = async function requireAuth(req, res, next) {
   } catch (_e) {
     return res.status(401).json({ error: "Unauthorized" });
   }
-};
+}
 

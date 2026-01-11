@@ -1,10 +1,15 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+import meRoutes from "./routes/me.js";
 
 dotenv.config({ path: "./config.env" });
 
-const meRoute = require("./routes/me");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -17,21 +22,14 @@ app.use(
 );
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
-app.use("/me", meRoute);
+app.use("/me", meRoutes);
+
+app.use(express.static(path.join(__dirname, "../public")));
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
 const port = Number(process.env.PORT || 3000);
 app.listen(port, () => {
   console.log(`API running on http://localhost:${port}`);
-});
-
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, "../public")));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
 });

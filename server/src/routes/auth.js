@@ -1,22 +1,24 @@
-const express = require('express');
+import express from "express";
+
+import supabaseAdmin from "../supabaseAdmin.js";
+
 const router = express.Router();
-const supabaseAdmin = require('../supabaseAdmin');
 
 // Poznámka: Login a Registrace by měly primárně probíhat na klientovi.
 // Tento soubor ukazuje, jak by to šlo přes backend, ale není to doporučený postup pro SPA.
 
 // POST /auth/login (volitelné)
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: 'Chybí email nebo heslo' });
+    return res.status(400).json({ error: "Chybí email nebo heslo" });
   }
 
   try {
     const { data, error } = await supabaseAdmin.auth.signInWithPassword({
       email,
-      password
+      password,
     });
 
     if (error) {
@@ -25,12 +27,12 @@ router.post('/login', async (req, res) => {
 
     res.json({
       session: data.session,
-      user: data.user
+      user: data.user,
     });
   } catch (err) {
-    res.status(500).json({ error: 'Login failed' });
+    res.status(500).json({ error: "Login failed" });
   }
 });
 
-module.exports = router;
+export default router;
 
