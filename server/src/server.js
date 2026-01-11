@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 
-// CORS: for single-origin setup (frontend served by this same Express), you can keep this permissive.
+// CORS: Apply ONLY to /api routes. Static assets (CSS/JS) should never be blocked by CORS middleware.
 // If you want stricter, set CORS_ORIGIN="https://your-frontend.com, http://localhost:5500"
 const corsAllowList = (process.env.CORS_ORIGIN || "")
   .split(",")
@@ -20,12 +20,19 @@ const corsAllowList = (process.env.CORS_ORIGIN || "")
   .filter(Boolean);
 
 app.use(
+  "/api",
   cors({
     origin: (origin, cb) => {
+      // Server-to-server / same-origin cases may omit Origin
       if (!origin) return cb(null, true);
+
+      // If no allowlist is configured, allow any origin (reflected) for easier setup.
       if (corsAllowList.length === 0) return cb(null, true);
+
+      // Allow wildcard or exact matches.
       if (corsAllowList.includes("*")) return cb(null, true);
       if (corsAllowList.includes(origin)) return cb(null, true);
+
       return cb(new Error("Not allowed by CORS"));
     },
     credentials: true,
@@ -52,6 +59,22 @@ app.use(express.static(publicDir));
 app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api/")) return next();
   return res.sendFile(path.join(publicDir, "index.html"));
+});
+
+// Error handler (helps debug CORS and other middleware issues)
+app.use((err, req, res, _next) => {
+  console.error("Request error:", {
+    method: req.method,
+    path: req.path,
+    origin: req.headers.origin,
+    message: err?.message,
+  });
+
+  if (err && err.message === "Not allowed by CORS") {
+    return res.status(403).json({ error: "CORS blocked" });
+  }
+
+  return res.status(500).json({ error: "Internal Server Error" });
 });
 
 const port = Number(process.env.PORT || 3000);
