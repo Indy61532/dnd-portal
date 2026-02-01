@@ -1,4 +1,35 @@
 
+/* Update all category grids to a uniform 3-column layout: Name | Type | Buttons */
+.category-item,
+.category-monster,
+.category-class,
+.category-spell,
+.category-race,
+.category-backgroun,
+.category-feat,
+.category-nps,
+.category-sub-class,
+.category-pet,
+.category-faith {
+    grid-template-columns: 1fr 150px auto;
+}
+
+@media (max-width: 768px) {
+    /* Stack layout for mobile or simplified grid */
+    .category-item,
+    .category-monster,
+    .category-class,
+    .category-spell,
+    .category-race,
+    .category-backgroun,
+    .category-feat,
+    .category-nps,
+    .category-sub-class,
+    .category-pet,
+    .category-faith {
+        grid-template-columns: 1fr 100px auto;
+    }
+}
 
 .main {
 	max-width: 1200px;
@@ -259,50 +290,6 @@
 	transform: translateY(-2px);
 }
 
-.category-item {
-	grid-template-columns: 300px 120px 120px 120px 100px 1fr;
-}
-
-.category-monster {
-	grid-template-columns: 300px 120px 120px 80px 80px 80px 1fr;
-}
-
-.category-class {
-	grid-template-columns: 300px 120px 1fr;
-}
-
-.category-spell {
-	grid-template-columns: 300px 120px 120px 100px 80px 1fr;
-}
-
-.category-race {
-	grid-template-columns: 300px 120px 1fr;
-}
-
-.category-backgroun {
-	grid-template-columns: 300px 120px 1fr;
-}
-
-.category-feat {
-	grid-template-columns: 300px 120px 80px 1fr;
-}
-
-.category-nps {
-	grid-template-columns: 300px 120px 100px 80px 1fr;
-}
-
-.category-sub-class {
-	grid-template-columns: 300px 120px 120px 1fr;
-}
-
-.category-pet {
-	grid-template-columns: 300px 120px 1fr;
-}
-
-.category-faith {
-	grid-template-columns: 300px 120px 100px 100px 1fr;
-}
-
 .cr,
 .ac,
 .hp,
@@ -378,7 +365,7 @@ margin-left: auto;
 .item-type {
 	color: var(--text-muted);
 	font-weight: 500;
-	text-align: center;
+	text-align: left;
 	justify-content: flex-start;
 }
 
@@ -427,60 +414,3 @@ margin-left: auto;
 .item-button-edit i {
 	font-size: 1rem;
 }
-
-@media (max-width: 768px) {
-	.category-item {
-		grid-template-columns: 1fr 100px 80px 100px 80px 44px;
-	}
-	
-	.category-monster {
-		grid-template-columns: 1fr 100px 80px 60px 60px 60px 44px;
-	}
-	
-	.category-spell {
-		grid-template-columns: 1fr 100px 80px 80px 60px 44px;
-	}
-	
-	.category-feat {
-		grid-template-columns: 1fr 100px 60px 44px;
-	}
-	
-	.category-nps {
-		grid-template-columns: 1fr 100px 80px 60px 44px;
-	}
-	
-	.category-sub-class {
-		grid-template-columns: 1fr 100px 100px 44px;
-	}
-	
-	.category-faith {
-		grid-template-columns: 1fr 100px 80px 80px 44px;
-	}
-
-	.search-input,
-	.filter-button {
-		height: 44px;
-	}
-	
-	.item-name,
-	.item-type,
-	.type-item,
-	.weapon-type,
-	.rarity,
-	.type-monster,
-	.cr,
-	.ac,
-	.hp,
-	.type-spell,
-	.range,
-	.level,
-	.tier,
-	.role,
-	.parent-class,
-	.domain,
-	.alignment {
-		font-size: 0.9rem;
-		padding: 0.2rem 0;
-	}
-}
-

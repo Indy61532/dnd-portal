@@ -66,7 +66,7 @@ class AuthModal {
                                 >
                                 <div class="auth-forgot-password">
                                     <a href="#" class="forgot-password-link">
-                                        Forgot password?
+                                        Zapomněli jste heslo?
                                     </a>
                                 </div>
                             </div>
@@ -138,6 +138,75 @@ class AuthModal {
                             </button>
                         </form>
                     </div>
+
+                    <!-- Reset Password Tab Content -->
+                    <div class="auth-tab-content" id="reset-content">
+                        <form class="auth-form" id="reset-form">
+                            <div class="auth-form-group">
+                                <label for="reset-email">Mail</label>
+                                <input
+                                    type="email"
+                                    id="reset-email"
+                                    name="email"
+                                    placeholder="your@email.com"
+                                    required
+                                    autocomplete="email"
+                                >
+                            </div>
+
+                            <div class="auth-info" id="reset-info"></div>
+                            <div class="auth-error" id="reset-error"></div>
+
+                            <button type="submit" class="auth-submit-btn">
+                                Poslat odkaz na obnovu
+                            </button>
+
+                            <div class="auth-secondary-actions">
+                                <a href="#" class="back-to-login">Zpět na přihlášení</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Update Password Tab Content -->
+                    <div class="auth-tab-content" id="update-content">
+                        <form class="auth-form" id="update-form">
+                            <div class="auth-form-group">
+                                <label for="update-password">Nové heslo</label>
+                                <input
+                                    type="password"
+                                    id="update-password"
+                                    name="password"
+                                    placeholder="••••••••"
+                                    required
+                                    autocomplete="new-password"
+                                >
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label for="update-password-confirm">Kontrola hesla</label>
+                                <input
+                                    type="password"
+                                    id="update-password-confirm"
+                                    name="passwordConfirm"
+                                    placeholder="••••••••"
+                                    required
+                                    autocomplete="new-password"
+                                >
+                                <div class="password-match" id="update-password-match"></div>
+                            </div>
+
+                            <div class="auth-info" id="update-info"></div>
+                            <div class="auth-error" id="update-error"></div>
+
+                            <button type="submit" class="auth-submit-btn">
+                                Nastavit nové heslo
+                            </button>
+
+                            <div class="auth-secondary-actions">
+                                <a href="#" class="back-to-login">Zpět na přihlášení</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         `;
@@ -159,6 +228,14 @@ class AuthModal {
                 this.handleForgotPassword(e);
             });
         }
+
+        const backToLoginLinks = this.modal.querySelectorAll('.back-to-login');
+        backToLoginLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.setAuthMode('login');
+            });
+        });
 
         const overlay = this.modal.querySelector('.auth-modal-overlay');
         if (overlay) {
@@ -204,68 +281,105 @@ class AuthModal {
                 this.handleRegister(e);
             });
         }
+
+        const resetForm = document.getElementById('reset-form');
+        if (resetForm) {
+            resetForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleResetRequest(e);
+            });
+        }
+
+        const updateForm = document.getElementById('update-form');
+        if (updateForm) {
+            updateForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleUpdatePassword(e);
+            });
+        }
     }
 
     setupPasswordValidation() {
-        const passwordInput = document.getElementById('register-password');
-        const confirmInput = document.getElementById('register-password-confirm');
-        const indicator = document.getElementById('password-match-indicator');
+        const pairs = [
+            {
+                passwordId: 'register-password',
+                confirmId: 'register-password-confirm',
+                indicatorId: 'password-match-indicator'
+            },
+            {
+                passwordId: 'update-password',
+                confirmId: 'update-password-confirm',
+                indicatorId: 'update-password-match'
+            }
+        ];
 
-        if (passwordInput && confirmInput && indicator) {
-            const validatePasswords = () => {
-                const password = passwordInput.value;
-                const confirm = confirmInput.value;
+        pairs.forEach(({ passwordId, confirmId, indicatorId }) => {
+            const passwordInput = document.getElementById(passwordId);
+            const confirmInput = document.getElementById(confirmId);
+            const indicator = document.getElementById(indicatorId);
 
-                if (confirm.length === 0) {
-                    indicator.classList.remove('show');
-                    return;
-                }
+            if (passwordInput && confirmInput && indicator) {
+                const validatePasswords = () => {
+                    const password = passwordInput.value;
+                    const confirm = confirmInput.value;
 
-                indicator.classList.add('show');
-                if (password === confirm && password.length > 0) {
-                    indicator.textContent = '✓ Hesla se shodují';
-                    indicator.classList.remove('password-mismatch');
-                } else {
-                    indicator.textContent = '✗ Hesla se neshodují';
-                    indicator.classList.add('password-mismatch');
-                }
-            };
+                    if (confirm.length === 0) {
+                        indicator.classList.remove('show');
+                        return;
+                    }
 
-            passwordInput.addEventListener('input', validatePasswords);
-            confirmInput.addEventListener('input', validatePasswords);
-        }
+                    indicator.classList.add('show');
+                    if (password === confirm && password.length > 0) {
+                        indicator.textContent = '✓ Hesla se shodují';
+                        indicator.classList.remove('password-mismatch');
+                    } else {
+                        indicator.textContent = '✗ Hesla se neshodují';
+                        indicator.classList.add('password-mismatch');
+                    }
+                };
+
+                passwordInput.addEventListener('input', validatePasswords);
+                confirmInput.addEventListener('input', validatePasswords);
+            }
+        });
     }
 
     switchTab(tabName) {
         if (this.currentTab === tabName) return;
 
-        this.currentTab = tabName;
+        this.setAuthMode(tabName);
+    }
 
-        // Update tabs
-        const tabs = this.modal.querySelectorAll('.auth-tab');
-        tabs.forEach(tab => {
-            if (tab.dataset.tab === tabName) {
-                tab.classList.add('active');
-            } else {
-                tab.classList.remove('active');
-            }
+    setAuthMode(mode) {
+        const tabs = this.modal.querySelector('.auth-tabs');
+        if (tabs) {
+            tabs.style.display = (mode === 'login' || mode === 'register') ? '' : 'none';
+        }
+
+        const contentMap = {
+            login: 'login-content',
+            register: 'register-content',
+            reset: 'reset-content',
+            update: 'update-content'
+        };
+
+        const activeId = contentMap[mode] || 'login-content';
+        const allContents = this.modal.querySelectorAll('.auth-tab-content');
+        allContents.forEach(content => {
+            content.classList.toggle('active', content.id === activeId);
         });
 
-        // Update content
-        const loginContent = document.getElementById('login-content');
-        const registerContent = document.getElementById('register-content');
-
-        if (tabName === 'login') {
-            loginContent.classList.add('active');
-            registerContent.classList.remove('active');
-            // Clear errors
-            this.clearErrors();
+        if (mode === 'login' || mode === 'register') {
+            this.currentTab = mode;
+            const tabsEls = this.modal.querySelectorAll('.auth-tab');
+            tabsEls.forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === mode);
+            });
         } else {
-            registerContent.classList.add('active');
-            loginContent.classList.remove('active');
-            // Clear errors
-            this.clearErrors();
+            this.currentTab = mode;
         }
+
+        this.clearErrors();
     }
 
     show() {
@@ -284,9 +398,7 @@ class AuthModal {
             this.clearForms();
             this.clearErrors();
             // Reset to login tab
-            if (this.currentTab !== 'login') {
-                this.switchTab('login');
-            }
+            this.setAuthMode('login');
             // Reset loading state on card
             if (window.HeroVaultApp && typeof window.HeroVaultApp.resetLoadingState === 'function') {
                 window.HeroVaultApp.resetLoadingState();
@@ -308,16 +420,20 @@ class AuthModal {
     clearForms() {
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
+        const resetForm = document.getElementById('reset-form');
+        const updateForm = document.getElementById('update-form');
         
         if (loginForm) loginForm.reset();
         if (registerForm) registerForm.reset();
+        if (resetForm) resetForm.reset();
+        if (updateForm) updateForm.reset();
     }
 
     clearErrors() {
-        const errors = this.modal.querySelectorAll('.auth-error');
-        errors.forEach(error => {
-            error.classList.remove('show');
-            error.textContent = '';
+        const messages = this.modal.querySelectorAll('.auth-error, .auth-info');
+        messages.forEach(message => {
+            message.classList.remove('show');
+            message.textContent = '';
         });
     }
 
@@ -326,6 +442,14 @@ class AuthModal {
         if (errorEl) {
             errorEl.textContent = message;
             errorEl.classList.add('show');
+        }
+    }
+
+    showInfo(formId, message) {
+        const infoEl = document.getElementById(`${formId}-info`);
+        if (infoEl) {
+            infoEl.textContent = message;
+            infoEl.classList.add('show');
         }
     }
 
@@ -345,7 +469,7 @@ class AuthModal {
         }
 
         // Show loading state
-        submitBtn.classList.add('loading');
+        submitBtn.classList.add('is-loading');
         submitBtn.disabled = true;
 
         try {
@@ -371,7 +495,7 @@ class AuthModal {
         } catch (err) {
             this.showError('login', err?.message || 'Přihlášení se nezdařilo.');
         } finally {
-            submitBtn.classList.remove('loading');
+            submitBtn.classList.remove('is-loading');
             submitBtn.disabled = false;
         }
     }
@@ -404,7 +528,7 @@ class AuthModal {
         }
 
         // Show loading state
-        submitBtn.classList.add('loading');
+        submitBtn.classList.add('is-loading');
         submitBtn.disabled = true;
 
         try {
@@ -453,15 +577,151 @@ class AuthModal {
         } catch (err) {
             this.showError('register', err?.message || 'Registrace se nezdařila.');
         } finally {
-            submitBtn.classList.remove('loading');
+            submitBtn.classList.remove('is-loading');
+            submitBtn.disabled = false;
+        }
+    }
+
+    async handleResetRequest(e) {
+        const form = e.target;
+        const submitBtn = form.querySelector('.auth-submit-btn');
+        const email = document.getElementById('reset-email')?.value?.trim();
+
+        this.clearErrors();
+
+        if (!email) {
+            this.showError('reset', 'Prosím zadejte email.');
+            return;
+        }
+
+        submitBtn.classList.add('is-loading');
+        submitBtn.disabled = true;
+
+        try {
+            if (!window.supabase) {
+                this.showError('reset', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                return;
+            }
+
+            const redirectTo = this.getPasswordResetRedirectUrl();
+            const { error } = await window.supabase.auth.resetPasswordForEmail(email, {
+                redirectTo
+            });
+
+            if (error) {
+                this.showError('reset', error.message);
+                return;
+            }
+
+            this.showInfo('reset', 'Odkaz pro obnovu hesla byl odeslán. Zkontroluj email.');
+        } catch (err) {
+            this.showError('reset', err?.message || 'Obnova hesla se nezdařila.');
+        } finally {
+            submitBtn.classList.remove('is-loading');
+            submitBtn.disabled = false;
+        }
+    }
+
+    async handleUpdatePassword(e) {
+        const form = e.target;
+        const submitBtn = form.querySelector('.auth-submit-btn');
+        const password = document.getElementById('update-password')?.value || '';
+        const confirm = document.getElementById('update-password-confirm')?.value || '';
+
+        this.clearErrors();
+
+        if (!password || !confirm) {
+            this.showError('update', 'Prosím vyplňte všechna pole.');
+            return;
+        }
+
+        if (password !== confirm) {
+            this.showError('update', 'Hesla se neshodují.');
+            return;
+        }
+
+        if (password.length < 6) {
+            this.showError('update', 'Heslo musí mít alespoň 6 znaků.');
+            return;
+        }
+
+        submitBtn.classList.add('is-loading');
+        submitBtn.disabled = true;
+
+        try {
+            if (!window.supabase) {
+                this.showError('update', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                return;
+            }
+
+            const { data } = await window.supabase.auth.getSession();
+            const session = data?.session;
+            if (!session) {
+                this.showError('update', 'Odkaz pro obnovu hesla je neplatný nebo expirovaný.');
+                return;
+            }
+
+            const { error } = await window.supabase.auth.updateUser({ password });
+            if (error) {
+                this.showError('update', error.message);
+                return;
+            }
+
+            this.clearRecoveryParams();
+            this.showInfo('update', 'Heslo bylo úspěšně změněno.');
+        } catch (err) {
+            this.showError('update', err?.message || 'Změna hesla se nezdařila.');
+        } finally {
+            submitBtn.classList.remove('is-loading');
             submitBtn.disabled = false;
         }
     }
 
     handleForgotPassword(e) {
         if (e) e.preventDefault();
-        // TODO: Implement forgot password functionality
-        alert('Funkce pro obnovení hesla bude brzy k dispozici.');
+        const loginEmail = document.getElementById('login-email')?.value || '';
+        const resetEmail = document.getElementById('reset-email');
+        if (resetEmail && loginEmail) resetEmail.value = loginEmail;
+        this.setAuthMode('reset');
+    }
+
+    getPasswordResetRedirectUrl() {
+        const { origin, pathname } = window.location;
+        if (pathname.includes('/pages/')) {
+            const prefix = pathname.split('/pages/')[0];
+            return `${origin}${prefix}/index.html`;
+        }
+        return `${origin}${pathname}`;
+    }
+
+    clearRecoveryParams() {
+        try {
+            const url = new URL(window.location.href);
+            if (url.hash) {
+                const hashParams = new URLSearchParams(url.hash.replace(/^#/, ''));
+                if (hashParams.get('type') === 'recovery' || hashParams.get('access_token')) {
+                    url.hash = '';
+                }
+            }
+            if (url.searchParams.get('type') === 'recovery') {
+                url.searchParams.delete('type');
+            }
+            window.history.replaceState({}, document.title, url.toString());
+        } catch (_e) {
+            // ignore
+        }
+    }
+
+    checkRecoveryMode() {
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+        const searchParams = new URLSearchParams(window.location.search);
+        const type = hashParams.get('type') || searchParams.get('type');
+        const hasRecovery = type === 'recovery' || hashParams.get('access_token');
+
+        if (hasRecovery) {
+            this.show();
+            this.setAuthMode('update');
+        }
     }
 }
 
@@ -472,5 +732,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Make it globally accessible
     window.AuthModalInstance = AuthModalInstance;
+    AuthModalInstance.checkRecoveryMode();
 });
 

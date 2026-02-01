@@ -51,6 +51,46 @@ html, body {
     z-index: 1;
 }
 
+.viewport-message {
+    display: none;
+    position: fixed;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background: rgba(8, 9, 15, 0.95);
+    z-index: 9999;
+}
+
+.viewport-message__card {
+    max-width: 460px;
+    width: min(100%, 460px);
+    padding: 2rem;
+    text-align: center;
+    border-radius: 18px;
+    background: rgba(20, 22, 34, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+    color: var(--text-light);
+}
+
+.viewport-message__card i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-gold);
+}
+
+.viewport-message__card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-light);
+}
+
+.viewport-message__card p {
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
 .navbar {
     position: relative;
     z-index: 10;
@@ -198,6 +238,20 @@ html, body {
     font-size: 1rem;
     color: var(--text-muted);
     font-weight: 300;
+}
+
+@media (max-width: 1180px) {
+    body {
+        overflow: hidden;
+    }
+
+    .content {
+        display: none;
+    }
+
+    .viewport-message {
+        display: flex;
+    }
 }
 
 .characters {
@@ -506,7 +560,11 @@ html, body {
     color: var(--primary-gold);
     text-shadow: 0 0 10px var(--shadow-gold);
     letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 }
+
 
 .email {
     font-size: 1.1rem;
@@ -586,15 +644,6 @@ html, body {
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
 }
 
-.profile-btn.edit {
-    border-color: var(--accent-blue);
-    color: var(--accent-blue);
-}
-
-.profile-btn.edit:hover {
-    background: rgba(59, 130, 246, 0.1);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
-}
 
 @media (max-width: 768px) {
     .profilecart {
@@ -611,6 +660,7 @@ html, body {
     
     .profilename {
         font-size: 1.5rem;
+        justify-content: center;
     }
     
     .profile-actions {

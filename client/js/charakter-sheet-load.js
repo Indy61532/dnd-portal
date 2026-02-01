@@ -6,7 +6,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function toIntOrNull(v) {
@@ -379,6 +379,101 @@ function wireHeroicInspirationToggle(characterId) {
   });
 
   render();
+}
+
+function wireHpControls(characterId, maxHp) {
+  const card = getTrackerCard("Hit Points");
+  if (!card) return;
+
+  const popover = card.querySelector(".hp-popover");
+  const inputAmount = card.querySelector(".hp-popover__input");
+  const inputTemp = card.querySelector(".hp-popover__input--temp");
+  const btnDamage = card.querySelector(".hp-popover__btn--damage");
+  const btnHeal = card.querySelector(".hp-popover__btn--heal");
+  
+  // Initial state load
+  const state = loadCharacterState(characterId);
+  let currentHp = state.currentHp !== undefined ? state.currentHp : maxHp;
+  let tempHp = state.tempHp !== undefined ? state.tempHp : 0;
+
+  function update() {
+    setHpTracker({ current: currentHp, max: maxHp, temp: tempHp });
+    if (inputTemp) inputTemp.value = tempHp;
+    saveCharacterState(characterId, { currentHp, tempHp });
+  }
+
+  // Initial render
+  update();
+
+  // Toggle popover
+  card.addEventListener("click", (e) => {
+      // Don't toggle if clicking inside the popover
+      if (e.target.closest(".hp-popover")) return;
+      
+      const isHidden = popover.hasAttribute("hidden");
+      if (isHidden) {
+          popover.removeAttribute("hidden");
+          card.setAttribute("aria-expanded", "true");
+          // Focus input after a tick
+          setTimeout(() => inputAmount?.focus(), 50);
+      } else {
+          popover.setAttribute("hidden", "");
+          card.setAttribute("aria-expanded", "false");
+      }
+  });
+
+  // Close when clicking outside
+  document.addEventListener("click", (e) => {
+      if (!card.contains(e.target)) {
+          popover.setAttribute("hidden", "");
+          card.setAttribute("aria-expanded", "false");
+      }
+  });
+
+  // Damage logic
+  if (btnDamage) {
+    btnDamage.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const amount = parseInt(inputAmount.value, 10);
+      if (isNaN(amount) || amount <= 0) return;
+
+      // Damage logic: first temp HP, then current HP
+      let damage = amount;
+      if (tempHp > 0) {
+          const absorb = Math.min(tempHp, damage);
+          tempHp -= absorb;
+          damage -= absorb;
+      }
+      currentHp = Math.max(0, currentHp - damage);
+      
+      inputAmount.value = ""; // clear input
+      update();
+    });
+  }
+
+  // Heal logic
+  if (btnHeal) {
+    btnHeal.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const amount = parseInt(inputAmount.value, 10);
+      if (isNaN(amount) || amount <= 0) return;
+      
+      currentHp = Math.min(maxHp, currentHp + amount);
+      inputAmount.value = ""; // clear input
+      update();
+    });
+  }
+  
+  // Temp HP direct edit
+  if (inputTemp) {
+      inputTemp.addEventListener("change", (e) => {
+          const n = parseInt(e.target.value, 10);
+          if (!isNaN(n) && n >= 0) {
+              tempHp = n;
+              update();
+          }
+      });
+  }
 }
 
 function setInventoryTab(inventory) {
@@ -754,7 +849,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const hitDie = parseHitDieFromClass(classHb);
     const maxHp = computeMaxHp({ level: ch.level, conMod, hitDie });
-    setHpTracker({ current: maxHp, max: maxHp, temp: 0 });
+    wireHpControls(ch.id, maxHp);
 
     const invIds = extractInventoryHomebrewIds(ch.inventory);
     const invHomebrew = await fetchHomebrewByIds(invIds);
@@ -808,5 +903,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     notify("Load failed", "error");
   }
 });
+
 
 

@@ -8,7 +8,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function normalizeType(t) {
@@ -17,7 +17,7 @@ function normalizeType(t) {
 
 function textOrDash(v) {
   const s = (v == null ? "" : String(v)).trim();
-  return s || "-";
+  return s || "";
 }
 
 function createSpan(className, text) {
@@ -143,6 +143,13 @@ function createActions({ homebrewId, rowEl }) {
   return wrap;
 }
 
+function createBadge(status) {
+  const b = document.createElement("span");
+  b.className = `hv-badge ${normalizeType(status) || "unknown"}`.trim();
+  b.textContent = textOrDash(status);
+  return b;
+}
+
 function buildRow(homebrew) {
   if (!homebrew) return null;
 
@@ -159,30 +166,17 @@ function buildRow(homebrew) {
   li.dataset.hvOwnerId = String(homebrew.user_id || "");
   // hvIsOwner is set later (after we know current user id)
 
-  li.appendChild(createSpan("item-name", textOrDash(homebrew.name)));
+  const nameEl = createSpan("item-name", textOrDash(homebrew.name));
+  // For class + all other types (except item/spell/monster) show status badge next to name
+  if (type !== "item" && type !== "spell" && type !== "monster") {
+    nameEl.appendChild(createBadge(homebrew.status));
+  }
+
+  li.appendChild(nameEl);
   li.appendChild(createSpan("item-type", textOrDash(type)));
 
-  if (type === "item") {
-    li.appendChild(createSpan("type-item", textOrDash(data?.info?.itemType)));
-    li.appendChild(createSpan("weapon-type", textOrDash(data?.weapon?.weaponType)));
-    li.appendChild(createSpan("rarity", textOrDash(data?.info?.rarity)));
-  } else if (type === "spell") {
-    li.appendChild(createSpan("type-spell", textOrDash(data?.info?.school ?? data?.school)));
-    li.appendChild(createSpan("range", textOrDash(data?.details?.range)));
-    li.appendChild(createSpan("level", textOrDash(data?.info?.level)));
-  } else if (type === "monster") {
-    li.appendChild(createSpan("type-monster", "-"));
-    li.appendChild(createSpan("cr", "-"));
-    li.appendChild(createSpan("ac", "-"));
-    li.appendChild(createSpan("hp", "-"));
-  } else {
-    if (type === "feat") li.appendChild(createSpan("tier", "-"));
-    else if (type === "subclass") li.appendChild(createSpan("parent-class", "-"));
-    else if (type === "faith") {
-      li.appendChild(createSpan("domain", "-"));
-      li.appendChild(createSpan("alignment", "-"));
-    }
-  }
+  // Removed extra columns here to simplify view (Name | Type | Buttons)
+
   return li;
 }
 
@@ -317,5 +311,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     notify("Load failed", "error");
   }
 });
-
 

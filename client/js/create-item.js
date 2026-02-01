@@ -106,12 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const { data, error } = await window.supabase
                 .from('homebrew')
-                .select('id, user_id, data')
+                .select('id, user_id, name, data')
                 .eq('id', id)
                 .eq('user_id', userId)
                 .single();
             if (error) return null;
-            return data?.data || null;
+            return data || null;
         } catch (e) {
             return null;
         }
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.HeroVault.showNotification(message, 'success');
             return;
         }
-        alert(message);
+        console.info(message);
     }
 
     function setSavingState(isSaving) {
@@ -197,6 +197,70 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBtn.textContent = currentItemId ? 'Update item' : 'Create item';
     }
 
+    function setDescriptionHtml(html) {
+        const safeHtml = typeof html === 'string' ? html : '';
+        try {
+            const editor = window.tinymce?.get('item-description');
+            if (editor) {
+                editor.setContent(safeHtml);
+                return;
+            }
+        } catch (_e) {
+            // ignore
+        }
+        const textarea = document.getElementById('item-description');
+        if (textarea) textarea.value = safeHtml;
+    }
+
+    function applyExistingItemData(record) {
+        if (!record) return;
+        const data = record.data || {};
+        const info = data.info || {};
+        const armor = data.armor || {};
+        const weapon = data.weapon || {};
+
+        const nameValue = String(record.name || info.name || '').trim();
+        const itemTypeValue = String(info.itemType || '').trim();
+
+        const setValue = (id, value) => {
+            const el = document.getElementById(id);
+            if (el) el.value = value ?? '';
+        };
+
+        setValue('item-type', itemTypeValue);
+        setValue('item-name', nameValue);
+        setValue('item-weight', info.weight ?? '');
+        setValue('item-cost', info.cost ?? '');
+        setValue('item-rarity', info.rarity ?? '');
+        setValue('item-armor-ac', armor.ac ?? '');
+        setValue('item-weapon-type', weapon.weaponType ?? '');
+        setValue('item-dice-trove', weapon.diceTrove ?? '');
+        setValue('item-die-type', weapon.dieType ?? '');
+        setValue('item-damage-type', weapon.damageType ?? '');
+        setValue('item-range', weapon.range ?? '');
+        setValue('item-properties', weapon.properties ?? '');
+
+        const magicCheckbox = document.getElementById('item-magic-checkbox');
+        if (magicCheckbox) magicCheckbox.checked = Boolean(info.isMagic);
+        const attuneCheckbox = document.getElementById('item-attunement-checkbox');
+        if (attuneCheckbox) attuneCheckbox.checked = Boolean(info.attunement);
+
+        setDescriptionHtml(data.description || '');
+
+        updateVisibilityByType();
+        updateRangeVisibility();
+    }
+
+    async function hydrateFormForEdit() {
+        if (!currentItemId) return;
+        const session = await getSessionOrPrompt();
+        if (!session) return;
+        const record = await loadExistingItemData(currentItemId, session.user.id);
+        if (!record) return;
+        existingRecordData = record.data || null;
+        applyExistingItemData(record);
+    }
+
     async function handleSave() {
         setSavingState(true);
         try {
@@ -205,13 +269,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const name = (document.getElementById('item-name')?.value || '').trim();
             if (!name) {
-                alert('Name is required.');
+                console.info('Name is required.');
                 return;
             }
 
             // preserve existing image if updating and no new file uploaded
             if (currentItemId && !existingRecordData) {
-                existingRecordData = await loadExistingItemData(currentItemId, session.user.id);
+                const record = await loadExistingItemData(currentItemId, session.user.id);
+                existingRecordData = record?.data || null;
             }
 
             let dataJson = collectItemData();
@@ -273,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             notifySuccess('Item saved');
         } catch (err) {
             console.error('Save failed:', err);
-            alert(`Save failed: ${err?.message || 'Unknown error'}`);
+            console.info(`Save failed: ${err?.message || 'Unknown error'}`);
         } finally {
             setSavingState(false);
         }
@@ -285,6 +350,9 @@ document.addEventListener('DOMContentLoaded', () => {
             handleSave();
         });
     }
+
+    hydrateFormForEdit();
 });
+
 
 

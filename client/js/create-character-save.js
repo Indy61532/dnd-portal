@@ -6,7 +6,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function safeJsonParse(str) {
@@ -167,5 +167,6 @@ export function wireCreateCharacterButton() {
 document.addEventListener("DOMContentLoaded", () => {
   wireCreateCharacterButton();
 });
+
 
 

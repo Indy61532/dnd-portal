@@ -144,12 +144,12 @@
     try {
       const { data, error } = await window.supabase
         .from("homebrew")
-        .select("id, user_id, data")
+        .select("id, user_id, name, data")
         .eq("id", id)
         .eq("user_id", userId)
         .single();
       if (error) return null;
-      return data?.data || null;
+      return data || null;
     } catch (_e) {
       return null;
     }
@@ -177,7 +177,7 @@
       window.HeroVault.showNotification("Sub-Class saved", "success");
       return;
     }
-    alert("Sub-Class saved");
+    console.info("Sub-Class saved");
   }
 
   function getSaveBtn() {
@@ -190,6 +190,124 @@
     btn.textContent = isSaving ? "Saving..." : (currentSubClassId ? "Update" : "Create");
   }
 
+  function setTinyHtml(id, html) {
+    const safeHtml = typeof html === "string" ? html : "";
+    try {
+      const editor = window.tinymce?.get(id);
+      if (editor) {
+        editor.setContent(safeHtml);
+        return;
+      }
+    } catch (_e) {
+      // ignore
+    }
+    const el = document.getElementById(id);
+    if (el) el.value = safeHtml;
+  }
+
+  function applyMultiSelectValues(inputEl, values) {
+    if (!inputEl || !Array.isArray(values)) return;
+    values.filter(Boolean).forEach((value) => {
+      inputEl.value = String(value);
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    inputEl.value = "";
+  }
+
+  function applyLevelProgression(levels) {
+    if (!Array.isArray(levels)) return;
+    const table = document.querySelector(".table-1");
+    if (!table) return;
+    levels.forEach((entry) => {
+      const level = entry?.level;
+      if (!level) return;
+      const row = table.querySelector(`.level-${level}`);
+      if (!row) return;
+      const featureInput = row.querySelector(".multiselect-input");
+      applyMultiSelectValues(featureInput, entry.features || []);
+    });
+  }
+
+  function applyCustomFeatures(customFeatures) {
+    if (!Array.isArray(customFeatures)) return;
+    const list = document.getElementById("features-list");
+    if (!list) return;
+    const datalist = document.getElementById("list-non-caster");
+    list.querySelector(".empty-state")?.remove();
+    customFeatures.forEach((feature) => {
+      const name = String(feature?.name || "").trim();
+      const description = String(feature?.description || "").trim();
+      if (!name && !description) return;
+
+      if (datalist && name) {
+        const exists = Array.from(datalist.options).some((opt) => opt.value === name);
+        if (!exists) {
+          const option = document.createElement("option");
+          option.value = name;
+          datalist.appendChild(option);
+        }
+      }
+
+      const card = document.createElement("div");
+      card.className = "feature-card";
+      card.innerHTML = `
+        <h4>${name}</h4>
+        <p>${description}</p>
+        <button class="feature-delete" title="Remove feature"><i class="fas fa-times"></i></button>
+      `;
+
+      card.querySelector(".feature-delete")?.addEventListener("click", () => {
+        card.remove();
+        if (list.children.length === 0) {
+          list.innerHTML = '<div class="empty-state">No custom features added yet. Create one above to assign it to levels.</div>';
+        }
+      });
+
+      list.appendChild(card);
+    });
+  }
+
+  function applyOptionalList(id, values) {
+    const input = document.getElementById(id);
+    if (!input) return;
+    applyMultiSelectValues(input, values || []);
+  }
+
+  function applyExistingSubClassData(record) {
+    if (!record) return;
+    const data = record.data || {};
+    const info = data.info || {};
+    const progression = data.progression || {};
+    const lists = data.lists || {};
+
+    const nameInput = document.getElementById("subclass-name");
+    if (nameInput) nameInput.value = String(record.name || info.name || "");
+
+    const parentClassInput =
+      document.getElementById("subclass-class") ||
+      document.getElementById("subclass-parent-class") ||
+      document.getElementById("parent-class");
+    if (parentClassInput) parentClassInput.value = info.parentClass || "";
+
+    setTinyHtml("subclass-description", info.descriptionHtml || "");
+
+    applyLevelProgression(progression.levels || []);
+    applyOptionalList("subclass-features", lists.features || []);
+    applyOptionalList("subclass-spells", lists.spells || []);
+    applyOptionalList("subclass-proficiencies", lists.proficiencies || []);
+    applyCustomFeatures(data.customFeatures || []);
+  }
+
+  async function hydrateFormForEdit() {
+    if (!currentSubClassId) return;
+    const session = await getSessionOrPrompt();
+    if (!session) return;
+    const record = await loadExistingData(currentSubClassId, session.user.id);
+    if (!record) return;
+    existingRecordData = record.data || null;
+    applyExistingSubClassData(record);
+  }
+
   async function handleSave() {
     const btn = getSaveBtn();
     setSaving(btn, true);
@@ -200,7 +318,7 @@
 
       const name = toStringOrEmpty($("subclass-name")?.value);
       if (!name) {
-        alert("Subclass name is required.");
+        console.info("Subclass name is required.");
         $("subclass-name")?.focus?.();
         return;
       }
@@ -210,7 +328,8 @@
       const file = fileInput?.files?.[0] || null;
 
       if (currentSubClassId && !existingRecordData) {
-        existingRecordData = await loadExistingData(currentSubClassId, session.user.id);
+        const record = await loadExistingData(currentSubClassId, session.user.id);
+        existingRecordData = record?.data || null;
       }
 
       let dataJson = collectSubClassData();
@@ -254,6 +373,7 @@
         if (btn) btn.textContent = "Update";
         if (fileInput) fileInput.value = "";
         notifySuccess();
+        window.location.href = "../create.html";
         return;
       }
 
@@ -288,7 +408,7 @@
       notifySuccess();
     } catch (err) {
       console.error("Save failed:", err);
-      alert(`Save failed: ${err?.message || "Unknown error"}`);
+      console.info(`Save failed: ${err?.message || "Unknown error"}`);
     } finally {
       const btn = getSaveBtn();
       setSaving(btn, false);
@@ -319,9 +439,12 @@
       e.preventDefault();
       handleSave();
     });
+
+    hydrateFormForEdit();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
+
 
 

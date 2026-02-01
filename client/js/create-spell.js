@@ -109,12 +109,12 @@
     try {
       const { data, error } = await window.supabase
         .from("homebrew")
-        .select("id, user_id, data")
+        .select("id, user_id, name, data")
         .eq("id", id)
         .eq("user_id", userId)
         .single();
       if (error) return null;
-      return data?.data || null;
+      return data || null;
     } catch (_e) {
       return null;
     }
@@ -142,13 +142,76 @@
       window.HeroVault.showNotification(msg, "success");
       return;
     }
-    alert(msg);
+    console.info(msg);
   }
 
   function setSaving(btn, isSaving) {
     if (!btn) return;
     btn.disabled = Boolean(isSaving);
     btn.textContent = isSaving ? "Saving..." : (currentSpellId ? "Update Spell" : "Create Spell");
+  }
+
+  function setTinyHtml(id, html) {
+    const safeHtml = typeof html === "string" ? html : "";
+    try {
+      const editor = window.tinymce?.get(id);
+      if (editor) {
+        editor.setContent(safeHtml);
+        return;
+      }
+    } catch (_e) {
+      // ignore
+    }
+    const el = document.getElementById(id);
+    if (el) el.value = safeHtml;
+  }
+
+  function applyMultiSelectValues(inputEl, values) {
+    if (!inputEl || !Array.isArray(values)) return;
+    values.filter(Boolean).forEach((value) => {
+      inputEl.value = String(value);
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    inputEl.value = "";
+  }
+
+  function applyExistingSpellData(record) {
+    if (!record) return;
+    const data = record.data || {};
+    const info = data.info || {};
+    const details = data.details || {};
+    const blocks = data.blocks || {};
+
+    const setValue = (id, value) => {
+      const el = $(id);
+      if (el) el.value = value ?? "";
+    };
+
+    setValue("spell-name", String(record.name || info.name || ""));
+    setValue("spell-level", info.level ?? "");
+    setValue("spell-school", info.school ?? "");
+
+    setValue("spell-cast-time", details.castTime ?? "");
+    setValue("spell-range", details.range ?? "");
+    setValue("spell-radius", details.radius ?? "");
+    setValue("spell-duration", details.duration ?? "");
+    setValue("spell-components", details.components ?? "");
+
+    setTinyHtml("spell-description", blocks.description || "");
+    setTinyHtml("spell-higher-levels", blocks.higherLevels || "");
+
+    const classesInput = document.getElementById("spell-classes");
+    applyMultiSelectValues(classesInput, info.classes || []);
+  }
+
+  async function hydrateFormForEdit() {
+    if (!currentSpellId) return;
+    const session = await getSessionOrPrompt();
+    if (!session) return;
+    const record = await loadExistingSpellData(currentSpellId, session.user.id);
+    if (!record) return;
+    existingRecordData = record.data || null;
+    applyExistingSpellData(record);
   }
 
   async function handleSave() {
@@ -161,12 +224,13 @@
 
       const name = toStringOrEmpty($("spell-name")?.value);
       if (!name) {
-        alert("Name is required.");
+        console.info("Name is required.");
         return;
       }
 
       if (currentSpellId && !existingRecordData) {
-        existingRecordData = await loadExistingSpellData(currentSpellId, session.user.id);
+        const record = await loadExistingSpellData(currentSpellId, session.user.id);
+        existingRecordData = record?.data || null;
       }
 
       let spellData = collectSpellData();
@@ -240,7 +304,7 @@
       notifySuccess("Spell saved");
     } catch (err) {
       console.error("Save failed:", err);
-      alert(`Save failed: ${err?.message || "Unknown error"}`);
+      console.info(`Save failed: ${err?.message || "Unknown error"}`);
     } finally {
       const btn = document.querySelector(".button-create");
       setSaving(btn, false);
@@ -272,9 +336,12 @@
         handleSave();
       });
     }
+
+    hydrateFormForEdit();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
+
 
 

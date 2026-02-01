@@ -189,7 +189,7 @@ function createFolder() {
 
     const id = slugify(trimmed);
     if (appState.folders[id]) {
-        alert('Folder with this name already exists.');
+        console.info('Folder with this name already exists.');
         return;
     }
 

@@ -9,7 +9,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function normalize(s) {
@@ -342,5 +342,6 @@ export async function initEquipmentPanel() {
   // Initial filter pass
   applyFilters(resultsEl, { query: searchEl?.value, category: activeCategory });
 }
+
 
 

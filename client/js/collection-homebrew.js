@@ -8,7 +8,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function normalizeType(t) {
@@ -17,7 +17,7 @@ function normalizeType(t) {
 
 function textOrDash(v) {
   const s = (v == null ? "" : String(v)).trim();
-  return s || "-";
+  return s || "";
 }
 
 function createSpan(className, text) {
@@ -26,6 +26,8 @@ function createSpan(className, text) {
   el.textContent = text ?? "";
   return el;
 }
+
+let currentUserId = null;
 
 function createActions({ homebrewId, rowEl }) {
   const wrap = document.createElement("div");
@@ -85,14 +87,31 @@ function createActions({ homebrewId, rowEl }) {
   deleteBtn.textContent = "Delete";
   deleteBtn.addEventListener("click", async () => {
     try {
-      const { error } = await window.supabase
-        .from("homebrew")
-        .delete()
-        .eq("id", homebrewId);
-      if (error) throw error;
+      const isOwner = String(rowEl?.dataset?.hvIsOwner || "") === "1";
+      const userId = currentUserId;
+      if (!userId) {
+        window.AuthModalInstance?.show?.();
+        return;
+      }
+
+      if (isOwner) {
+        const { error } = await window.supabase
+          .from("homebrew")
+          .delete()
+          .eq("id", homebrewId)
+          .eq("user_id", userId);
+        if (error) throw error;
+      } else {
+        const { error } = await window.supabase
+          .from("user_saved_items")
+          .delete()
+          .eq("user_id", userId)
+          .eq("homebrew_id", homebrewId);
+        if (error) throw error;
+      }
 
       rowEl?.remove();
-      notify("Deleted", "success");
+      notify(isOwner ? "Deleted" : "Removed from collection", "success");
 
       // if now empty
       ensureEmptyMessageIfNeeded();
@@ -154,6 +173,7 @@ function buildRow(homebrew) {
   li.dataset.hvName = String(homebrew.name || "");
   li.dataset.hvType = type;
   li.dataset.hvHomebrewId = String(homebrew.id);
+  li.dataset.hvOwnerId = String(homebrew.user_id || "");
 
   // Always: name + type
   const nameSpan = createSpan("item-name", textOrDash(homebrew.name));
@@ -161,33 +181,12 @@ function buildRow(homebrew) {
   li.appendChild(nameSpan);
   li.appendChild(typeSpan);
 
-  if (type === "item") {
-    li.appendChild(createSpan("type-item", textOrDash(data?.info?.itemType)));
-    li.appendChild(createSpan("weapon-type", textOrDash(data?.weapon?.weaponType)));
-    li.appendChild(createSpan("rarity", textOrDash(data?.info?.rarity)));
-  } else if (type === "spell") {
-    li.appendChild(createSpan("type-spell", textOrDash(data?.info?.school ?? data?.school)));
-    li.appendChild(createSpan("range", textOrDash(data?.details?.range)));
-    li.appendChild(createSpan("level", textOrDash(data?.info?.level)));
-  } else if (type === "monster") {
-    li.appendChild(createSpan("type-monster", "-"));
-    li.appendChild(createSpan("cr", "-"));
-    li.appendChild(createSpan("ac", "-"));
-    li.appendChild(createSpan("hp", "-"));
-  } else {
-    // Show status badge on non item/spell/monster types (per prompt)
-    nameSpan.appendChild(createBadge(homebrew.status));
-
-    // Keep grid alignment: add empty placeholders for header columns
-    if (type === "feat") {
-      li.appendChild(createSpan("tier", ""));
-    } else if (type === "subclass") {
-      li.appendChild(createSpan("parent-class", ""));
-    } else if (type === "faith") {
-      li.appendChild(createSpan("domain", ""));
-      li.appendChild(createSpan("alignment", ""));
-    }
+  // Show status badge on non item/spell/monster types (per prompt)
+  if (type !== "item" && type !== "spell" && type !== "monster") {
+      nameSpan.appendChild(createBadge(homebrew.status));
   }
+
+  // Removed extra columns here to simplify view (Name | Type | Buttons)
 
   li.appendChild(
     createActions({
@@ -239,14 +238,39 @@ function wireSearch() {
 }
 
 async function loadHomebrew() {
+  if (!currentUserId) return [];
   console.log("Collection: loading homebrew…");
-  const { data, error } = await window.supabase
-    .from("homebrew")
-    .select("id, type, status, name, data, updated_at")
-    .order("updated_at", { ascending: false });
 
-  if (error) throw error;
-  const items = Array.isArray(data) ? data : [];
+  const { data: owned, error: ownedError } = await window.supabase
+    .from("homebrew")
+    .select("id, user_id, type, status, name, data, updated_at")
+    .eq("user_id", currentUserId)
+    .order("updated_at", { ascending: false });
+  if (ownedError) throw ownedError;
+
+  const { data: savedRows, error: savedError } = await window.supabase
+    .from("user_saved_items")
+    .select("homebrew:homebrew_id (id, user_id, type, status, name, data, updated_at)")
+    .eq("user_id", currentUserId);
+  if (savedError) throw savedError;
+
+  const itemsMap = new Map();
+  (Array.isArray(owned) ? owned : []).forEach((hb) => {
+    if (hb?.id != null) itemsMap.set(String(hb.id), hb);
+  });
+  (Array.isArray(savedRows) ? savedRows : []).forEach((row) => {
+    const hb = row?.homebrew || null;
+    if (hb?.id != null && !itemsMap.has(String(hb.id))) {
+      itemsMap.set(String(hb.id), hb);
+    }
+  });
+
+  const items = Array.from(itemsMap.values()).sort((a, b) => {
+    const at = new Date(a?.updated_at || 0).getTime();
+    const bt = new Date(b?.updated_at || 0).getTime();
+    return bt - at;
+  });
+
   console.log("Collection: fetched", items.length);
   return items;
 }
@@ -268,6 +292,9 @@ function renderHomebrew(items) {
     const row = buildRow(hb);
     if (!row) continue;
 
+    const isOwner = currentUserId && String(hb.user_id) === String(currentUserId);
+    row.dataset.hvIsOwner = isOwner ? "1" : "0";
+
     const anchor = lastInsertedAfter.get(headerEl) || headerEl;
     anchor.insertAdjacentElement("afterend", row);
     lastInsertedAfter.set(headerEl, row);
@@ -281,6 +308,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const ok = await window.ensureAuthOrPrompt?.();
     if (!ok) return;
 
+    const { data: sessionData } = await window.supabase.auth.getSession();
+    currentUserId = sessionData?.session?.user?.id || null;
+    if (!currentUserId) return;
+
     wireSearch();
     const items = await loadHomebrew();
     renderHomebrew(items);
@@ -289,5 +320,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     notify("Load failed", "error");
   }
 });
-
 

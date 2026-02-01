@@ -6,7 +6,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function text(v, fallback = "-") {
@@ -236,5 +236,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     notify("Load failed", "error");
   }
 });
+
 
 

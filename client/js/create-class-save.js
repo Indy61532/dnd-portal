@@ -176,12 +176,12 @@
     try {
       const { data, error } = await window.supabase
         .from("homebrew")
-        .select("id, user_id, data")
+        .select("id, user_id, name, data")
         .eq("id", id)
         .eq("user_id", userId)
         .single();
       if (error) return null;
-      return data?.data || null;
+      return data || null;
     } catch (_e) {
       return null;
     }
@@ -209,13 +209,165 @@
       window.HeroVault.showNotification(msg, "success");
       return;
     }
-    alert(msg);
+    console.info(msg);
   }
 
   function setSaving(btn, isSaving) {
     if (!btn) return;
     btn.disabled = Boolean(isSaving);
     btn.textContent = isSaving ? "Saving..." : (currentClassId ? "Update" : "Create");
+  }
+
+  function setTinyHtml(id, html) {
+    const safeHtml = typeof html === "string" ? html : "";
+    try {
+      const editor = window.tinymce?.get(id);
+      if (editor) {
+        editor.setContent(safeHtml);
+        return;
+      }
+    } catch (_e) {
+      // ignore
+    }
+    const el = document.getElementById(id);
+    if (el) el.value = safeHtml;
+  }
+
+  function applyMultiSelectValues(inputEl, values) {
+    if (!inputEl || !Array.isArray(values)) return;
+    values.filter(Boolean).forEach((value) => {
+      inputEl.value = String(value);
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    inputEl.value = "";
+  }
+
+  function setCasterType(casterType) {
+    const normalized = String(casterType || "none").toLowerCase();
+    const map = {
+      none: "none-caster-checkbox",
+      pact: "pact-caster-checkbox",
+      full: "full-caster-checkbox",
+      third: "third-caster-checkbox",
+      half: "half-caster-checkbox",
+    };
+    const checkboxId = map[normalized] || map.none;
+    const checkbox = document.getElementById(checkboxId);
+    if (checkbox) {
+      checkbox.checked = true;
+      checkbox.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
+
+  function applyLevelProgression(levels) {
+    if (!Array.isArray(levels)) return;
+    const table = document.querySelector(".table-1");
+    if (!table) return;
+    levels.forEach((entry) => {
+      const level = entry?.level;
+      if (!level) return;
+      const row = table.querySelector(`.level-${level}`);
+      if (!row) return;
+      const profInput = row.querySelector(":scope > div:nth-child(2) input.num-input");
+      if (profInput) profInput.value = entry.profBonus ?? "";
+      const featureInput = row.querySelector(".multiselect-input");
+      applyMultiSelectValues(featureInput, entry.features || []);
+    });
+  }
+
+  function applyCasterTable(casterTable) {
+    if (!casterTable || !Array.isArray(casterTable.rows)) return;
+    const casterType = String(casterTable.casterType || "").toLowerCase();
+    const sectionMap = {
+      third: ".third-caster",
+      half: ".half-caster",
+      full: ".full-caster",
+      pact: ".pact-caster",
+    };
+    const section = sectionMap[casterType]
+      ? document.querySelector(sectionMap[casterType])
+      : null;
+    const table = section ? section.querySelector(".table-2") : null;
+    if (!table) return;
+
+    casterTable.rows.forEach((rowData) => {
+      const level = rowData?.level;
+      const values = Array.isArray(rowData?.values) ? rowData.values : [];
+      if (!level) return;
+      const row = table.querySelector(`.level-${level}`);
+      if (!row) return;
+      const inputs = Array.from(row.querySelectorAll("input.num-input"));
+      inputs.forEach((input, idx) => {
+        input.value = values[idx] ?? "";
+      });
+    });
+  }
+
+  function applyCustomFeatures(customFeatures) {
+    if (!Array.isArray(customFeatures)) return;
+    const list = document.getElementById("features-list");
+    if (!list) return;
+    const datalist = document.getElementById("list-non-caster");
+
+    list.querySelector(".empty-state")?.remove();
+    customFeatures.forEach((feature) => {
+      const name = String(feature?.name || "").trim();
+      const description = String(feature?.description || "").trim();
+      if (!name && !description) return;
+
+      if (datalist && name) {
+        const exists = Array.from(datalist.options).some((opt) => opt.value === name);
+        if (!exists) {
+          const option = document.createElement("option");
+          option.value = name;
+          datalist.appendChild(option);
+        }
+      }
+
+      const card = document.createElement("div");
+      card.className = "feature-card";
+      card.innerHTML = `
+        <h4>${name}</h4>
+        <p>${description}</p>
+        <button class="feature-delete" title="Remove feature"><i class="fas fa-times"></i></button>
+      `;
+
+      card.querySelector(".feature-delete")?.addEventListener("click", () => {
+        card.remove();
+        if (list.children.length === 0) {
+          list.innerHTML = '<div class="empty-state">No custom features added yet. Create one above to assign it to levels.</div>';
+        }
+      });
+
+      list.appendChild(card);
+    });
+  }
+
+  function applyExistingClassData(record) {
+    if (!record) return;
+    const data = record.data || {};
+    const info = data.info || {};
+    const progression = data.progression || {};
+
+    const nameInput = document.getElementById("class-name");
+    if (nameInput) nameInput.value = String(record.name || info.name || "");
+
+    setCasterType(info.casterType);
+    setTinyHtml("class-description", info.descriptionHtml || "");
+
+    applyLevelProgression(progression.levels || []);
+    applyCasterTable(progression.casterTable);
+    applyCustomFeatures(data.customFeatures || []);
+  }
+
+  async function hydrateFormForEdit() {
+    if (!currentClassId) return;
+    const session = await getSessionOrPrompt();
+    if (!session) return;
+    const record = await loadExistingClassData(currentClassId, session.user.id);
+    if (!record) return;
+    existingRecordData = record.data || null;
+    applyExistingClassData(record);
   }
 
   async function handleSave() {
@@ -228,7 +380,7 @@
 
       const className = toStringOrEmpty($("class-name")?.value);
       if (!className) {
-        alert("Class Name is required.");
+        console.info("Class Name is required.");
         return;
       }
 
@@ -237,7 +389,8 @@
 
       // If updating, load existing data once to preserve image if needed
       if (currentClassId && !existingRecordData) {
-        existingRecordData = await loadExistingClassData(currentClassId, session.user.id);
+        const record = await loadExistingClassData(currentClassId, session.user.id);
+        existingRecordData = record?.data || null;
       }
 
       let classData = collectClassData();
@@ -283,6 +436,7 @@
         if (saveBtn) saveBtn.textContent = "Update";
         if (fileInput) fileInput.value = "";
         notifySuccess("Class saved");
+        window.location.href = "../create.html";
         return;
       }
 
@@ -316,7 +470,7 @@
       notifySuccess("Class saved");
     } catch (err) {
       console.error("Save failed:", err);
-      alert(`Save failed: ${err?.message || "Unknown error"}`);
+      console.info(`Save failed: ${err?.message || "Unknown error"}`);
     } finally {
       const saveBtn = document.querySelector(".input-img .button-create");
       setSaving(saveBtn, false);
@@ -348,9 +502,12 @@
       e.preventDefault();
       handleSave();
     });
+
+    hydrateFormForEdit();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
+
 
 

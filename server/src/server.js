@@ -1,83 +1,37 @@
-const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-dotenv.config({ path: path.resolve(__dirname, "../config.env") });
+dotenv.config({ path: "./config.env" });
 
-const meRoutes = require("./routes/me");
-const authRoutes = require("./routes/auth");
+const meRoute = require("./routes/me");
 
 const app = express();
 
 app.use(express.json());
-
-// CORS: Apply ONLY to /api routes. Static assets (CSS/JS) should never be blocked by CORS middleware.
-// If you want stricter, set CORS_ORIGIN="https://your-frontend.com, http://localhost:5500"
-const corsAllowList = (process.env.CORS_ORIGIN || "")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
-
 app.use(
-  "/api",
   cors({
-    origin: (origin, cb) => {
-      // Server-to-server / same-origin cases may omit Origin
-      if (!origin) return cb(null, true);
-
-      // If no allowlist is configured, allow any origin (reflected) for easier setup.
-      if (corsAllowList.length === 0) return cb(null, true);
-
-      // Allow wildcard or exact matches.
-      if (corsAllowList.includes("*")) return cb(null, true);
-      if (corsAllowList.includes(origin)) return cb(null, true);
-
-      return cb(new Error("Not allowed by CORS"));
-    },
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );
 
-// -----------------------------
-// API routes (all under /api/*)
-// -----------------------------
-app.get("/api/health", (_req, res) => res.json({ ok: true }));
-app.use("/api/me", meRoutes);
-app.use("/api/auth", authRoutes);
-
-// Backward-compat aliases (optional; safe to keep while migrating frontend)
-app.get("/health", (_req, res) => res.redirect(307, "/api/health"));
-
-// -----------------------------
-// Static frontend (server/public)
-// -----------------------------
-const publicDir = path.join(__dirname, "../public");
-app.use(express.static(publicDir));
-
-// SPA fallback: send index.html for any non-API route
-app.get("*", (req, res, next) => {
-  if (req.path.startsWith("/api/")) return next();
-  return res.sendFile(path.join(publicDir, "index.html"));
-});
-
-// Error handler (helps debug CORS and other middleware issues)
-app.use((err, req, res, _next) => {
-  console.error("Request error:", {
-    method: req.method,
-    path: req.path,
-    origin: req.headers.origin,
-    message: err?.message,
-  });
-
-  if (err && err.message === "Not allowed by CORS") {
-    return res.status(403).json({ error: "CORS blocked" });
-  }
-
-  return res.status(500).json({ error: "Internal Server Error" });
-});
+app.get("/health", (_req, res) => res.json({ ok: true }));
+app.use("/me", meRoute);
 
 const port = Number(process.env.PORT || 3000);
 app.listen(port, () => {
   console.log(`API running on http://localhost:${port}`);
 });
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "../public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+

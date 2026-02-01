@@ -1,8 +1,8 @@
 const express = require("express");
+const router = express.Router();
+
 const supabaseAdmin = require("../supabaseAdmin");
 const requireAuth = require("../middleware/requireAuth");
-
-const router = express.Router();
 
 router.get("/", requireAuth, async (req, res) => {
   const { data, error } = await supabaseAdmin

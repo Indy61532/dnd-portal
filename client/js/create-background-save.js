@@ -33,6 +33,21 @@
     return $(id)?.value ?? "";
   }
 
+  function setTinyHtml(id, html) {
+    const safeHtml = typeof html === "string" ? html : "";
+    try {
+      const editor = window.tinymce?.get(id);
+      if (editor) {
+        editor.setContent(safeHtml);
+        return;
+      }
+    } catch (_e) {
+      // ignore
+    }
+    const el = $(id);
+    if (el) el.value = safeHtml;
+  }
+
   function toStringOrEmpty(value) {
     return value == null ? "" : String(value).trim();
   }
@@ -95,6 +110,60 @@
     };
   }
 
+  async function loadExistingBackgroundData(id, userId) {
+    try {
+      const { data, error } = await window.supabase
+        .from("homebrew")
+        .select("id, user_id, name, data")
+        .eq("id", id)
+        .eq("user_id", userId)
+        .single();
+      if (error) return null;
+      return data || null;
+    } catch (_e) {
+      return null;
+    }
+  }
+
+  function applyMultiSelectValues(inputEl, values) {
+    if (!inputEl || !Array.isArray(values)) return;
+    values.filter(Boolean).forEach((value) => {
+      inputEl.value = String(value);
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    inputEl.value = "";
+  }
+
+  function applyExistingBackgroundData(record) {
+    if (!record) return;
+    const data = record.data || {};
+    const info = data.info || {};
+
+    const setValue = (id, value) => {
+      const el = $(id);
+      if (el) el.value = value ?? "";
+    };
+
+    setValue("background-name", String(record.name || info.name || ""));
+    setValue("background-tools", info.tools ?? "");
+    setValue("background-feat-name", data.feature?.name ?? "");
+
+    setTinyHtml("background-description", info.descriptionHtml || "");
+    setTinyHtml("background-feat-description", data.feature?.descriptionHtml || "");
+
+    applyMultiSelectValues($("background-skills"), data.skills || []);
+    applyMultiSelectValues($("background-languages"), data.languages || []);
+  }
+
+  async function hydrateFormForEdit() {
+    if (!currentBackgroundId) return;
+    const session = await getSessionOrPrompt();
+    if (!session) return;
+    const record = await loadExistingBackgroundData(currentBackgroundId, session.user.id);
+    if (!record) return;
+    applyExistingBackgroundData(record);
+  }
+
   function getSaveBtn() {
     return document.querySelector(".input-img .button-create");
   }
@@ -110,7 +179,7 @@
       window.HeroVault.showNotification("Background saved", "success");
       return;
     }
-    alert("Background saved");
+    console.info("Background saved");
   }
 
   async function handleSave() {
@@ -126,7 +195,7 @@
         if (window.HeroVault?.showNotification) {
           window.HeroVault.showNotification("Please enter a Background Name", "error");
         } else {
-          alert("Background Name is required.");
+          console.info("Background Name is required.");
         }
         $("background-name")?.focus?.();
         return;
@@ -153,6 +222,7 @@
         localStorage.setItem(LOCAL_STORAGE_KEY, String(currentBackgroundId));
         if (btn) btn.textContent = "Update";
         notifySuccess();
+        window.location.href = "../create.html";
         return;
       }
 
@@ -167,7 +237,7 @@
       notifySuccess();
     } catch (err) {
       console.error("Save failed:", err);
-      alert(`Save failed: ${err?.message || "Unknown error"}`);
+      console.info(`Save failed: ${err?.message || "Unknown error"}`);
     } finally {
       const btn = getSaveBtn();
       setSaving(btn, false);
@@ -198,9 +268,12 @@
       e.preventDefault();
       handleSave();
     });
+
+    hydrateFormForEdit();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
+
 
 

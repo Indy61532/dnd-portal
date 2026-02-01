@@ -8,7 +8,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function normalizeType(t) {
@@ -17,7 +17,7 @@ function normalizeType(t) {
 
 function textOrDash(v) {
   const s = (v == null ? "" : String(v)).trim();
-  return s || "-";
+  return s || "";
 }
 
 function createSpan(className, text) {
@@ -217,29 +217,7 @@ function buildRow(homebrew) {
   li.appendChild(nameEl);
   li.appendChild(createSpan("item-type", textOrDash(type)));
 
-  if (type === "item") {
-    li.appendChild(createSpan("type-item", textOrDash(data?.info?.itemType)));
-    li.appendChild(createSpan("weapon-type", textOrDash(data?.weapon?.weaponType)));
-    li.appendChild(createSpan("rarity", textOrDash(data?.info?.rarity)));
-  } else if (type === "spell") {
-    li.appendChild(createSpan("type-spell", textOrDash(data?.info?.school)));
-    li.appendChild(createSpan("range", textOrDash(data?.details?.range)));
-    li.appendChild(createSpan("level", textOrDash(data?.info?.level)));
-  } else if (type === "monster") {
-    // placeholder (until monster data structure is stabilized)
-    li.appendChild(createSpan("type-monster", "-"));
-    li.appendChild(createSpan("cr", "-"));
-    li.appendChild(createSpan("ac", "-"));
-    li.appendChild(createSpan("hp", "-"));
-  } else {
-    // keep grid alignment; leave placeholders as "-" or empty
-    if (type === "feat") li.appendChild(createSpan("tier", "-"));
-    else if (type === "subclass") li.appendChild(createSpan("parent-class", "-"));
-    else if (type === "faith") {
-      li.appendChild(createSpan("domain", "-"));
-      li.appendChild(createSpan("alignment", "-"));
-    }
-  }
+  // Removed extra columns here to simplify view (Name | Type | Buttons)
 
   li.appendChild(createActions({ homebrewId: homebrew.id, rowEl: li }));
   return li;
@@ -347,5 +325,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     notify("Load failed", "error");
   }
 });
-
 

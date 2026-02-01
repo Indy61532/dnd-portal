@@ -104,12 +104,12 @@
     try {
       const { data, error } = await window.supabase
         .from("homebrew")
-        .select("id, user_id, data")
+        .select("id, user_id, name, data")
         .eq("id", id)
         .eq("user_id", userId)
         .single();
       if (error) return null;
-      return data?.data || null;
+      return data || null;
     } catch (_e) {
       return null;
     }
@@ -138,7 +138,7 @@
       window.HeroVault.showNotification("Race saved", "success");
       return;
     }
-    alert("Race saved");
+    console.info("Race saved");
   }
 
   function getSaveBtn() {
@@ -151,6 +151,64 @@
     btn.textContent = isSaving ? "Saving..." : (currentRaceId ? "Update" : "Create");
   }
 
+  function setTinyHtml(id, html) {
+    const safeHtml = typeof html === "string" ? html : "";
+    try {
+      const editor = window.tinymce?.get(id);
+      if (editor) {
+        editor.setContent(safeHtml);
+        return;
+      }
+    } catch (_e) {
+      // ignore
+    }
+    const el = document.getElementById(id);
+    if (el) el.value = safeHtml;
+  }
+
+  function applyMultiSelectValues(inputEl, values) {
+    if (!inputEl || !Array.isArray(values)) return;
+    values.filter(Boolean).forEach((value) => {
+      inputEl.value = String(value);
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    inputEl.value = "";
+  }
+
+  function applyExistingRaceData(record) {
+    if (!record) return;
+    const data = record.data || {};
+    const info = data.info || {};
+
+    const setValue = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.value = value ?? "";
+    };
+
+    setValue("race-name", String(record.name || info.name || ""));
+    setValue("race-vision", info.vision ?? "");
+    setValue("race-type", info.type ?? "");
+    setValue("race-speed", info.speed ?? "");
+    setValue("race-language", info.language ?? "");
+    setValue("race-size", info.size ?? "");
+
+    setTinyHtml("race-description", info.descriptionHtml || "");
+    setTinyHtml("race-traits", data.traitsHtml || "");
+
+    const resistanceInput = document.querySelector(".multiselect-container .multiselect-input");
+    applyMultiSelectValues(resistanceInput, data.resistances || []);
+  }
+
+  async function hydrateFormForEdit() {
+    if (!currentRaceId) return;
+    const session = await getSessionOrPrompt();
+    if (!session) return;
+    const record = await loadExistingRaceData(currentRaceId, session.user.id);
+    if (!record) return;
+    existingRecordData = record.data || null;
+    applyExistingRaceData(record);
+  }
+
   async function handleSave() {
     const saveBtn = getSaveBtn();
     setSaving(saveBtn, true);
@@ -161,7 +219,7 @@
 
       const name = toStringOrEmpty($("race-name")?.value);
       if (!name) {
-        alert("Race Name is required.");
+        console.info("Race Name is required.");
         $("race-name")?.focus?.();
         return;
       }
@@ -170,7 +228,8 @@
       const file = fileInput?.files?.[0] || null;
 
       if (currentRaceId && !existingRecordData) {
-        existingRecordData = await loadExistingRaceData(currentRaceId, session.user.id);
+        const record = await loadExistingRaceData(currentRaceId, session.user.id);
+        existingRecordData = record?.data || null;
       }
 
       let raceData = collectRaceData();
@@ -216,6 +275,7 @@
         if (saveBtn) saveBtn.textContent = "Update";
         if (fileInput) fileInput.value = "";
         notifySuccess();
+        window.location.href = "../create.html";
         return;
       }
 
@@ -251,7 +311,7 @@
       notifySuccess();
     } catch (err) {
       console.error("Save failed:", err);
-      alert(`Save failed: ${err?.message || "Unknown error"}`);
+      console.info(`Save failed: ${err?.message || "Unknown error"}`);
     } finally {
       const btn = getSaveBtn();
       setSaving(btn, false);
@@ -283,9 +343,12 @@
       e.preventDefault();
       handleSave();
     });
+
+    hydrateFormForEdit();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
+
 
 

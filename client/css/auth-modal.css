@@ -254,6 +254,19 @@
     display: block;
 }
 
+/* Info Messages */
+.auth-info {
+    color: var(--accent-green);
+    font-size: 0.85rem;
+    font-family: 'Roboto', sans-serif;
+    margin-top: -0.5rem;
+    display: none;
+}
+
+.auth-info.show {
+    display: block;
+}
+
 /* Password Match Indicator */
 .password-match {
     color: var(--accent-green);
@@ -271,14 +284,35 @@
     color: var(--accent-red);
 }
 
+/* Secondary actions */
+.auth-secondary-actions {
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.auth-secondary-actions a {
+    color: var(--primary-gold);
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.auth-secondary-actions a:hover {
+    color: var(--secondary-gold);
+    text-decoration: underline;
+    transform: translateY(-1px);
+}
+
 /* Loading State */
-.auth-submit-btn.loading {
+.auth-submit-btn.is-loading {
     position: relative;
     color: transparent;
     pointer-events: none;
 }
 
-.auth-submit-btn.loading::after {
+.auth-submit-btn.is-loading::after {
     content: '';
     position: absolute;
     top: 50%;

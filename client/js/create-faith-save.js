@@ -38,6 +38,21 @@
     return (el && el.value != null) ? el.value : "";
   }
 
+  function setTinyHtml(id, html) {
+    const safeHtml = typeof html === "string" ? html : "";
+    try {
+      const editor = window.tinymce?.get(id);
+      if (editor) {
+        editor.setContent(safeHtml);
+        return;
+      }
+    } catch (_e) {
+      // ignore
+    }
+    const el = $(id);
+    if (el) el.value = safeHtml;
+  }
+
   function collectFaithData() {
     const name = toStringOrEmpty($("faith-name")?.value);
     const descriptionHtml = getTinyHtml("faith-description");
@@ -56,6 +71,45 @@
     };
   }
 
+  async function loadExistingFaithData(id, userId) {
+    try {
+      const { data, error } = await window.supabase
+        .from("homebrew")
+        .select("id, user_id, name, data")
+        .eq("id", id)
+        .eq("user_id", userId)
+        .single();
+      if (error) return null;
+      return data || null;
+    } catch (_e) {
+      return null;
+    }
+  }
+
+  function applyExistingFaithData(record) {
+    if (!record) return;
+    const data = record.data || {};
+    const info = data.info || {};
+    const deityPatron = data.deityPatron || {};
+
+    const nameInput = $("faith-name");
+    if (nameInput) nameInput.value = String(record.name || info.name || "");
+
+    setTinyHtml("faith-description", info.descriptionHtml || "");
+    const patronInput = $("deity-patron");
+    if (patronInput) patronInput.value = deityPatron.name ?? "";
+    setTinyHtml("deity-patron-description", deityPatron.descriptionHtml || "");
+  }
+
+  async function hydrateFormForEdit() {
+    if (!currentFaithId) return;
+    const session = await getSessionOrPrompt();
+    if (!session) return;
+    const record = await loadExistingFaithData(currentFaithId, session.user.id);
+    if (!record) return;
+    applyExistingFaithData(record);
+  }
+
   function getSaveBtn() {
     return document.querySelector(".input-img .button-create");
   }
@@ -71,7 +125,7 @@
       window.HeroVault.showNotification("Faith saved", "success");
       return;
     }
-    alert("Faith saved");
+    console.info("Faith saved");
   }
 
   async function handleSave() {
@@ -84,7 +138,7 @@
 
       const name = toStringOrEmpty($("faith-name")?.value);
       if (!name) {
-        alert("Faith Name is required.");
+        console.info("Faith Name is required.");
         $("faith-name")?.focus?.();
         return;
       }
@@ -110,6 +164,7 @@
         localStorage.setItem(LOCAL_STORAGE_KEY, String(currentFaithId));
         if (saveBtn) saveBtn.textContent = "Update";
         notifySuccess();
+        window.location.href = "../create.html";
         return;
       }
 
@@ -124,7 +179,7 @@
       notifySuccess();
     } catch (err) {
       console.error("Save failed:", err);
-      alert(`Save failed: ${err?.message || "Unknown error"}`);
+      console.info(`Save failed: ${err?.message || "Unknown error"}`);
     } finally {
       const btn = getSaveBtn();
       setSaving(btn, false);
@@ -155,9 +210,12 @@
       e.preventDefault();
       handleSave();
     });
+
+    hydrateFormForEdit();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
+
 
 

@@ -38,6 +38,21 @@
     return el ? (el.value || "") : "";
   }
 
+  function setTinyHtml(id, html) {
+    const safeHtml = typeof html === "string" ? html : "";
+    try {
+      const editor = window.tinymce?.get(id);
+      if (editor) {
+        editor.setContent(safeHtml);
+        return;
+      }
+    } catch (_e) {
+      // ignore
+    }
+    const el = document.getElementById(id);
+    if (el) el.value = safeHtml;
+  }
+
   function extractSelectedTags(selectedTagsEl) {
     if (!selectedTagsEl) return [];
 
@@ -78,12 +93,65 @@
     };
   }
 
+  async function loadExistingFeatData(id, userId) {
+    try {
+      const { data, error } = await window.supabase
+        .from("homebrew")
+        .select("id, user_id, name, data")
+        .eq("id", id)
+        .eq("user_id", userId)
+        .single();
+      if (error) return null;
+      return data || null;
+    } catch (_e) {
+      return null;
+    }
+  }
+
+  function applyMultiSelectValues(inputEl, values) {
+    if (!inputEl || !Array.isArray(values)) return;
+    values.filter(Boolean).forEach((value) => {
+      inputEl.value = String(value);
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    inputEl.value = "";
+  }
+
+  function applyExistingFeatData(record) {
+    if (!record) return;
+    const data = record.data || {};
+    const info = data.info || {};
+
+    const nameInput = document.getElementById("feat-name");
+    if (nameInput) nameInput.value = String(record.name || info.name || "");
+
+    const statsCheckbox = document.getElementById("stats-checkbox");
+    if (statsCheckbox) {
+      statsCheckbox.checked = Boolean(info.hasStats);
+      statsCheckbox.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    setTinyHtml("feat-description", info.descriptionHtml || "");
+
+    const statsInput = document.querySelector(".multiselect-container .multiselect-input");
+    applyMultiSelectValues(statsInput, data.stats || []);
+  }
+
+  async function hydrateFormForEdit() {
+    if (!currentFeatId) return;
+    const session = await getSessionOrPrompt();
+    if (!session) return;
+    const record = await loadExistingFeatData(currentFeatId, session.user.id);
+    if (!record) return;
+    applyExistingFeatData(record);
+  }
+
   function notifySuccess(msg) {
     if (window.HeroVault?.showNotification) {
       window.HeroVault.showNotification(msg, "success");
       return;
     }
-    alert(msg);
+    console.info(msg);
   }
 
   function getSaveBtn() {
@@ -106,7 +174,7 @@
 
       const name = toStringOrEmpty($("feat-name")?.value);
       if (!name) {
-        alert("Feat Name is required.");
+        console.info("Feat Name is required.");
         return;
       }
 
@@ -132,6 +200,7 @@
 
         if (saveBtn) saveBtn.textContent = "Update";
         notifySuccess("Feat saved");
+        window.location.href = "../create.html";
         return;
       }
 
@@ -146,7 +215,7 @@
       notifySuccess("Feat saved");
     } catch (err) {
       console.error("Save failed:", err);
-      alert(`Save failed: ${err?.message || "Unknown error"}`);
+      console.info(`Save failed: ${err?.message || "Unknown error"}`);
     } finally {
       const btn = getSaveBtn();
       setSaving(btn, false);
@@ -177,9 +246,12 @@
       e.preventDefault();
       handleSave();
     });
+
+    hydrateFormForEdit();
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
+
 
 

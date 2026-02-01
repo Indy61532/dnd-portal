@@ -44,6 +44,21 @@ function toStringOrEmpty(value) {
   return (value == null) ? "" : String(value).trim();
 }
 
+function setTinyHtml(id, html) {
+  const safeHtml = typeof html === "string" ? html : "";
+  try {
+    const editor = window.tinymce?.get(id);
+    if (editor) {
+      editor.setContent(safeHtml);
+      return;
+    }
+  } catch (_e) {
+    // ignore
+  }
+  const el = document.getElementById(id);
+  if (el) el.value = safeHtml;
+}
+
 export function collectPetData() {
   const mythicEnabled = Boolean($("mythic-checkbox")?.checked);
   const legendaryEnabled = Boolean($("legendary-checkbox")?.checked);
@@ -131,6 +146,73 @@ function setButtonSaving(btn, isSaving, originalText) {
   btn.textContent = isSaving ? "Saving..." : originalText;
 }
 
+function applyExistingPetData(record) {
+  if (!record) return;
+  const data = record.data || {};
+  const info = data.info || {};
+  const stats = data.stats || {};
+  const abilities = stats.abilities || {};
+  const blocks = data.blocks || {};
+  const flags = data.flags || {};
+
+  const setValue = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.value = value ?? "";
+  };
+
+  setValue("pet-name", String(record.name || ""));
+  setValue("pet-type", info.type ?? "");
+  setValue("pet-sub-type", info.subType ?? "");
+  setValue("pet-size", info.size ?? "");
+  setValue("pet-alignment", info.alignment ?? "");
+
+  setValue("pet-str", abilities.str ?? "");
+  setValue("pet-dex", abilities.dex ?? "");
+  setValue("pet-con", abilities.con ?? "");
+  setValue("pet-int", abilities.int ?? "");
+  setValue("pet-wis", abilities.wis ?? "");
+  setValue("pet-cha", abilities.cha ?? "");
+
+  setValue("pet-armor", stats.armor ?? "");
+  setValue("pet-initiative-bonus", stats.initiativeBonus ?? "");
+  setValue("pet-passive-perception", stats.passivePerception ?? "");
+  setValue("pet-average-hp", stats.hp?.avg ?? "");
+  setValue("pet-hp-modifier", stats.hp?.modifier ?? "");
+  setValue("pet-saving-throw", stats.savingThrow ?? "");
+  setValue("pet-resistances", stats.resistance ?? "");
+  setValue("pet-immunities", stats.immunities ?? "");
+  setValue("pet-vulnerabilities", stats.vulnerabilities ?? "");
+  setValue("pet-condition-immunities", stats.conditionImmunities ?? "");
+
+  const mythicCheckbox = document.getElementById("mythic-checkbox");
+  if (mythicCheckbox) {
+    mythicCheckbox.checked = Boolean(flags.mythicEnabled);
+    mythicCheckbox.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  const legendaryCheckbox = document.getElementById("legendary-checkbox");
+  if (legendaryCheckbox) {
+    legendaryCheckbox.checked = Boolean(flags.legendaryEnabled);
+    legendaryCheckbox.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  setTinyHtml("traits", blocks.traits || "");
+  setTinyHtml("actions", blocks.actions || "");
+  setTinyHtml("bonus-actions", blocks.bonusActions || "");
+  setTinyHtml("reactions", blocks.reactions || "");
+  setTinyHtml("mythic-actions", blocks.mythicActions || "");
+  setTinyHtml("legendary-actions", blocks.legendaryActions || "");
+}
+
+async function hydrateFormForEdit() {
+  if (!currentPetId) return;
+  const session = await getSessionOrPrompt();
+  if (!session) return;
+  const record = await loadExistingPet(currentPetId, session.user.id);
+  if (!record) return;
+  existingRecordData = record.data || null;
+  applyExistingPetData(record);
+}
+
 async function handleSaveClick() {
   const button = document.querySelector(".button-create.create-button");
   const defaultText = currentPetId ? "Update" : "Create";
@@ -142,7 +224,7 @@ async function handleSaveClick() {
 
     const name = toStringOrEmpty($("pet-name")?.value);
     if (!name) {
-      alert("Name is required.");
+      console.info("Name is required.");
       return;
     }
 
@@ -195,7 +277,8 @@ async function handleSaveClick() {
       }
 
       if (button) button.textContent = "Update";
-      alert("Pet saved");
+      console.info("Pet saved");
+      window.location.href = "../create.html";
       return;
     }
 
@@ -218,10 +301,10 @@ async function handleSaveClick() {
 
     if (updErr) throw updErr;
 
-    alert("Pet saved");
+    console.info("Pet saved");
   } catch (err) {
     console.error("Save failed:", err);
-    alert(`Save failed: ${err?.message || "Unknown error"}`);
+    console.info(`Save failed: ${err?.message || "Unknown error"}`);
   } finally {
     const button = document.querySelector(".button-create.create-button");
     const text = currentPetId ? "Update" : "Create";
@@ -254,9 +337,12 @@ function init() {
     e.preventDefault();
     handleSaveClick();
   });
+
+  hydrateFormForEdit();
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
 
 
 

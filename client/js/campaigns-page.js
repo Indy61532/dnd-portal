@@ -6,7 +6,7 @@ function notify(message, type = "success") {
     window.HeroVault.showNotification(message, type);
     return;
   }
-  alert(message);
+  console.info(message);
 }
 
 function $(sel, root = document) {
@@ -316,5 +316,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 });
+
 
 

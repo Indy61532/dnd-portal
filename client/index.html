@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <div class="viewport-message" role="status" aria-live="polite">
+        <div class="viewport-message__card">
+            <i class="fas fa-mobile-screen-button" aria-hidden="true"></i>
+            <h2>Desktop View Required</h2>
+            <p>This page isn't available on small screens yet. Mobile support is planned for a future update.</p>
+        </div>
+    </div>
     <div class="content">
         <div class="navbar">
             <div class="nav-content">
@@ -78,16 +85,14 @@
         <div class="profilecart">
             <div class="profileimg"></div>
             <div class="information">
-                <div class="profilename">Adventure Master</div>
+                <div class="profilename">
+                    Adventure Master
+                </div>
                 <div class="email">adventure@herovault.com</div>
                 <div class="whenyoujoin">Joined: January 15, 2024</div>
                 <div class="createthings">Characters Created: 12</div>
                 
                 <div class="profile-actions">
-                    <button class="profile-btn edit" onclick="editProfile()">
-                        <i class="fas fa-edit"></i>
-                        Edit Profile
-                    </button>
                     <button id="signout-btn" class="profile-btn logout">
                         <i class="fas fa-sign-out-alt"></i>
                         Sign Out
