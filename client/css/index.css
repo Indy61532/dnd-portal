@@ -643,6 +643,15 @@ html, body {
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
 }
 
+.profile-btn.edit {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
+
+.profile-btn.edit:hover {
+    background: rgba(59, 130, 246, 0.1);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
 
 @media (max-width: 768px) {
     .profilecart {
