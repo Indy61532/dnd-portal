@@ -347,9 +347,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 async function initBackendBadge() {
     const navRight = document.querySelector(".nav-right.profile");
-    if (!navRight) return;
-
-    const badge = document.createElement("span");
+    if (!navRight) return;    const badge = document.createElement("span");
     badge.className = "backend-badge";
     badge.textContent = "Backend: …";
     badge.title = `API: ${getApiBaseUrl()}`;
