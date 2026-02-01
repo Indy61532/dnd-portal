@@ -43,7 +43,7 @@ class AuthModal {
                     <div class="auth-tab-content active" id="login-content">
                         <form class="auth-form" id="login-form">
                             <div class="auth-form-group">
-                                <label for="login-email">Mail</label>
+                                <label for="login-email">Email</label>
                                 <input 
                                     type="email" 
                                     id="login-email" 
@@ -55,7 +55,7 @@ class AuthModal {
                             </div>
                             
                             <div class="auth-form-group">
-                                <label for="login-password">Heslo</label>
+                                <label for="login-password">Password</label>
                                 <input 
                                     type="password" 
                                     id="login-password" 
@@ -66,7 +66,7 @@ class AuthModal {
                                 >
                                 <div class="auth-forgot-password">
                                     <a href="#" class="forgot-password-link">
-                                        Zapomněli jste heslo?
+                                        Forgot your password?
                                     </a>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ class AuthModal {
                     <div class="auth-tab-content" id="register-content">
                         <form class="auth-form" id="register-form">
                             <div class="auth-form-group">
-                                <label for="register-name">Jméno</label>
+                                <label for="register-name">Name</label>
                                 <input 
                                     type="text" 
                                     id="register-name" 
@@ -95,7 +95,7 @@ class AuthModal {
                             </div>
                             
                             <div class="auth-form-group">
-                                <label for="register-email">Mail</label>
+                                <label for="register-email">Email</label>
                                 <input 
                                     type="email" 
                                     id="register-email" 
@@ -107,7 +107,7 @@ class AuthModal {
                             </div>
                             
                             <div class="auth-form-group">
-                                <label for="register-password">Heslo</label>
+                                <label for="register-password">Password</label>
                                 <input 
                                     type="password" 
                                     id="register-password" 
@@ -119,7 +119,7 @@ class AuthModal {
                             </div>
                             
                             <div class="auth-form-group">
-                                <label for="register-password-confirm">Kontrola hesla</label>
+                                <label for="register-password-confirm">Confirm password</label>
                                 <input 
                                     type="password" 
                                     id="register-password-confirm" 
@@ -143,7 +143,7 @@ class AuthModal {
                     <div class="auth-tab-content" id="reset-content">
                         <form class="auth-form" id="reset-form">
                             <div class="auth-form-group">
-                                <label for="reset-email">Mail</label>
+                                <label for="reset-email">Email</label>
                                 <input
                                     type="email"
                                     id="reset-email"
@@ -158,11 +158,11 @@ class AuthModal {
                             <div class="auth-error" id="reset-error"></div>
 
                             <button type="submit" class="auth-submit-btn">
-                                Poslat odkaz na obnovu
+                                Send reset link
                             </button>
 
                             <div class="auth-secondary-actions">
-                                <a href="#" class="back-to-login">Zpět na přihlášení</a>
+                                <a href="#" class="back-to-login">Back to login</a>
                             </div>
                         </form>
                     </div>
@@ -171,7 +171,7 @@ class AuthModal {
                     <div class="auth-tab-content" id="update-content">
                         <form class="auth-form" id="update-form">
                             <div class="auth-form-group">
-                                <label for="update-password">Nové heslo</label>
+                                <label for="update-password">New password</label>
                                 <input
                                     type="password"
                                     id="update-password"
@@ -183,7 +183,7 @@ class AuthModal {
                             </div>
 
                             <div class="auth-form-group">
-                                <label for="update-password-confirm">Kontrola hesla</label>
+                                <label for="update-password-confirm">Confirm password</label>
                                 <input
                                     type="password"
                                     id="update-password-confirm"
@@ -199,11 +199,11 @@ class AuthModal {
                             <div class="auth-error" id="update-error"></div>
 
                             <button type="submit" class="auth-submit-btn">
-                                Nastavit nové heslo
+                                Set new password
                             </button>
 
                             <div class="auth-secondary-actions">
-                                <a href="#" class="back-to-login">Zpět na přihlášení</a>
+                                <a href="#" class="back-to-login">Back to login</a>
                             </div>
                         </form>
                     </div>
@@ -330,10 +330,10 @@ class AuthModal {
 
                     indicator.classList.add('show');
                     if (password === confirm && password.length > 0) {
-                        indicator.textContent = '✓ Hesla se shodují';
+                        indicator.textContent = '✓ Passwords match';
                         indicator.classList.remove('password-mismatch');
                     } else {
-                        indicator.textContent = '✗ Hesla se neshodují';
+                        indicator.textContent = '✗ Passwords do not match';
                         indicator.classList.add('password-mismatch');
                     }
                 };
@@ -464,7 +464,7 @@ class AuthModal {
 
         // Basic validation
         if (!email || !password) {
-            this.showError('login', 'Prosím vyplňte všechna pole.');
+            this.showError('login', 'Please fill in all fields.');
             return;
         }
 
@@ -474,7 +474,7 @@ class AuthModal {
 
         try {
             if (!window.supabase) {
-                this.showError('login', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                this.showError('login', 'Supabase is not initialized. Check that `supabase-client.js` is loaded.');
                 return;
             }
 
@@ -490,10 +490,10 @@ class AuthModal {
 
             this.close();
             if (window.HeroVault && window.HeroVault.showNotification) {
-                window.HeroVault.showNotification('Přihlášení proběhlo úspěšně!', 'success');
+                window.HeroVault.showNotification('Signed in successfully!', 'success');
             }
         } catch (err) {
-            this.showError('login', err?.message || 'Přihlášení se nezdařilo.');
+            this.showError('login', err?.message || 'Sign-in failed.');
         } finally {
             submitBtn.classList.remove('is-loading');
             submitBtn.disabled = false;
@@ -513,17 +513,17 @@ class AuthModal {
 
         // Validation
         if (!name || !email || !password || !passwordConfirm) {
-            this.showError('register', 'Prosím vyplňte všechna pole.');
+            this.showError('register', 'Please fill in all fields.');
             return;
         }
 
         if (password !== passwordConfirm) {
-            this.showError('register', 'Hesla se neshodují.');
+            this.showError('register', 'Passwords do not match.');
             return;
         }
 
         if (password.length < 6) {
-            this.showError('register', 'Heslo musí mít alespoň 6 znaků.');
+            this.showError('register', 'Password must be at least 6 characters.');
             return;
         }
 
@@ -533,7 +533,7 @@ class AuthModal {
 
         try {
             if (!window.supabase) {
-                this.showError('register', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                this.showError('register', 'Supabase is not initialized. Check that `supabase-client.js` is loaded.');
                 return;
             }
 
@@ -568,14 +568,14 @@ class AuthModal {
 
             // Pokud je v Supabase zapnuté potvrzení emailu, session může být null.
             const msg = data?.session
-                ? 'Registrace proběhla úspěšně!'
-                : 'Registrace proběhla. Zkontroluj email pro potvrzení účtu.';
+                ? 'Registration successful!'
+                : 'Registration successful. Check your email to confirm your account.';
 
             if (window.HeroVault && window.HeroVault.showNotification) {
                 window.HeroVault.showNotification(msg, 'success');
             }
         } catch (err) {
-            this.showError('register', err?.message || 'Registrace se nezdařila.');
+            this.showError('register', err?.message || 'Registration failed.');
         } finally {
             submitBtn.classList.remove('is-loading');
             submitBtn.disabled = false;
@@ -590,7 +590,7 @@ class AuthModal {
         this.clearErrors();
 
         if (!email) {
-            this.showError('reset', 'Prosím zadejte email.');
+            this.showError('reset', 'Please enter an email.');
             return;
         }
 
@@ -599,7 +599,7 @@ class AuthModal {
 
         try {
             if (!window.supabase) {
-                this.showError('reset', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                this.showError('reset', 'Supabase is not initialized. Check that `supabase-client.js` is loaded.');
                 return;
             }
 
@@ -613,9 +613,9 @@ class AuthModal {
                 return;
             }
 
-            this.showInfo('reset', 'Odkaz pro obnovu hesla byl odeslán. Zkontroluj email.');
+            this.showInfo('reset', 'Password reset link sent. Check your email.');
         } catch (err) {
-            this.showError('reset', err?.message || 'Obnova hesla se nezdařila.');
+            this.showError('reset', err?.message || 'Password reset failed.');
         } finally {
             submitBtn.classList.remove('is-loading');
             submitBtn.disabled = false;
@@ -631,17 +631,17 @@ class AuthModal {
         this.clearErrors();
 
         if (!password || !confirm) {
-            this.showError('update', 'Prosím vyplňte všechna pole.');
+            this.showError('update', 'Please fill in all fields.');
             return;
         }
 
         if (password !== confirm) {
-            this.showError('update', 'Hesla se neshodují.');
+            this.showError('update', 'Passwords do not match.');
             return;
         }
 
         if (password.length < 6) {
-            this.showError('update', 'Heslo musí mít alespoň 6 znaků.');
+            this.showError('update', 'Password must be at least 6 characters.');
             return;
         }
 
@@ -650,14 +650,14 @@ class AuthModal {
 
         try {
             if (!window.supabase) {
-                this.showError('update', 'Supabase není inicializovaný. Zkontroluj načtení `supabase-client.js`.');
+                this.showError('update', 'Supabase is not initialized. Check that `supabase-client.js` is loaded.');
                 return;
             }
 
             const { data } = await window.supabase.auth.getSession();
             const session = data?.session;
             if (!session) {
-                this.showError('update', 'Odkaz pro obnovu hesla je neplatný nebo expirovaný.');
+                this.showError('update', 'The password reset link is invalid or has expired.');
                 return;
             }
 
@@ -668,9 +668,9 @@ class AuthModal {
             }
 
             this.clearRecoveryParams();
-            this.showInfo('update', 'Heslo bylo úspěšně změněno.');
+            this.showInfo('update', 'Password updated successfully.');
         } catch (err) {
-            this.showError('update', err?.message || 'Změna hesla se nezdařila.');
+            this.showError('update', err?.message || 'Password update failed.');
         } finally {
             submitBtn.classList.remove('is-loading');
             submitBtn.disabled = false;
